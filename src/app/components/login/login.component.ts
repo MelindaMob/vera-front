@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
+  successMessage = '';
   isLoading = false;
 
   constructor(
@@ -31,6 +32,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
+      this.successMessage = '';
 
       const credentials = {
         email: this.loginForm.value.email,
@@ -41,12 +43,34 @@ export class LoginComponent {
         next: (response) => {
           this.isLoading = false;
           if (response.success) {
-            // Rediriger vers le dashboard après connexion réussie
-            this.router.navigate(['/dashboard']);
+            // Debug: vérifier la valeur reçue
+            console.log('📥 Frontend - Response received:', response);
+            console.log('📥 Frontend - is_admin value:', response.user.is_admin, 'Type:', typeof response.user.is_admin);
+            
+            // Récupérer is_admin depuis la réponse - vérifier tous les cas possibles
+            const isAdminValue = response.user.is_admin;
+            const isAdmin = isAdminValue === true || (isAdminValue as any) === 1 || (isAdminValue as any) === '1' || Boolean(isAdminValue);
+            
+            console.log('✅ Frontend - Is admin?', isAdmin);
+            
+            if (isAdmin) {
+              // Rediriger vers le dashboard si admin
+              console.log('🚀 Redirecting to dashboard...');
+              this.router.navigate(['/dashboard']);
+            } else {
+              // Afficher un message de succès pour les non-admins (sans redirection)
+              console.log('ℹ️ User is not admin, showing success message');
+              this.successMessage = 'Connexion réussie ! Votre compte fonctionne correctement.';
+              this.errorMessage = '';
+              // Réinitialiser le formulaire
+              this.loginForm.reset();
+            }
           }
         },
         error: (error) => {
           this.isLoading = false;
+          this.successMessage = '';
+          // Afficher uniquement les erreurs de connexion (utilisateur non trouvé, mauvais mot de passe)
           this.errorMessage = error.error?.message || 'Erreur lors de la connexion';
         }
       });

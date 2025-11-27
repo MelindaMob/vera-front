@@ -15,6 +15,7 @@ export interface LoginResponse {
     id: number;
     email: string;
     username: string;
+    is_admin?: boolean;
   };
 }
 
@@ -22,6 +23,7 @@ export interface User {
   id: number;
   email: string;
   username: string;
+  is_admin?: boolean;
 }
 
 @Injectable({

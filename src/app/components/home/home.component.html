@@ -1,0 +1,21 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center">
+  <div class="max-w-md w-full text-center">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Bienvenue</h1>
+    @if (isAuthenticated() && currentUser(); as user) {
+      <p class="text-gray-600 mb-6">
+        Connecté en tant que: <strong>{{ user.username || user.email }}</strong>
+      </p>
+    } @else {
+      <p class="text-gray-600 mb-6">
+        Veuillez vous connecter pour accéder à l'application.
+      </p>
+      <a
+        routerLink="/login"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+      >
+        Se connecter
+      </a>
+    }
+  </div>
+</div>
+
