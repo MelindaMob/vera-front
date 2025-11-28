@@ -1,13 +1,24 @@
 import { Routes } from '@angular/router';
 import { ItemPage } from './pages/item-page/item-page';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
-  // 1. Route par défaut : si l'URL est vide, on redirige vers '/items'
-  { path: '', redirectTo: '', pathMatch: 'full' },
-
-  // 2. La route spécifique pour ta liste
-  { path: 'items', component: ItemPage },
-  
-  // (Optionnel) Plus tard, tu pourras ajouter une page détail :
-  // { path: 'items/:id', component: ItemDetailComponent }
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'items',
+    component: ItemPage
+  },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  }
 ];
