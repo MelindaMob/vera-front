@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormResponse } from '../../modele/form-response.model';
 import { WebSocketService } from '../../services/web-socket.service';
@@ -24,7 +24,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private socketSubscription!: Subscription;
 
-  constructor(private webSocketService: WebSocketService) {}
+  // AJOUT : Injection de ChangeDetectorRef
+  constructor(
+    private webSocketService: WebSocketService,
+    private cdr: ChangeDetectorRef 
+  ) {}
 
   ngOnInit() {
     // On s'abonne au flux de données temps réel
@@ -32,9 +36,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (newResponse: FormResponse) => {
         console.log('Nouvelle donnée reçue !', newResponse);
         
-        // On ajoute la nouvelle réponse au DÉBUT du tableau (unshift)
-        // pour qu'elle apparaisse en haut de la liste
+        // Optionnel : Convertir la date (qui arrive souvent en string JSON) en vrai objet Date
+        // pour éviter des bugs d'affichage avec le DatePipe
+        if (typeof newResponse.date === 'string') {
+            newResponse.date = new Date(newResponse.date);
+        }
+
+        // Ajout au tableau
         this.responses.unshift(newResponse);
+
+        // ESSENTIEL : On force la détection des changements
+        // Cela dit à Angular de mettre à jour la vue immédiatement
+        this.cdr.detectChanges();
       }
     );
   }
