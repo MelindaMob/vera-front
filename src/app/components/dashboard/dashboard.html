@@ -1,0 +1,58 @@
+ <div class="min-h-screen bg-gray-100 p-8">
+      <div class="max-w-6xl mx-auto">
+        
+        <!-- En-tête -->
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-3xl font-bold text-gray-800">
+            Tableau de bord Admin
+          </h1>
+          <span class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow">
+            En direct
+          </span>
+        </div>
+
+        <!-- Tableau des réponses -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-50 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-6 text-left">Date</th>
+                <th class="py-3 px-6 text-left">Nom</th>
+                <th class="py-3 px-6 text-left">Email</th>
+                <th class="py-3 px-6 text-left">Message</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm font-light">
+              
+              <!-- Boucle sur les données -->
+              @for (response of responses; track response.id) {
+                <tr class="border-b border-gray-200 hover:bg-gray-50 transition duration-150">
+                  <td class="py-3 px-6 text-left whitespace-nowrap">
+                    {{ response.date | date:'dd/MM/yyyy HH:mm' }}
+                  </td>
+                  <td class="py-3 px-6 text-left font-medium">
+                    {{ response.nom }}
+                  </td>
+                  <td class="py-3 px-6 text-left">
+                    {{ response.email }}
+                  </td>
+                  <td class="py-3 px-6 text-left">
+                    <span class="inline-block py-1 px-3 rounded bg-blue-50 text-blue-600 text-xs">
+                      {{ response.message }}
+                    </span>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="py-6 text-center text-gray-500">
+                    Aucune réponse pour le moment...
+                  </td>
+                </tr>
+              }
+
+            </tbody>
+          </table>
+        </div>
+
+    </div>
+</div>
