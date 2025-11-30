@@ -1,6 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+// --- AJOUTEZ CES LIGNES DE DEBUG ---
+console.log('--- DEBUG VARIABLES ---');
+console.log('API_URL reçue :', process.env.API_URL ? process.env.API_URL : 'ABSENTE');
+console.log('SOCKET_URL reçue :', process.env.SOCKET_URL ? process.env.SOCKET_URL : 'ABSENTE');
+console.log('-----------------------');
+// -----------------------------------
+
 const dirPath = path.join(__dirname, '..', 'src', 'environments');
 const targetPath = path.join(dirPath, 'environment.ts');
 
