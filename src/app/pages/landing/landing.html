@@ -80,16 +80,19 @@
                   [disabled]="isSearching">
                 
                 <div class="search-actions-row">
-                  <button class="search-btn-action" type="button">
+                  <input #imageInput type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
+                  <input #videoInput type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
+                  
+                  <button class="search-btn-action" type="button" (click)="detectUrl()">
                     <i data-feather="search"></i>
                     Rechercher
                   </button>
-                  <button class="search-btn-action" type="button">
+                  <button class="search-btn-action" type="button" (click)="imageInput.click()">
                     <i data-feather="image"></i>
-                    Créer une image
+                    Analyser une image
                   </button>
-                  <button class="search-btn-icon" type="button">
-                    <i data-feather="mic"></i>
+                  <button class="search-btn-icon" type="button" (click)="videoInput.click()">
+                    <i data-feather="video"></i>
                   </button>
                   <button 
                     class="search-btn-send-main" 

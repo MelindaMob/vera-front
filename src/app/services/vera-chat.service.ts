@@ -51,7 +51,7 @@ export class VeraChatService {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  sendMessage(content: string, conversationHistory: any[] = []): Observable<any> {
+  sendMessage(content: string, conversationHistory: any[] = [], mediaUrls: string[] = [], imageFile?: File, videoFile?: File): Observable<any> {
     // Ajouter le message de l'utilisateur
     const userMessage: Message = {
       id: this.generateId(),
@@ -76,22 +76,51 @@ export class VeraChatService {
     // Payload avec historique pour le contexte
     const payload: any = { 
       message: content,
-      conversationHistory: conversationHistory // Envoyer l'historique
+      conversationHistory: conversationHistory, // Envoyer l'historique
+      mediaUrls: mediaUrls, // URLs détectées
+      hasImage: !!imageFile,
+      hasVideo: !!videoFile
     };
+
+    // Si fichiers présents, utiliser FormData
+    let requestBody: any;
+    let httpOptions: any;
+
+    if (imageFile || videoFile) {
+      const formData = new FormData();
+      formData.append('message', content);
+      formData.append('conversationHistory', JSON.stringify(conversationHistory));
+      formData.append('mediaUrls', JSON.stringify(mediaUrls));
+      
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
+      if (videoFile) {
+        formData.append('video', videoFile);
+      }
+      
+      requestBody = formData;
+      // Ne pas définir Content-Type pour FormData (Angular le fait automatiquement)
+      httpOptions = { 
+        observe: 'body' as const,
+        // @ts-ignore - timeout existe mais pas dans les types
+        timeout: 70000
+      };
+    } else {
+      requestBody = payload;
+      httpOptions = { 
+        headers: { 'Content-Type': 'application/json' },
+        observe: 'body' as const,
+        // @ts-ignore - timeout existe mais pas dans les types
+        timeout: 70000
+      };
+    }
 
     // Envoyer au backend
     return new Observable(observer => {
-      this.http.post<any>(`${this.apiUrl}/chat`,
-        payload, // Le body avec message et conversationHistory
-        { 
-          headers: { 'Content-Type': 'application/json' },
-          // Timeout de 70 secondes (plus que le backend)
-          // @ts-ignore - timeout existe mais pas dans les types
-          timeout: 70000
-        }
-      )
+      this.http.post<{response: string, result: any}>(`${this.apiUrl}/chat`, requestBody, httpOptions)
         .subscribe({
-          next: (response) => {
+          next: (response: any) => {
             // Retirer le typing indicator
             const messagesWithoutTyping = this.messagesSubject.value.filter(m => !m.isTyping);
             

@@ -40,6 +40,9 @@ export class LandingPage implements OnInit {
   conversationContext: string = ''; // Contexte pour la mémoire
   currentConversationId: string | null = null; // ID de conversation Vera
   messages: Array<{sender: 'user' | 'vera', content: string, timestamp: Date}> = []; // Tous les messages
+  selectedImage: File | null = null;
+  selectedVideo: File | null = null;
+  mediaUrls: string[] = []; // URLs détectées dans le message
 
   constructor(
     private veraChatService: VeraChatService,
@@ -190,10 +193,56 @@ export class LandingPage implements OnInit {
     faq.isOpen = !faq.isOpen;
   }
 
+  toggleSidebar() {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
+    setTimeout(() => this.replaceFeatherIcons(), 0);
+  }
+
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+      this.searchQuery = `[Image sélectionnée: ${file.name}] Analyse cette image et vérifie son authenticité.`;
+      this.cdr.detectChanges();
+    }
+  }
+
+  onVideoSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedVideo = file;
+      this.searchQuery = `[Vidéo sélectionnée: ${file.name}] Analyse cette vidéo et vérifie son authenticité.`;
+      this.cdr.detectChanges();
+    }
+  }
+
+  detectUrl() {
+    // Détecter les URLs dans le message
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urls = this.searchQuery.match(urlRegex);
+    
+    if (urls && urls.length > 0) {
+      this.mediaUrls = urls;
+      // Envoyer directement la recherche avec les URLs détectées
+      this.sendSearchQuery();
+    } else {
+      // Si pas d'URL, juste faire une recherche normale
+      this.sendSearchQuery();
+    }
+  }
+
   sendSearchQuery() {
     if (!this.searchQuery.trim() || this.isSearching) return;
 
     const query = this.searchQuery.trim();
+    
+    // Détecter automatiquement les URLs dans le message
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const detectedUrls = query.match(urlRegex);
+    if (detectedUrls && detectedUrls.length > 0) {
+      this.mediaUrls = detectedUrls;
+    }
+    
     this.searchQuery = ''; // Vider l'input immédiatement
     
     // Ajouter le message utilisateur au chat
@@ -207,9 +256,14 @@ export class LandingPage implements OnInit {
     this.showResults = true;
     this.cdr.detectChanges();
 
-    this.veraChatService.sendMessage(query, this.messages).subscribe({
+    this.veraChatService.sendMessage(
+      query, 
+      this.messages, 
+      this.mediaUrls,
+      this.selectedImage || undefined,
+      this.selectedVideo || undefined
+    ).subscribe({
       next: (response) => {
-        console.log('Réponse reçue:', response);
         this.isSearching = false;
         
         // Ajouter la réponse de Vera au chat
@@ -221,6 +275,11 @@ export class LandingPage implements OnInit {
         
         this.veraResponse = response.response;
         this.veraResult = response.result;
+        
+        // Réinitialiser les fichiers et URLs après envoi
+        this.selectedImage = null;
+        this.selectedVideo = null;
+        this.mediaUrls = [];
         
         // Forcer Angular à détecter les changements
         this.cdr.detectChanges();
@@ -243,7 +302,6 @@ export class LandingPage implements OnInit {
         this.replaceFeatherIcons();
       },
       error: (error) => {
-        console.error('Erreur:', error);
         this.isSearching = false;
         this.veraResponse = "Désolé, une erreur s'est produite. Veuillez réessayer.";
         this.veraResult = { status: 'error' };
@@ -291,13 +349,6 @@ export class LandingPage implements OnInit {
     this.messages = []; // Vider tous les messages
     
     // Réinitialiser feather icons
-    this.replaceFeatherIcons();
-  }
-
-  toggleSidebar() {
-    this.sidebarCollapsed = !this.sidebarCollapsed;
-    
-    // Réinitialiser feather icons après toggle
     this.replaceFeatherIcons();
   }
 
