@@ -1,0 +1,324 @@
+<div class="landing">
+  <!-- Section Hero : Interface avec sidebar -->
+  <section class="hero-search">
+    <div class="hero-search-wrapper">
+      <!-- Overlay sombre quand sidebar ouverte -->
+      <div class="sidebar-overlay" [class.visible]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
+      
+      <!-- Sidebar gauche -->
+      <aside class="sidebar" [class.open]="!sidebarCollapsed">
+        <div class="sidebar-content">
+          <button class="btn-new-chat" (click)="newSearch()">
+            <i data-feather="plus"></i>
+            Nouvelle conversation
+          </button>
+
+          <!-- Historique des conversations -->
+          @if (conversationHistory.length > 0) {
+            <div class="sidebar-section">
+              <h3 class="sidebar-title">Historique</h3>
+              <div class="history-list">
+                @for (item of conversationHistory; track $index) {
+                  <button class="history-item" (click)="loadConversation(item)">
+                    <i data-feather="message-circle"></i>
+                    <span class="history-text">{{ item.query }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Sources consultées -->
+          @if (veraResult && veraResult.sources && veraResult.sources.length > 0) {
+            <div class="sidebar-section">
+              <h3 class="sidebar-title">Sources</h3>
+              <div class="sources-sidebar">
+                @for (source of veraResult.sources; track source.url) {
+                  <a [href]="source.url" target="_blank" class="source-item">
+                    <i data-feather="external-link"></i>
+                    <span>{{ source.title }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </aside>
+
+      <!-- Zone principale -->
+      <div class="main-content">
+        <!-- Header fixe en haut -->
+        <header class="top-header">
+          <button class="btn-menu-fixed" (click)="toggleSidebar()">
+            <i data-feather="menu"></i>
+          </button>
+          
+          <div class="user-section">
+            <span class="signup-text">S'inscrire</span>
+            <div class="user-avatar">
+              <i data-feather="user"></i>
+            </div>
+          </div>
+        </header>
+
+        <!-- Contenu central -->
+        <div class="content-area">
+          <!-- État initial : pas de résultats -->
+          @if (!showResults) {
+            <div class="hero-search-content">
+              <div class="hero-logo-big">vera</div>
+              <p class="hero-subtitle">L'IA qui démêle le vrai du faux</p>
+              
+              <!-- Grande barre de recherche verte -->
+              <div class="search-box-green">
+                <input 
+                  type="text" 
+                  class="search-input-main" 
+                  placeholder="Posez une question..." 
+                  [(ngModel)]="searchQuery"
+                  (keydown.enter)="sendSearchQuery()"
+                  [disabled]="isSearching">
+                
+                <div class="search-actions-row">
+                  <button class="search-btn-action" type="button">
+                    <i data-feather="search"></i>
+                    Rechercher
+                  </button>
+                  <button class="search-btn-action" type="button">
+                    <i data-feather="image"></i>
+                    Créer une image
+                  </button>
+                  <button class="search-btn-icon" type="button">
+                    <i data-feather="mic"></i>
+                  </button>
+                  <button 
+                    class="search-btn-send-main" 
+                    type="button"
+                    (click)="sendSearchQuery()"
+                    [disabled]="!searchQuery.trim() || isSearching">
+                    @if (isSearching) {
+                      <div class="spinner-small"></div>
+                    } @else {
+                      <i data-feather="arrow-up"></i>
+                    }
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Résultats de la conversation -->
+          @if (showResults) {
+            <div class="conversation-results">
+              <!-- Tous les messages de la conversation -->
+              @for (message of messages; track $index) {
+                @if (message.sender === 'user') {
+                  <!-- Message utilisateur -->
+                  <div class="message-user">
+                    <div class="message-content-wrapper">
+                      <div class="message-avatar user-avatar">
+                        <i data-feather="user"></i>
+                      </div>
+                      <div class="message-bubble user-bubble">
+                        <p>{{ message.content }}</p>
+                      </div>
+                    </div>
+                  </div>
+                } @else {
+                  <!-- Message Vera -->
+                  <div class="message-vera">
+                    <div class="message-content-wrapper">
+                      <div class="message-avatar vera-avatar">V</div>
+                      <div class="message-bubble vera-bubble">
+                        <div class="vera-response-text">
+                          <p>{{ message.content }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              }
+              
+              <!-- Indicateur de chargement -->
+              @if (isSearching) {
+                <div class="message-vera">
+                  <div class="message-content-wrapper">
+                    <div class="message-avatar vera-avatar">V</div>
+                    <div class="message-bubble vera-bubble">
+                      <div class="loading-state">
+                        <div class="typing-indicator">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <p class="loading-text">Vera analyse votre question et consulte ses sources...</p>
+                        <p class="loading-subtext">Cela peut prendre quelques secondes ⏱️</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Barre de recherche en bas pour continuer -->
+              <div class="search-box-bottom-simple">
+                <input 
+                  type="text" 
+                  class="search-input-simple" 
+                  placeholder="Posez une autre question..." 
+                  [(ngModel)]="searchQuery"
+                  (keydown.enter)="sendSearchQuery()"
+                  [disabled]="isSearching">
+                
+                <button 
+                  class="search-btn-send-simple" 
+                  type="button"
+                  (click)="sendSearchQuery()"
+                  [disabled]="!searchQuery.trim() || isSearching">
+                  @if (isSearching) {
+                    <div class="spinner-small"></div>
+                  } @else {
+                    <i data-feather="arrow-up"></i>
+                  }
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section principale : Posez vos questions -->
+  <section class="hero-main" id="comment">
+    <div class="container">
+      <h1 class="hero-main-title">Posez vos questions pour clarifier la vérité</h1>
+      
+      <div class="hero-main-content">
+        <!-- Mockups centraux -->
+        <div class="mockups-center">
+          <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp">
+          <img src="/images/mockup-app.png" alt="Appel" class="mockup-call">
+        </div>
+        
+        <!-- Flèche + Label gauche : Sur whatsapp -->
+        <div class="option-left">
+          <div class="arrow-curved arrow-left"></div>
+          <p class="option-label">Sur<br>whatsapp</p>
+        </div>
+        
+        <!-- Flèche + Label droite : Par téléphone -->
+        <div class="option-right">
+          <div class="arrow-curved arrow-right"></div>
+          <p class="option-label">Par<br>téléphone</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section questions -->
+  <section class="questions-section">
+    <div class="container">
+      <h2 class="questions-title">Quelles questions puis-je poser à Vera ?</h2>
+      
+      <div class="questions-grid">
+        <div class="question-card green-card">
+          "Un collègue me dit que les inondations en Espagne proviennent de l'ensemencement des nuages ??"
+        </div>
+        <div class="question-card beige-card">
+          "C'est vrai que les vaccins anticovid provoquent des turbocancers ?"
+        </div>
+        <div class="question-card green-card">
+          "Zelensky se serait offert la Mercedes d'Hitler : c'est vrai ?"
+        </div>
+        <div class="question-card beige-card">
+          "J'ai lu qu'Elon Musk travaille sur un projet secret d'avion militaire hypersonique"
+        </div>
+        <div class="question-card green-card">
+          "C'est vrai que des milliers de scientifiques dénoncent le canular de la crise climatique ?"
+        </div>
+        <div class="question-card beige-card">
+          "Mon père dit que le gilet fluo va être obligatoire pour se promener en forêt"
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 400+ sites -->
+  <section class="fact-checking-section">
+    <div class="container">
+      <h2 class="section-title">Vera est connectée en temps réel<br>à 400+ sites de fact-checking</h2>
+      
+      <!-- Logos partenaires (placeholders texte pour l'instant) -->
+      <div class="partners-logos-grid">
+        <div class="logo-placeholder">AFP Factuel</div>
+        <div class="logo-placeholder">Snopes</div>
+        <div class="logo-placeholder">CheckNews</div>
+        <div class="logo-placeholder">FactCheck.org</div>
+        <div class="logo-placeholder">Les Surligneurs</div>
+        <div class="logo-placeholder">Libération</div>
+        <div class="logo-placeholder">Le Monde</div>
+        <div class="logo-placeholder">Ultimate FactBook</div>
+        <div class="logo-placeholder">Africa Check</div>
+        <div class="logo-placeholder">PolitiFact</div>
+      </div>
+      
+      <div class="fact-cards-grid">
+        <div class="fact-card">
+          <h3>150+ sites de fact-checking</h3>
+          <p class="fact-subtitle">Pour la vérification de faits</p>
+          <ul class="fact-list">
+            <li>Signataires des chartes européennes IFCN et EFCSN</li>
+            <li>Agences de presses spécialisées en fact-checking</li>
+          </ul>
+          <button class="btn-dark" routerLink="/chat">Essayer maintenant</button>
+        </div>
+        
+        <div class="fact-card">
+          <h3>250+ médias fiables et reconnus</h3>
+          <p class="fact-subtitle">Pour connaître l'actualité</p>
+          <ul class="fact-list">
+            <li>Tous les bords politiques</li>
+            <li>Réputés comme fiables et sérieux</li>
+          </ul>
+          <button class="btn-dark" routerLink="/chat">Essayer maintenant</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">vera</div>
+        <p class="footer-description">Vera vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp — sans besoin d'application ni de site web.</p>
+      </div>
+      
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#comment">Comment ça marche ?</a>
+          <a href="#">Démo</a>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Team</h4>
+          <a href="#equipe">Rencontrez l'équipe</a>
+          <a href="#">LaReponse.Tech</a>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Aide</h4>
+          <a href="#faq">FAQ</a>
+          <a href="#">Contactez-nous</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">CGU</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2025 Vera. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

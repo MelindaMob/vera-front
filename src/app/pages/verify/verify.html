@@ -1,0 +1,123 @@
+<div class="verify-container">
+  <div class="verify-header">
+    <div class="header-nav">
+      <h1>Vérifier un contenu</h1>
+      <a routerLink="/dashboard" class="dashboard-link">📊 Dashboard</a>
+    </div>
+    <p>Collez l'URL d'un contenu TikTok, Instagram, YouTube ou Telegram pour le vérifier via Vera</p>
+  </div>
+
+  <div class="verify-form">
+    <div class="input-group">
+      <input 
+        type="text" 
+        [(ngModel)]="url" 
+        placeholder="https://www.tiktok.com/@user/video/123456789"
+        class="url-input"
+        [disabled]="loading()"
+      />
+      <button 
+        (click)="verifyContent()" 
+        class="verify-btn"
+        [disabled]="loading() || !url()"
+      >
+        @if (loading()) {
+          <span class="spinner"></span> Vérification...
+        } @else {
+          Vérifier
+        }
+      </button>
+    </div>
+
+    @if (error()) {
+      <div class="error-message">
+        {{ error() }}
+      </div>
+    }
+  </div>
+
+  @if (result()) {
+    <div class="result-card">
+      <div class="result-header">
+        <h2>Résultat de la vérification</h2>
+        <span class="platform-badge" [attr.data-platform]="result()?.platform">
+          {{ result()?.platform }}
+        </span>
+      </div>
+
+      <div class="result-content">
+        <div class="metadata-section">
+          <h3>Métadonnées</h3>
+          <div class="metadata-grid">
+            <div class="metadata-item">
+              <span class="label">Auteur :</span>
+              <span class="value">{{ result()?.metadata?.author }}</span>
+            </div>
+            <div class="metadata-item">
+              <span class="label">Description :</span>
+              <span class="value">{{ result()?.metadata?.description }}</span>
+            </div>
+            <div class="metadata-item">
+              <span class="label">Type :</span>
+              <span class="value">{{ result()?.contentType }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vera-result-section" [class.verified]="result()?.veraResult?.isVerified">
+          <h3>Résultat Vera</h3>
+          <div class="verdict">
+            <span class="verdict-icon">
+              @if (result()?.veraResult?.isVerified) {
+                ✅
+              } @else {
+                ❌
+              }
+            </span>
+            <span class="verdict-text">{{ result()?.veraResult?.verdict }}</span>
+          </div>
+          <div class="confidence">
+            <span class="label">Confiance :</span>
+            <div class="confidence-bar">
+              <div class="confidence-fill" [style.width.%]="(result()?.veraResult?.confidence || 0) * 100"></div>
+            </div>
+            <span class="confidence-value">{{ ((result()?.veraResult?.confidence || 0) * 100).toFixed(0) }}%</span>
+          </div>
+          
+          @if (result()?.veraResult?.explanation) {
+            <div class="explanation">
+              <span class="label">Analyse détaillée :</span>
+              <p class="explanation-text">{{ result()?.veraResult?.explanation }}</p>
+            </div>
+          }
+          
+          @if (result()?.veraResult?.toolsUsed?.length) {
+            <div class="tools-used">
+              <span class="label">Outils utilisés :</span>
+              <div class="tools-tags">
+                @for (tool of result()?.veraResult?.toolsUsed; track tool) {
+                  <span class="tool-tag">{{ tool }}</span>
+                }
+              </div>
+            </div>
+          }
+          
+          @if (result()?.veraResult?.sources?.length) {
+            <div class="sources">
+              <span class="label">Sources :</span>
+              <ul>
+                @for (source of result()?.veraResult?.sources; track source) {
+                  <li>{{ source }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button (click)="reset()" class="reset-btn">Nouvelle vérification</button>
+      </div>
+    </div>
+  }
+</div>
