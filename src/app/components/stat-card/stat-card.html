@@ -1,0 +1,34 @@
+ <div class="bg-white rounded-3xl p-6 h-full flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+      
+      <!-- En-tête : Label -->
+      <div class="mb-2">
+        <h3 class="text-gray-400 text-[10px] font-bold tracking-[0.15em] uppercase">
+          {{ label }}
+        </h3>
+      </div>
+
+      <!-- Corps : Valeur Principale -->
+      <div class="flex items-center gap-3 my-2">
+
+        <!-- Valeur Texte (Police Serif VERA) -->
+        <span class="text-[42px] md:text-[52px] leading-none font-serif text-[#153e35]">
+          {{ value }}
+        </span>
+      </div>
+
+      <!-- Pied de carte : Badge ou Description -->
+      <div class="mt-1 min-h-6">
+        @if (trendLabel) {
+          <!-- Badge Vert Menthe -->
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#D1FAE5] text-[#065F46]">
+            {{ trendLabel }}
+          </span>
+        } @else if (description) {
+          <!-- Sous-texte gris -->
+          <p class="text-gray-500 text-sm">
+            {{ description }}
+          </p>
+        }
+      </div>
+
+    </div>
