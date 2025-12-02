@@ -38,6 +38,7 @@
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "@types/socket.io-client": "^1.4.36",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.17",

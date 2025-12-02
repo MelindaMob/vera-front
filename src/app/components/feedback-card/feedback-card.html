@@ -1,0 +1,37 @@
+<div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-all h-full flex flex-col">
+  
+  <!-- En-tête : Avatar et Date -->
+  <div class="flex items-center gap-2 mb-4">
+      <!-- Avatar lettre -->
+      <div class="w-8 h-8 rounded-full bg-[#FFFBEB] flex items-center justify-center text-[#153e35] font-serif font-bold text-sm shrink-0">
+        #{{ response.id ? response.id.toString() : '?' }}
+      </div>
+      <div class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+        <!-- Affichage de la date au format demandé : 30 NOV 2025 11:58 -->
+        {{ response.date | date:'dd MMM yyyy HH:mm' }}
+      </div>
+  </div>
+
+  <!-- Corps : Questions et Réponses -->
+  <div class="space-y-4 grow">
+      @for (item of response.content | keyvalue; track item.key) {
+        <!-- CONDITION D'AFFICHAGE :
+             1. Ce n'est pas la clé technique "Horodateur"
+             2. ET (Soit aucun filtre n'est actif, soit c'est la question filtrée)
+        -->
+        @if (item.key !== 'Horodateur' && (!highlightKey || item.key === highlightKey)) {
+          <div>
+            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold mb-1">{{ item.key }}</p>
+            <p class="text-[#153e35] font-medium leading-relaxed italic border-l-2 border-[#D1FAE5] pl-3">
+              "{{ item.value }}"
+            </p>
+          </div>
+        }
+      }
+      
+      <!-- Message si le filtre ne retourne rien (optionnel, mais utile si highlightKey ne matche rien) -->
+      @if (highlightKey && !response.content[highlightKey]) {
+         <p class="text-xs text-gray-400 italic">Cette réponse ne contient pas la question sélectionnée.</p>
+      }
+  </div>
+</div>

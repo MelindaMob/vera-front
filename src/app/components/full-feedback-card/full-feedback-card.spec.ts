@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Dashboard } from './dashboard';
+import { FullFeedbackCard } from './full-feedback-card';
 
-describe('Dashboard', () => {
-  let component: Dashboard;
-  let fixture: ComponentFixture<Dashboard>;
+describe('FullFeedbackCard', () => {
+  let component: FullFeedbackCard;
+  let fixture: ComponentFixture<FullFeedbackCard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Dashboard]
+      imports: [FullFeedbackCard]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Dashboard);
+    fixture = TestBed.createComponent(FullFeedbackCard);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

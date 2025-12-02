@@ -1,0 +1,42 @@
+<div class="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col overflow-hidden">
+  
+  <!-- En-tête : Identifiant et Date -->
+  <div class="bg-gray-50/50 p-4 border-b border-gray-100 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <!-- Avatar ID -->
+      <div class="w-10 h-10 rounded-full bg-[#153e35] text-white flex items-center justify-center font-serif font-bold text-sm shadow-sm">
+        #{{ response.id || '?' }}
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold">Reçu le</p>
+        <p class="text-sm font-medium text-gray-700">
+          {{ response.date | date:'dd MMM yyyy à HH:mm' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Corps : Liste des réponses -->
+  <div class="p-6 space-y-6 grow">
+    @for (item of items; track item.question) {
+      <div class="group">
+        <!-- Question -->
+        <h4 class="text-[10px] text-gray-400 uppercase tracking-wider font-bold mb-1.5 group-hover:text-[#153e35] transition-colors">
+          {{ item.question }}
+        </h4>
+        
+        <!-- Réponse -->
+        <div class="text-gray-800 text-sm font-medium leading-relaxed bg-gray-50/50 p-3 rounded-lg border border-transparent group-hover:border-[#D1FAE5] group-hover:bg-[#F0FDF4] transition-all">
+          {{ item.answer }}
+        </div>
+      </div>
+    } @empty {
+      <div class="text-center py-4 text-gray-400 italic text-sm">
+        Aucune réponse exploitable.
+      </div>
+    }
+  </div>
+
+  <!-- Pied de carte décoratif -->
+  <div class="h-1 bg-linear-to-r from-[#153e35] to-[#4ADE80]"></div>
+</div>
