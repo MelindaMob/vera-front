@@ -13,7 +13,7 @@
   </div>
 
   <!-- Brand Section -->
-  <div class="text-center mb-8 md:mb-6">
+  <div class="text-center mb-4 md:mb-3">
     <h1 class="font-serif text-[3.5rem] font-normal text-[#1A1A1A] m-0 tracking-[-0.02em] leading-[1.1] logo-dot md:text-[3.5rem] lg:text-6xl">
       vera
     </h1>
@@ -23,9 +23,9 @@
   </div>
 
   <!-- Login Form -->
-  <div class="bg-[#DBF9BE] rounded-[2rem] p-10 px-8 mb-8 flex-1 max-w-full md:w-full md:max-w-[1200px] md:p-10 md:px-12 md:mb-4 lg:p-12 lg:px-16">
-    <form class="flex flex-col gap-6 md:gap-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="flex flex-col gap-3">
+  <div class="bg-[#DBF9BE] rounded-[2rem] p-6 px-6 mb-8 max-w-full md:w-full md:max-w-[1200px] md:p-8 md:px-10 md:mb-4 lg:p-10 lg:px-12">
+    <form class="flex flex-col gap-4 md:gap-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col gap-2">
         <label for="email" class="text-base text-[#1A1A1A] font-medium m-0 pl-2 md:text-base">
           E-mail
         </label>
@@ -50,7 +50,7 @@
         }
       </div>
 
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-2">
         <label for="password" class="text-base text-[#1A1A1A] font-medium m-0 pl-2 md:text-base">
           Mot de passe
         </label>
@@ -90,7 +90,7 @@
       <button
         type="submit"
         [disabled]="isLoading"
-        class="bg-[#f1fde5]/85 border-2 border-white rounded-[40px] py-4 px-8 text-lg text-[#1A1A1A] font-medium cursor-pointer font-sans transition-all duration-200 w-full mt-4 min-h-[56px] backdrop-blur-[10px] hover:bg-[#f1fde5]/95 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] disabled:opacity-60 disabled:cursor-not-allowed md:mt-2"
+        class="bg-[#f1fde5]/85 border-2 border-white rounded-[40px] py-4 px-8 text-lg text-[#1A1A1A] font-medium cursor-pointer font-sans transition-all duration-200 w-full mt-3 min-h-[56px] backdrop-blur-[10px] hover:bg-[#f1fde5]/95 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] disabled:opacity-60 disabled:cursor-not-allowed md:mt-2"
       >
         @if (isLoading) {
           <span>Connexion en cours...</span>
