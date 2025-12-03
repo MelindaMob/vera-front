@@ -30,6 +30,10 @@ export const routes: Routes = [
     component: ItemPage
   },
   {
+    path: 'landing',
+    component: LandingPage
+  },
+  {
     path: '',
     redirectTo: 'landing',
     pathMatch: 'full'
