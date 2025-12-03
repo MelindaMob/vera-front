@@ -22,8 +22,6 @@ import { SidebarComponent } from '../../components/sidebar-dashboard/sidebar-das
   standalone: true,
   imports: [
     CommonModule, 
-    DatePipe, 
-    KeyValuePipe, 
     FormsModule,
     StatCardComponent,
     AnalysisCardComponent,

@@ -7,6 +7,11 @@ import { FormsPageComponent } from './pages/forms-data-page/forms-data-page';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     component: LoginComponent
   },
@@ -19,12 +24,8 @@ export const routes: Routes = [
     component: ItemPage
   },
   {
-    path: '',
-    redirectTo: '',
-    pathMatch: 'full'
-  },
-  { path: 'dashboard', 
+    path: 'dashboard', 
     component: DashboardPageComponent },
-  
-  // Nouvelle route pour la page des formulaires
-  { path: 'forms', component: FormsPageComponent }]
+  { 
+    path: 'forms',
+    component: FormsPageComponent }]
