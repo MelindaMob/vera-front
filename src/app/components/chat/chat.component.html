@@ -1,0 +1,113 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="vera-avatar">
+        <span>V</span>
+      </div>
+      <div>
+        <h2>Vera</h2>
+        <p class="status-text">IA de fact-checking</p>
+      </div>
+    </div>
+    <button class="btn-clear" (click)="clearChat()" title="Nouvelle conversation">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="messages-container" #messagesContainer>
+    <div class="messages-wrapper">
+      @for (message of messages; track message.id) {
+        <div class="message" [class.message-user]="message.sender === 'user'" [class.message-vera]="message.sender === 'vera'">
+          <div class="message-avatar" *ngIf="message.sender === 'vera'">
+            <span>V</span>
+          </div>
+          
+          <div class="message-content">
+            <div class="message-bubble">
+              @if (message.isTyping) {
+                <div class="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              } @else {
+                <p>{{ message.content }}</p>
+                
+                @if (message.result && message.result.status !== 'error') {
+                  <div class="result-card" [ngClass]="getStatusClass(message.result.status)">
+                    <div class="result-header">
+                      <span class="result-status">{{ getStatusLabel(message.result.status) }}</span>
+                      @if (message.result.confidence) {
+                        <span class="result-confidence">{{ message.result.confidence }}%</span>
+                      }
+                    </div>
+                    
+                    @if (message.result.sources && message.result.sources.length > 0) {
+                      <div class="result-sources">
+                        <p class="sources-title">Sources :</p>
+                        <ul>
+                          @for (source of message.result.sources; track source.url) {
+                            <li>
+                              <a [href]="source.url" target="_blank" rel="noopener">
+                                {{ source.title }}
+                                @if (source.outlet) {
+                                  <span class="source-outlet">— {{ source.outlet }}</span>
+                                }
+                              </a>
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </div>
+            <span class="message-time">{{ message.timestamp | date:'short' }}</span>
+          </div>
+          
+          <div class="message-avatar" *ngIf="message.sender === 'user'">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/>
+            </svg>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="chat-input-container">
+    <div class="chat-input-wrapper">
+      <textarea
+        [(ngModel)]="messageInput"
+        (keydown)="handleKeyPress($event)"
+        placeholder="Posez une question à Vera..."
+        rows="1"
+        [disabled]="isLoading"
+        class="chat-input"
+      ></textarea>
+      
+      <button 
+        class="btn-send" 
+        (click)="sendMessage()"
+        [disabled]="!messageInput.trim() || isLoading"
+        [class.loading]="isLoading"
+      >
+        @if (isLoading) {
+          <div class="spinner"></div>
+        } @else {
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+          </svg>
+        }
+      </button>
+    </div>
+    
+    <p class="chat-disclaimer">
+      Vera peut faire des erreurs. Vérifiez les informations importantes.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,372 @@
+.verify-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.verify-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-link {
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.dashboard-link:hover {
+  transform: translateY(-2px);
+}
+
+.verify-header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.verify-header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.verify-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.url-input {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.url-input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.verify-btn {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.verify-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.verify-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fee;
+  color: #c33;
+  border-radius: 8px;
+  border-left: 4px solid #c33;
+}
+
+.result-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-header {
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.platform-badge {
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.result-content {
+  padding: 2rem;
+}
+
+.metadata-section, .vera-result-section {
+  margin-bottom: 2rem;
+}
+
+.metadata-section h3, .vera-result-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.metadata-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.metadata-item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.metadata-item .label {
+  font-weight: 600;
+  color: #666;
+  min-width: 120px;
+}
+
+.metadata-item .value {
+  color: #333;
+}
+
+.vera-result-section {
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.vera-result-section.verified {
+  border-left-color: #4caf50;
+}
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.verdict-icon {
+  font-size: 2rem;
+}
+
+.verdict-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.confidence {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.confidence .label {
+  font-weight: 600;
+  color: #666;
+}
+
+.confidence-bar {
+  flex: 1;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.6s ease-out;
+}
+
+.confidence-value {
+  font-weight: 600;
+  color: #667eea;
+  min-width: 50px;
+  text-align: right;
+}
+
+.sources {
+  margin-top: 1rem;
+}
+
+.sources .label {
+  font-weight: 600;
+  color: #666;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.sources ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sources li {
+  padding: 0.5rem 0;
+  color: #333;
+}
+
+.sources li::before {
+  content: "→ ";
+  color: #667eea;
+  font-weight: bold;
+}
+
+.result-actions {
+  padding: 1.5rem 2rem;
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.reset-btn {
+  padding: 0.75rem 2rem;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.reset-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
+.explanation {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.explanation-text {
+  margin: 0.5rem 0 0 0;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.tools-used {
+  margin-top: 1.5rem;
+}
+
+.tools-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tool-tag {
+  padding: 0.4rem 0.8rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .verify-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .result-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .explanation-text {
+    font-size: 0.9rem;
+  }
+}
