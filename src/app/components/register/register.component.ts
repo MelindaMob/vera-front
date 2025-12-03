@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  logoPath = '/logo.png';
   registerForm: FormGroup;
   errorMessage = '';
   successMessage = '';
