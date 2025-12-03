@@ -381,4 +381,19 @@ export class LandingPage implements OnInit {
       default: return '';
     }
   }
+
+  // Gestion du Enter (envoyer) vs Shift+Enter (nouvelle ligne)
+  onEnterPress(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendSearchQuery();
+    }
+  }
+
+  // Auto-resize du textarea
+  autoResize(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+  }
 }
