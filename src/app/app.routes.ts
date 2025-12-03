@@ -7,19 +7,34 @@ import { VerifyPage } from './pages/verify/verify';
 import { ChatComponent } from './components/chat/chat.component';
 
 export const routes: Routes = [
-  // Landing page
-  { path: '', component: LandingPage },
-
-  // Authentication
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-
-  // Chat avec Vera
-  { path: 'chat', component: ChatComponent },
-
-  // Page de vérification
-  { path: 'verify', component: VerifyPage },
-
-  // Items
-  { path: 'items', component: ItemPage }
+  {
+    path: '',
+    component: LandingPage,
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
+  },
+  {
+    path: 'verify',
+    component: VerifyPage
+  },
+  {
+    path: 'items',
+    component: ItemPage
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
 ];
