@@ -168,7 +168,7 @@
                   class="search-input-simple" 
                   placeholder="Posez une autre question..." 
                   [(ngModel)]="searchQuery"
-                  (keydown.enter)="onEnterPress($event)"
+                  (keydown)="onEnterPress($event)"
                   (input)="autoResize($event)"
                   [disabled]="isSearching"
                   rows="1"></textarea>
