@@ -254,6 +254,8 @@ export class LandingPage implements OnInit {
     
     this.isSearching = true;
     this.showResults = true;
+    
+    // Forcer la détection des changements pour afficher le spinner
     this.cdr.detectChanges();
 
     this.veraChatService.sendMessage(
@@ -265,6 +267,9 @@ export class LandingPage implements OnInit {
     ).subscribe({
       next: (response) => {
         this.isSearching = false;
+        
+        // Forcer la détection des changements pour réafficher la flèche
+        this.cdr.detectChanges();
         
         // Ajouter la réponse de Vera au chat
         this.messages.push({
@@ -284,28 +289,28 @@ export class LandingPage implements OnInit {
         // Forcer Angular à détecter les changements
         this.cdr.detectChanges();
         
-        // Appeler replaceFeatherIcons après le rendu
-        setTimeout(() => this.replaceFeatherIcons(), 100);
-        
         // Sauvegarder l'ID de conversation pour garder la mémoire
         if (response.conversationId) {
           this.currentConversationId = response.conversationId;
         }
         
-        // Forcer Angular à détecter les changements
-        this.cdr.detectChanges();
-        
         // Sauvegarder dans l'historique
         this.addToHistory(query, response);
         
-        // Réinitialiser feather icons après mise à jour du DOM
-        this.replaceFeatherIcons();
+        // Forcer Angular à détecter les changements
+        this.cdr.detectChanges();
+        
+        // Remplacer les icônes Feather après tous les changements DOM
+        setTimeout(() => this.replaceFeatherIcons(), 50);
       },
       error: (error) => {
         this.isSearching = false;
+        
+        // Forcer la détection des changements pour réafficher la flèche
+        this.cdr.detectChanges();
+        
         this.veraResponse = "Désolé, une erreur s'est produite. Veuillez réessayer.";
         this.veraResult = { status: 'error' };
-        this.cdr.detectChanges();
       }
     });
   }
