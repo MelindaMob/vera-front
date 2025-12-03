@@ -164,6 +164,13 @@
 
               <!-- Barre de recherche en bas pour continuer -->
               <div class="search-box-bottom-simple">
+                <input #imageInputChat type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
+                <input #videoInputChat type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
+                
+                <button class="search-btn-action-icon" type="button" title="Joindre un fichier">
+                  <i data-feather="paperclip"></i>
+                </button>
+                
                 <textarea 
                   class="search-input-simple" 
                   placeholder="Posez une autre question..." 
@@ -172,6 +179,18 @@
                   (input)="autoResize($event)"
                   [disabled]="isSearching"
                   rows="1"></textarea>
+                
+                <button class="search-btn-action-icon" type="button" (click)="detectUrl()" title="Rechercher">
+                  <i data-feather="search"></i>
+                </button>
+                
+                <button class="search-btn-action-icon" type="button" (click)="imageInputChat.click()" title="Analyser une image">
+                  <i data-feather="image"></i>
+                </button>
+                
+                <button class="search-btn-action-icon" type="button" (click)="videoInputChat.click()" title="Analyser une vidéo">
+                  <i data-feather="video"></i>
+                </button>
                 
                 <button 
                   class="search-btn-send-simple" 
