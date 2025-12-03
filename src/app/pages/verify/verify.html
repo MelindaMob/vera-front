@@ -1,28 +1,28 @@
-<div class="verify-container">
-  <div class="verify-header">
-    <div class="header-nav">
-      <h1>Vérifier un contenu</h1>
-      <a routerLink="/dashboard" class="dashboard-link">📊 Dashboard</a>
+<div class="max-w-4xl mx-auto p-8">
+  <div class="text-center mb-12">
+    <div class="flex justify-center items-center gap-8 mb-4">
+      <h1 class="text-4xl m-0 bg-gradient-to-br from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">Vérifier un contenu</h1>
+      <a routerLink="/dashboard" class="px-4 py-2 bg-[#667eea] text-white no-underline rounded-lg text-sm hover:-translate-y-0.5 transition-transform">📊 Dashboard</a>
     </div>
-    <p>Collez l'URL d'un contenu TikTok, Instagram, YouTube ou Telegram pour le vérifier via Vera</p>
+    <p class="text-lg text-[#666]">Collez l'URL d'un contenu TikTok, Instagram, YouTube ou Telegram pour le vérifier via Vera</p>
   </div>
 
-  <div class="verify-form">
-    <div class="input-group">
+  <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+    <div class="flex gap-3 mb-4">
       <input 
         type="text" 
         [(ngModel)]="url" 
         placeholder="https://www.tiktok.com/@user/video/123456789"
-        class="url-input"
+        class="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-base outline-none focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/20 transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
         [disabled]="loading()"
       />
       <button 
         (click)="verifyContent()" 
-        class="verify-btn"
+        class="px-6 py-3 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white border-none rounded-xl font-semibold text-base cursor-pointer hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed min-w-[140px]"
         [disabled]="loading() || !url()"
       >
         @if (loading()) {
-          <span class="spinner"></span> Vérification...
+          <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></span> Vérification...
         } @else {
           Vérifier
         }
@@ -30,73 +30,75 @@
     </div>
 
     @if (error()) {
-      <div class="error-message">
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mt-4">
         {{ error() }}
       </div>
     }
   </div>
 
   @if (result()) {
-    <div class="result-card">
-      <div class="result-header">
-        <h2>Résultat de la vérification</h2>
-        <span class="platform-badge" [attr.data-platform]="result()?.platform">
+    <div class="mt-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+      <div class="bg-gradient-to-r from-[#667eea] to-[#764ba2] px-6 py-5 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-white m-0">Résultat de la vérification</h2>
+        <span [class]="'px-4 py-2 bg-white/20 backdrop-blur-sm rounded-lg text-sm font-semibold text-white uppercase ' + (result()?.platform === 'tiktok' ? 'bg-black/30' : result()?.platform === 'youtube' ? 'bg-red-500/30' : result()?.platform === 'instagram' ? 'bg-pink-500/30' : 'bg-blue-500/30')">
           {{ result()?.platform }}
         </span>
       </div>
 
-      <div class="result-content">
-        <div class="metadata-section">
-          <h3>Métadonnées</h3>
-          <div class="metadata-grid">
-            <div class="metadata-item">
-              <span class="label">Auteur :</span>
-              <span class="value">{{ result()?.metadata?.author }}</span>
+      <div class="p-6">
+        <div class="mb-8">
+          <h3 class="text-xl font-bold mb-4 text-[#333]">Métadonnées</h3>
+          <div class="grid grid-cols-1 gap-4">
+            <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+              <span class="font-semibold text-[#666] min-w-[100px]">Auteur :</span>
+              <span class="text-[#333]">{{ result()?.metadata?.author }}</span>
             </div>
-            <div class="metadata-item">
-              <span class="label">Description :</span>
-              <span class="value">{{ result()?.metadata?.description }}</span>
+            <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+              <span class="font-semibold text-[#666] min-w-[100px]">Description :</span>
+              <span class="text-[#333]">{{ result()?.metadata?.description }}</span>
             </div>
-            <div class="metadata-item">
-              <span class="label">Type :</span>
-              <span class="value">{{ result()?.contentType }}</span>
+            <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+              <span class="font-semibold text-[#666] min-w-[100px]">Type :</span>
+              <span class="text-[#333]">{{ result()?.contentType }}</span>
             </div>
           </div>
         </div>
 
-        <div class="vera-result-section" [class.verified]="result()?.veraResult?.isVerified">
-          <h3>Résultat Vera</h3>
-          <div class="verdict">
-            <span class="verdict-icon">
+        <div [class]="'p-6 rounded-xl border-l-4 ' + (result()?.veraResult?.isVerified ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500')">
+          <h3 class="text-xl font-bold mb-4 text-[#333]">Résultat Vera</h3>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-3xl">
               @if (result()?.veraResult?.isVerified) {
                 ✅
               } @else {
                 ❌
               }
             </span>
-            <span class="verdict-text">{{ result()?.veraResult?.verdict }}</span>
+            <span [class]="'text-xl font-semibold ' + (result()?.veraResult?.isVerified ? 'text-green-700' : 'text-red-700')">{{ result()?.veraResult?.verdict }}</span>
           </div>
-          <div class="confidence">
-            <span class="label">Confiance :</span>
-            <div class="confidence-bar">
-              <div class="confidence-fill" [style.width.%]="(result()?.veraResult?.confidence || 0) * 100"></div>
+          <div class="mb-4">
+            <span class="font-semibold text-[#666] block mb-2">Confiance :</span>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div [class]="'h-full transition-all duration-500 ' + (result()?.veraResult?.isVerified ? 'bg-green-500' : 'bg-red-500')" [style.width.%]="(result()?.veraResult?.confidence || 0) * 100"></div>
+              </div>
+              <span class="font-bold text-[#333] min-w-[50px]">{{ ((result()?.veraResult?.confidence || 0) * 100).toFixed(0) }}%</span>
             </div>
-            <span class="confidence-value">{{ ((result()?.veraResult?.confidence || 0) * 100).toFixed(0) }}%</span>
           </div>
           
           @if (result()?.veraResult?.explanation) {
-            <div class="explanation">
-              <span class="label">Analyse détaillée :</span>
-              <p class="explanation-text">{{ result()?.veraResult?.explanation }}</p>
+            <div class="mt-6">
+              <span class="font-semibold text-[#666] block mb-2">Analyse détaillée :</span>
+              <p class="text-[#333] leading-relaxed m-0">{{ result()?.veraResult?.explanation }}</p>
             </div>
           }
           
           @if (result()?.veraResult?.toolsUsed?.length) {
-            <div class="tools-used">
-              <span class="label">Outils utilisés :</span>
-              <div class="tools-tags">
+            <div class="mt-6">
+              <span class="font-semibold text-[#666] block mb-3">Outils utilisés :</span>
+              <div class="flex flex-wrap gap-2">
                 @for (tool of result()?.veraResult?.toolsUsed; track tool) {
-                  <span class="tool-tag">{{ tool }}</span>
+                  <span class="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-[#667eea]">{{ tool }}</span>
                 }
               </div>
             </div>
