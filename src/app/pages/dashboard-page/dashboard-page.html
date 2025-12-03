@@ -1,0 +1,111 @@
+<!-- Structure Flex globale : Sidebar à gauche + Contenu à droite -->
+<div class="flex min-h-screen bg-[#FDFBF7] font-sans">
+
+  <!-- 1. Intégration de la Sidebar (ne rétrécit pas) -->
+  <app-sidebar class="shrink-0"></app-sidebar>
+
+  <!-- 2. Zone de contenu principale (prend tout l'espace restant) -->
+  <main class="flex-1 p-6 md:p-10 overflow-x-hidden">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- EN-TÊTE : TITRE ET STATUT LIVE -->
+      <div class="bg-[#153e35] rounded-3xl p-8 mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-xl shadow-[#153e35]/20 relative overflow-hidden">
+        
+        <!-- Petit effet de lueur décoratif en arrière-plan -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
+
+        <div class="relative">
+          <h1 class="text-3xl md:text-4xl font-serif font-bold text-white mb-2">Tableau de bord VERA</h1>
+          <p class="text-[#D1FAE5] font-light text-sm md:text-base opacity-90">Suivi des réponses et analyse de l'audience en temps réel.</p>
+        </div>
+        
+        <!-- Badge Live style "Verre dépoli" -->
+        <div class="relative flex items-center gap-3 bg-white/10 px-5 py-2.5 rounded-full border border-white/20 backdrop-blur-sm shrink-0 transition-transform hover:scale-105 cursor-default">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-[#4ADE80]"></span>
+          </span>
+          <span class="text-xs font-bold text-white uppercase tracking-wider">
+            Live : {{ kpiTotal }} Réponses
+          </span>
+        </div>
+      </div>
+
+      <!-- SECTION 1 : LES 3 CARTES KPIs -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        
+        <!-- Carte 1 : Total -->
+        <app-stat-card 
+          label="Total Réponses" 
+          [value]="kpiTotal" 
+          [trendLabel]="kpiTrendLabel">
+        </app-stat-card>
+
+        <!-- Carte 2 : Cœur de Cible -->
+        <app-stat-card 
+          label="Cœur de cible" 
+          [value]="kpiTargetAudiencePercentage + '%'" 
+          [description]="kpiTargetAudienceDescription">
+        </app-stat-card>
+
+        <!-- Carte 3 : Canal Favori -->
+        <app-stat-card 
+          label="Canal Favori" 
+          value="WhatsApp">
+        </app-stat-card>
+
+      </div>
+
+      <!-- SECTION 2 : GRAPHIQUE ANALYSE -->
+      <div class="mb-10">
+        <app-analysis-card
+          title="Répartition par réponse"
+          [questions]="uniqueQuestions"
+          [selectedQuestion]="selectedQuestion"
+          [stats]="currentStats"
+          [activeFilter]="activeFilter"
+          (questionChange)="selectedQuestion = $event; onQuestionChange()"
+          (filterChange)="toggleFilter($event)"
+        ></app-analysis-card>
+      </div>
+
+      <!-- SECTION 3 : DERNIÈRES PARTICIPATIONS -->
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-serif text-[#153e35] font-bold">
+            Dernières participations
+        </h2>
+        @if (activeFilter) {
+            <button (click)="activeFilter = null; analyzeData()" class="text-xs text-[#153e35] underline hover:no-underline font-bold">
+              Effacer filtre : {{ activeFilter }}
+            </button>
+        }
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        @for (response of paginatedResponses; track response.id) {
+          <app-feedback-card 
+            [response]="response"
+            [highlightKey]="selectedQuestion">
+          </app-feedback-card>
+        } @empty {
+          <div class="col-span-full py-12 text-center text-gray-400 italic">
+            Aucune réponse ne correspond à ces critères.
+          </div>
+        }
+      </div>
+
+      <!-- Ajout du bloc de pagination -->
+      @if (filteredResponses.length > itemsPerPage) {
+        <div class="mt-10 flex justify-center pb-10">
+          <app-pagination
+            [currentPage]="currentPage"
+            [total]="filteredResponses.length"
+            [limit]="itemsPerPage"
+            (pageChange)="onPageChange($event)">
+          </app-pagination>
+        </div>
+      }
+
+    </div>
+  </main>
+</div>

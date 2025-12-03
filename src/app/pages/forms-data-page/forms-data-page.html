@@ -1,0 +1,46 @@
+<!-- Structure Flex globale : Sidebar à gauche + Contenu à droite -->
+<div class="flex min-h-screen bg-[#FDFBF7] font-sans">
+
+    <!-- 1. Intégration de la Sidebar -->
+    <app-sidebar class="shrink-0"></app-sidebar>
+  
+    <!-- 2. Zone de contenu principale -->
+    <main class="flex-1 p-6 md:p-10 overflow-x-hidden">
+      <div class="max-w-7xl mx-auto">
+        
+        <!-- En-tête simple -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-serif font-bold text-[#153e35] mb-2">Tous les formulaires</h1>
+            <p class="text-gray-500 font-light">Consultez l'historique complet des réponses reçues.</p>
+        </div>
+
+        <!-- Grille des formulaires -->
+        <!-- Configuration sur 2 colonnes maximum (lg:grid-cols-2) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            @for (response of paginatedResponses; track response.id) {
+                <div class="h-full">
+                    <!-- Utilisation du composant FullFeedbackCard pour l'affichage détaillé -->
+                    <app-full-feedback-card [response]="response"></app-full-feedback-card>
+                </div>
+            } @empty {
+                <div class="col-span-full py-20 text-center text-gray-400 italic bg-white rounded-xl border border-gray-100">
+                    Aucun formulaire trouvé.
+                </div>
+            }
+        </div>
+  
+        <!-- Pagination -->
+        @if (responses.length > itemsPerPage) {
+            <div class="mt-10 flex justify-center pb-10">
+                <app-pagination
+                    [currentPage]="currentPage"
+                    [total]="responses.length"
+                    [limit]="itemsPerPage"
+                    (pageChange)="onPageChange($event)">
+                </app-pagination>
+            </div>
+        }
+  
+      </div>
+    </main>
+</div>
