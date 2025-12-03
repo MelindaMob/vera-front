@@ -1,28 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-/* Tailwind désactivé pour utiliser notre propre système de design */
-/* @import "tailwindcss"; */
-:root {
-  --beige: #F5F1E8;
-  --beige-dark: #E8E1D3;
-  --green: #D4EDD3;
-  --green-50: #D4EDD3;
-  --red-50: #F5D4D4;
-  --blue-50: #D4E4F5;
-  --green-dark: #A8D5A8;
-  --green-accent: #85C788;
-  --black: #1A1A1A;
-  --black-light: #2D2D2D;
-  --white: #FFFFFF;
-  --gradient-1: linear-gradient(180deg, #D4E4F5 0%, #F5E8D4 50%, #F5D4E4 100%);
-  --gradient-2: linear-gradient(180deg, #D4EDD3 0%, #F5F1E8 50%, #F5D4D4 100%);
-  --gradient-3: linear-gradient(180deg, #D4E4F5 0%, #F5D4E4 100%);
+@theme {
+  --color-beige: #F5F1E8;
+  --color-beige-dark: #E8E1D3;
+  --color-green: #D4EDD3;
+  --color-black: #1A1A1A;
+  --font-playfair: 'Playfair Display', serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
 }
 
 .landing {
