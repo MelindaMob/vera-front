@@ -73,35 +73,35 @@
         <div class="content-area flex-1 overflow-y-auto flex items-center justify-center pt-[104px] pb-10 px-5 relative" [class.has-results]="showResults">
           @if (!showResults) {
             <div class="hero-search-content text-center">
-              <img src="VeraLogo2.png" alt="Vera" class="hero-logo-big w-[400px] h-auto mx-auto mb-3 block" />
-              <p class="hero-subtitle text-lg text-black mb-14 font-normal opacity-90">L'IA qui démêle le vrai du faux</p>
+              <img src="VeraLogo2.png" alt="Vera" class="hero-logo-big w-[280px] md:w-[400px] h-auto mx-auto mb-3 block" />
+              <p class="hero-subtitle text-base md:text-lg text-black mb-10 md:mb-14 font-normal opacity-90">L'IA qui démêle le vrai du faux</p>
              
-              <div class="search-box-green bg-green rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+              <div class="search-box-green bg-green rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
                 <input 
                   type="text" 
-                  class="search-input-main w-full bg-white border-none rounded-2xl px-7 py-6 text-base text-black outline-none mb-5 font-normal shadow-[0_2px_8px_rgba(0,0,0,0.06)]" 
+                  class="search-input-main w-full bg-white border-none rounded-2xl px-4 md:px-7 py-3.5 md:py-6 text-[15px] md:text-base text-black outline-none mb-3 md:mb-5 font-normal shadow-[0_2px_8px_rgba(0,0,0,0.06)]" 
                   placeholder="Posez une question..." 
                   [(ngModel)]="searchQuery"
                   (keydown.enter)="sendSearchQuery()"
                   [disabled]="isSearching">
                 
-                <div class="search-actions-row flex items-center gap-3">
+                <div class="search-actions-row flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-3">
                   <input #imageInput type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
                   <input #videoInput type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
                   
-                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-5 py-3 rounded-xl flex items-center gap-2 text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="detectUrl()">
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-4 md:px-5 py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-sm md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="detectUrl()">
                     <i data-feather="search" class="w-[18px] h-[18px] opacity-70"></i>
                     Rechercher
                   </button>
-                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-5 py-3 rounded-xl flex items-center gap-2 text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="imageInput.click()">
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-4 md:px-5 py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-sm md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="imageInput.click()">
                     <i data-feather="image" class="w-[18px] h-[18px] opacity-70"></i>
                     Analyser une image
                   </button>
-                  <button class="search-btn-icon bg-white/60 border border-black/[0.08] w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer ml-auto transition-all hover:bg-white/90" type="button" (click)="videoInput.click()">
+                  <button class="search-btn-icon hidden md:flex bg-white/60 border border-black/[0.08] w-11 h-11 rounded-xl items-center justify-center cursor-pointer ml-auto transition-all hover:bg-white/90" type="button" (click)="videoInput.click())">
                     <i data-feather="video" class="w-5 h-5 text-black opacity-70"></i>
                   </button>
                   <button 
-                    class="search-btn-send-main w-11 h-11 bg-black border-none rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-md hover:-translate-y-px" 
+                    class="search-btn-send-main w-full md:w-11 h-11 bg-black border-none rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-md hover:-translate-y-px" 
                     type="button"
                     (click)="sendSearchQuery()"
                     [disabled]="!searchQuery.trim() || isSearching">
@@ -118,7 +118,7 @@
 
           <!-- Résultats de la conversation -->
           @if (showResults) {
-            <div class="conversation-results relative max-w-[800px] w-full mx-auto h-full flex flex-col overflow-y-auto px-5 pb-[140px]">
+            <div class="conversation-results relative max-w-[800px] w-full mx-auto h-full flex flex-col overflow-y-auto px-4 md:px-5 pb-[100px] md:pb-[140px]">
               <!-- Tous les messages de la conversation -->
               @for (message of messages; track $index) {
                 @if (message.sender === 'user') {
@@ -173,7 +173,7 @@
               }
 
               <!-- Barre de recherche en bas pour continuer -->
-              <div class="search-box-bottom-simple sticky bottom-0 left-0 right-0 max-w-[760px] w-full mx-auto bg-green rounded-2xl p-3 flex items-center gap-3 shadow-[0_4px_24px_rgba(0,0,0,0.12)] z-10 mt-5">
+              <div class="search-box-bottom-simple sticky bottom-0 left-0 right-0 max-w-[760px] w-full mx-auto bg-green rounded-2xl p-2.5 md:p-3 flex items-center gap-2 md:gap-3 shadow-[0_4px_24px_rgba(0,0,0,0.12)] z-10 mt-5">
                 <input #imageInputChat type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
                 <input #videoInputChat type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
                 
@@ -209,11 +209,11 @@
                   <i data-feather="search" class="w-5 h-5 text-black stroke-2"></i>
                 </button>
                 
-                <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="imageInputChat.click()" title="Analyser une image">
+                <button class="search-btn-action-icon hidden md:flex w-10 h-10 bg-transparent border-none rounded-full items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="imageInputChat.click()" title="Analyser une image">
                   <i data-feather="image" class="w-5 h-5 text-black stroke-2"></i>
                 </button>
                 
-                <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="videoInputChat.click()" title="Analyser une vidéo">
+                <button class="search-btn-action-icon hidden md:flex w-10 h-10 bg-transparent border-none rounded-full items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="videoInputChat.click()" title="Analyser une vidéo">
                   <i data-feather="video" class="w-5 h-5 text-black stroke-2"></i>
                 </button>
                 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Message {
   id: string;
@@ -29,7 +30,7 @@ export interface Source {
   providedIn: 'root'
 })
 export class VeraChatService {
-  private apiUrl = 'http://localhost:3000/api'; // Backend API
+  private apiUrl = `${environment.apiUrl}/api`;
   private messagesSubject = new BehaviorSubject<Message[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
