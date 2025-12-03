@@ -1,103 +1,112 @@
-<div class="font-sans text-black bg-beige">
-  <!-- Hero Section avec recherche -->
-  <section class="bg-beige min-h-screen flex">
-    <div class="flex w-full min-h-screen relative">
-      <!-- Sidebar gauche -->
-      <aside [class]="'fixed left-0 top-0 bottom-0 w-[260px] bg-[#1A1A1A] text-white z-[999] pt-20 transition-transform duration-300 ' + (!sidebarCollapsed ? 'translate-x-0' : '-translate-x-full')">
-        <div class="p-5 h-full overflow-y-auto">
-          <button class="w-full bg-white/10 border border-white/20 text-white px-4 py-3 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-white/15 transition-all" (click)="newSearch()">
-            <i data-feather="plus"></i>
-            Nouvelle conversation
-          </button>
+<div class="landing font-sans text-black leading-normal relative">
+  <!-- Sidebar gauche -->
+  <aside class="sidebar fixed left-0 top-0 bottom-0 w-[260px] bg-[#1A1A1A] text-white transition-transform duration-300 z-[999] pt-20" [class.-translate-x-full]="sidebarCollapsed">
+    <div class="sidebar-content p-5 h-full overflow-y-auto">
+      <button class="btn-new-chat w-full bg-white/10 border border-white/20 text-white px-4 py-3 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-white/15 transition-all" (click)="newSearch()">
+        <i data-feather="plus" class="w-[18px] h-[18px] flex-shrink-0"></i>
+        Nouvelle conversation
+      </button>
 
           <!-- Historique des conversations -->
-          @if (conversationHistory.length > 0) {
-            <div class="mt-6 pt-4 border-t border-white/10">
-              <h3 class="text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Historique</h3>
-              <div class="flex flex-col gap-1">
-                @for (item of conversationHistory; track $index) {
-                  <button class="flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-white cursor-pointer w-full text-left hover:bg-white/10 transition-colors" (click)="loadConversation(item)">
-                    <i data-feather="message-circle" class="flex-shrink-0 w-4 h-4"></i>
-                    <div class="flex-1 break-words text-sm leading-snug">{{ item.query }}</div>
-                  </button>
-                }
-              </div>
-            </div>
-          }
-
-          <!-- Sources consultées -->
-          @if (veraResult && veraResult.sources && veraResult.sources.length > 0) {
-            <div class="mt-6 pt-4 border-t border-white/10">
-              <h3 class="text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Sources</h3>
-              <div class="flex flex-col gap-2">
-                @for (source of veraResult.sources; track source.url) {
-                  <a [href]="source.url" target="_blank" class="flex items-center gap-2.5 px-3 py-2.5 bg-white/5 rounded-lg text-white no-underline text-sm hover:bg-white/10 hover:translate-x-0.5 transition-all">
-                    <i data-feather="external-link" class="flex-shrink-0 w-4 h-4 opacity-70"></i>
-                    <span>{{ source.title }}</span>
-                  </a>
-                }
-              </div>
-            </div>
-          }
+      @if (conversationHistory.length > 0) {
+        <div class="sidebar-section mt-6 pt-4 border-t border-white/10">
+          <h3 class="sidebar-title text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Historique</h3>
+          <div class="history-list flex flex-col gap-1">
+            @for (item of conversationHistory; track $index) {
+              <button class="history-item flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-white cursor-pointer transition-colors w-full text-left hover:bg-white/10" (click)="loadConversation(item)">
+                <i data-feather="message-circle" class="w-4 h-4 flex-shrink-0 stroke-2"></i>
+                <div class="history-text flex-1 break-words text-sm leading-snug">{{ item.query }}</div>
+              </button>
+            }
+          </div>
         </div>
-      </aside>
+      }
 
-      <!-- Overlay sombre quand sidebar ouverte -->
-      <div [class]="'fixed inset-0 bg-black/50 z-[998] transition-opacity duration-300 ' + (!sidebarCollapsed ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')" (click)="toggleSidebar()"></div>
+      <!-- Sources consultées -->
+      @if (veraResult && veraResult.sources && veraResult.sources.length > 0) {
+        <div class="sidebar-section mt-6 pt-4 border-t border-white/10">
+          <h3 class="sidebar-title text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Sources</h3>
+          <div class="sources-sidebar flex flex-col gap-2">
+            @for (source of veraResult.sources; track source.url) {
+              <a [href]="source.url" target="_blank" class="source-item flex items-center gap-2.5 px-3 py-2.5 bg-white/5 rounded-lg text-white no-underline text-sm transition-all hover:bg-white/10 hover:translate-x-0.5">
+                <i data-feather="external-link" class="w-4 h-4 flex-shrink-0 stroke-2 opacity-70"></i>
+                <span>{{ source.title }}</span>
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </aside>
 
-      <!-- Zone principale -->
-      <div class="flex-1 flex flex-col bg-beige overflow-hidden">
+  <!-- Overlay sombre quand sidebar ouverte -->
+  <div class="sidebar-overlay fixed inset-0 bg-black/50 transition-opacity duration-300 z-[998]" [class.opacity-0]="sidebarCollapsed" [class.pointer-events-none]="sidebarCollapsed" [class.opacity-100]="!sidebarCollapsed" [class.pointer-events-auto]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
+
+  <!-- Zone principale -->
+  <div class="main-content flex-1 flex flex-col overflow-hidden">
+    <!-- Hero Section - Design épuré -->
+    <section class="hero-simple bg-beige min-h-screen flex">
+      <div class="hero-container w-full">
+        <!-- Header mobile caché par défaut -->
+        <header class="header-simple hidden">
+          <button class="menu-btn" (click)="toggleSidebar()">
+            <i data-feather="menu"></i>
+          </button>
+          <button class="auth-btn">
+            S'inscrire
+          </button>
+        </header>
         <!-- Top header fixe -->
-        <header class="fixed top-0 left-0 right-0 h-16 px-6 flex justify-between items-center bg-beige border-b border-black/5 z-[1000]">
-          <button class="bg-transparent border-none p-2 cursor-pointer rounded-lg hover:bg-black/5 flex items-center justify-center w-10 h-10" (click)="toggleSidebar()">
-            <i data-feather="menu" class="w-5 h-5"></i>
+        <header class="top-header fixed top-0 left-0 right-0 h-16 px-6 flex justify-between items-center bg-beige border-b border-black/5 z-[1000]">
+          <button class="btn-menu-fixed bg-transparent border-none p-2 cursor-pointer rounded-lg transition-colors hover:bg-black/5" (click)="toggleSidebar()">
+            <i data-feather="menu" class="w-5 h-5 text-black"></i>
           </button>
           
-          <div class="flex items-center gap-4">
-            <span class="text-sm font-medium cursor-pointer">S'inscrire</span>
-            <div class="w-9 h-9 bg-black rounded-full flex items-center justify-center cursor-pointer">
+          <div class="user-section flex items-center gap-4">
+            <span class="signup-text text-sm text-black font-medium cursor-pointer">S'inscrire</span>
+            <div class="user-avatar w-9 h-9 bg-black rounded-full flex items-center justify-center cursor-pointer">
               <i data-feather="user" class="w-[18px] h-[18px] text-white"></i>
             </div>
           </div>
         </header>
 
-        <div [class]="'flex-1 overflow-y-auto flex items-center justify-center pt-[104px] pb-10 px-5 relative ' + (showResults ? 'items-stretch overflow-hidden' : '')">
+        <div class="content-area flex-1 overflow-y-auto flex items-center justify-center pt-[104px] pb-10 px-5 relative" [class.has-results]="showResults">
           @if (!showResults) {
-            <div class="text-center max-w-2xl">
-              <img src="VeraLogo2.png" alt="Vera" class="w-[400px] h-auto mx-auto mb-3 block md:w-[200px]" />
-              <p class="text-lg mb-14 font-normal opacity-90 md:text-base md:mb-10">L'IA qui démêle le vrai du faux</p>
+            <div class="hero-search-content text-center">
+              <img src="VeraLogo2.png" alt="Vera" class="hero-logo-big w-[400px] h-auto mx-auto mb-3 block" />
+              <p class="hero-subtitle text-lg text-black mb-14 font-normal opacity-90">L'IA qui démêle le vrai du faux</p>
              
-              <div class="bg-green rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)] md:p-4 md:rounded-2xl">
+              <div class="search-box-green bg-green rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
                 <input 
                   type="text" 
-                  class="w-full bg-white border-none rounded-2xl px-7 py-6 text-base outline-none mb-5 font-normal shadow-[0_2px_8px_rgba(0,0,0,0.06)] md:text-[15px] md:px-4 md:py-3.5 md:mb-3" 
+                  class="search-input-main w-full bg-white border-none rounded-2xl px-7 py-6 text-base text-black outline-none mb-5 font-normal shadow-[0_2px_8px_rgba(0,0,0,0.06)]" 
                   placeholder="Posez une question..." 
                   [(ngModel)]="searchQuery"
                   (keydown.enter)="sendSearchQuery()"
                   [disabled]="isSearching">
                 
-                <div class="flex items-center gap-3 md:flex-col md:gap-2">
-                  <input #imageInput type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)">
-                  <input #videoInput type="file" accept="video/*" class="hidden" (change)="onVideoSelected($event)">
+                <div class="search-actions-row flex items-center gap-3">
+                  <input #imageInput type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
+                  <input #videoInput type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
                   
-                  <button class="bg-white/60 border border-black/[0.08] px-5 py-3 rounded-xl flex items-center gap-2 text-sm font-semibold cursor-pointer hover:bg-white/90 transition-all md:w-full md:justify-center md:text-[15px]" type="button" (click)="detectUrl()">
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-5 py-3 rounded-xl flex items-center gap-2 text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="detectUrl()">
                     <i data-feather="search" class="w-[18px] h-[18px] opacity-70"></i>
                     Rechercher
                   </button>
-                  <button class="bg-white/60 border border-black/[0.08] px-5 py-3 rounded-xl flex items-center gap-2 text-sm font-semibold cursor-pointer hover:bg-white/90 transition-all md:w-full md:justify-center md:text-[15px] md:px-4" type="button" (click)="imageInput.click()">
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-5 py-3 rounded-xl flex items-center gap-2 text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="imageInput.click()">
                     <i data-feather="image" class="w-[18px] h-[18px] opacity-70"></i>
                     Analyser une image
                   </button>
-                  <button class="bg-white/60 border border-black/[0.08] w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer ml-auto hover:bg-white/90 transition-all md:hidden" type="button" (click)="videoInput.click()">
-                    <i data-feather="video" class="w-5 h-5 opacity-70"></i>
+                  <button class="search-btn-icon bg-white/60 border border-black/[0.08] w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer ml-auto transition-all hover:bg-white/90" type="button" (click)="videoInput.click()">
+                    <i data-feather="video" class="w-5 h-5 text-black opacity-70"></i>
                   </button>
                   <button 
-                    class="w-11 h-11 bg-black border-none rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all md:w-full md:h-auto md:py-3" 
+                    class="search-btn-send-main w-11 h-11 bg-black border-none rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-md hover:-translate-y-px" 
                     type="button"
                     (click)="sendSearchQuery()"
                     [disabled]="!searchQuery.trim() || isSearching">
                     @if (isSearching) {
-                      <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin m-0"></div>
+                      <div class="spinner-small w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin m-0"></div>
                     } @else {
                       <i data-feather="arrow-up" class="w-5 h-5 text-white stroke-[2.5]"></i>
                     }
@@ -109,31 +118,31 @@
 
           <!-- Résultats de la conversation -->
           @if (showResults) {
-            <div class="relative max-w-[800px] w-full mx-auto h-full flex flex-col overflow-y-auto px-5 pb-[140px] md:px-4 md:pb-[100px]">
+            <div class="conversation-results relative max-w-[800px] w-full mx-auto h-full flex flex-col overflow-y-auto px-5 pb-[140px]">
               <!-- Tous les messages de la conversation -->
               @for (message of messages; track $index) {
                 @if (message.sender === 'user') {
                   <!-- Message utilisateur -->
-                  <div class="mb-8">
-                    <div class="flex items-start gap-4">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-green text-black font-bold font-['Playfair_Display',serif] text-base">
+                  <div class="message-user mb-8 animate-[slideIn_0.3s_ease-out]">
+                    <div class="message-content-wrapper flex items-start gap-4">
+                      <div class="message-avatar user-avatar w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-green text-black font-bold font-['Playfair_Display',serif] text-base">
                         <i data-feather="user"></i>
                       </div>
-                      <div class="flex-1">
-                        <p class="text-base leading-[1.6] m-0 mb-4 whitespace-pre-line">{{ message.content }}</p>
+                      <div class="message-bubble user-bubble flex-1">
+                        <p class="text-base leading-[1.6] text-black m-0 mb-4 whitespace-pre-line">{{ message.content }}</p>
                       </div>
                     </div>
                   </div>
                 } @else {
                   <!-- Message Vera -->
-                  <div class="mb-8">
-                    <div class="flex items-start gap-4">
-                      <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-black text-white font-bold font-['Playfair_Display',serif] text-base">
+                  <div class="message-vera mb-8 animate-[slideIn_0.3s_ease-out]">
+                    <div class="message-content-wrapper flex items-start gap-4">
+                      <div class="message-avatar vera-avatar w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-black text-white font-bold font-['Playfair_Display',serif] text-base">
                         <img src="VeraLogo3.png" alt="Vera" class="w-6 h-6 brightness-0 invert" />
                       </div>
-                      <div class="flex-1">
-                        <div class="mb-5">
-                          <p class="text-base leading-[1.7] m-0 whitespace-pre-wrap break-words">{{ message.content }}</p>
+                      <div class="message-bubble vera-bubble flex-1">
+                        <div class="vera-response-text mb-5">
+                          <p class="text-base leading-[1.7] text-black m-0 whitespace-pre-wrap break-words">{{ message.content }}</p>
                         </div>
                       </div>
                     </div>
@@ -143,20 +152,20 @@
               
               <!-- Indicateur de chargement -->
               @if (isSearching) {
-                <div class="mb-8">
-                  <div class="flex items-start gap-4">
-                    <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-black text-white">
+                <div class="message-vera mb-8">
+                  <div class="message-content-wrapper flex items-start gap-4">
+                    <div class="message-avatar vera-avatar w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-black text-white">
                       <img src="team/VeraLogo3.png" alt="Vera" class="w-6 h-6 brightness-0 invert" />
                     </div>
-                    <div class="flex-1">
-                      <div class="py-4">
-                        <div class="flex gap-1.5 py-2">
+                    <div class="message-bubble vera-bubble flex-1">
+                      <div class="loading-state py-4">
+                        <div class="typing-indicator flex gap-1.5 py-2">
                           <span class="w-2 h-2 bg-gray-500 rounded-full typing-span"></span>
                           <span class="w-2 h-2 bg-gray-500 rounded-full typing-span"></span>
                           <span class="w-2 h-2 bg-gray-500 rounded-full typing-span"></span>
                         </div>
-                        <p class="mt-3 mb-1 text-[15px] text-black font-medium">Vera analyse votre question et consulte ses sources...</p>
-                        <p class="m-0 text-[13px] text-[#666] opacity-80">Cela peut prendre quelques secondes ⏱️</p>
+                        <p class="loading-text mt-3 mb-1 text-[15px] text-black font-medium">Vera analyse votre question et consulte ses sources...</p>
+                        <p class="loading-subtext m-0 text-[13px] text-[#666] opacity-80">Cela peut prendre quelques secondes ⏱️</p>
                       </div>
                     </div>
                   </div>
@@ -164,22 +173,22 @@
               }
 
               <!-- Barre de recherche en bas pour continuer -->
-              <div class="fixed bottom-5 left-1/2 -translate-x-1/2 max-w-[760px] w-[calc(100%-40px)] bg-green rounded-2xl p-3 flex items-center gap-3 shadow-[0_4px_24px_rgba(0,0,0,0.12)] z-10 md:bottom-2.5 md:w-[calc(100%-20px)]">
-                <input #imageInputChat type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)">
-                <input #videoInputChat type="file" accept="video/*" class="hidden" (change)="onVideoSelected($event)">
+              <div class="search-box-bottom-simple sticky bottom-0 left-0 right-0 max-w-[760px] w-full mx-auto bg-green rounded-2xl p-3 flex items-center gap-3 shadow-[0_4px_24px_rgba(0,0,0,0.12)] z-10 mt-5">
+                <input #imageInputChat type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
+                <input #videoInputChat type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
                 
-                <div class="relative">
-                  <button class="w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer hover:bg-black/5 transition-all flex-shrink-0" type="button" title="Joindre un fichier" (click)="toggleAttachMenu()">
+                <div class="attach-menu-wrapper relative">
+                  <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" title="Joindre un fichier" (click)="toggleAttachMenu()">
                     <i data-feather="paperclip" class="w-5 h-5 text-black stroke-2"></i>
                   </button>
                   
                   @if (showAttachMenu) {
-                    <div class="absolute bottom-[50px] left-0 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-black/10 overflow-hidden min-w-[140px] z-[100] animate-[attachMenuFadeIn_0.2s_ease-out]">
-                      <button class="w-full px-4 py-3 bg-white border-none text-left text-sm font-medium text-black cursor-pointer hover:bg-beige transition-all flex items-center gap-2 block" type="button" (click)="imageInputChat.click(); toggleAttachMenu()">
+                    <div class="attach-menu absolute bottom-[50px] left-0 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-black/10 overflow-hidden min-w-[140px] z-[100] animate-[attachMenuFadeIn_0.2s_ease-out]">
+                      <button class="attach-menu-item w-full px-4 py-3 bg-white border-none text-left text-sm font-medium text-black cursor-pointer transition-all block hover:bg-beige" type="button" (click)="imageInputChat.click(); toggleAttachMenu()">
                         <i data-feather="image"></i>
                         <span>Image</span>
                       </button>
-                      <button class="w-full px-4 py-3 bg-white border-none text-left text-sm font-medium text-black cursor-pointer hover:bg-beige transition-all flex items-center gap-2 border-t border-black/5 block" type="button" (click)="videoInputChat.click(); toggleAttachMenu()">
+                      <button class="attach-menu-item w-full px-4 py-3 bg-white border-none text-left text-sm font-medium text-black cursor-pointer transition-all border-t border-black/5 block hover:bg-beige" type="button" (click)="videoInputChat.click(); toggleAttachMenu()">
                         <i data-feather="video"></i>
                         <span>Vidéo</span>
                       </button>
@@ -188,7 +197,7 @@
                 </div>
                 
                 <textarea 
-                  class="flex-1 border-none bg-white px-4 py-3 text-[15px] leading-normal min-h-6 max-h-[120px] resize-none overflow-y-auto font-sans rounded-xl outline-none" 
+                  class="search-input-simple flex-1 border-none bg-white px-4 py-3 text-[15px] leading-normal min-h-6 max-h-[120px] resize-none overflow-y-auto font-sans rounded-xl outline-none" 
                   placeholder="Posez une autre question..." 
                   [(ngModel)]="searchQuery"
                   (keydown)="onEnterPress($event)"
@@ -196,25 +205,25 @@
                   [disabled]="isSearching"
                   rows="1"></textarea>
                 
-                <button class="w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer hover:bg-black/5 transition-all flex-shrink-0" type="button" (click)="detectUrl()" title="Rechercher">
+                <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="detectUrl()" title="Rechercher">
                   <i data-feather="search" class="w-5 h-5 text-black stroke-2"></i>
                 </button>
                 
-                <button class="w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer hover:bg-black/5 transition-all flex-shrink-0 md:hidden" type="button" (click)="imageInputChat.click()" title="Analyser une image">
+                <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="imageInputChat.click()" title="Analyser une image">
                   <i data-feather="image" class="w-5 h-5 text-black stroke-2"></i>
                 </button>
                 
-                <button class="w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer hover:bg-black/5 transition-all flex-shrink-0 md:hidden" type="button" (click)="videoInputChat.click()" title="Analyser une vidéo">
+                <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="videoInputChat.click()" title="Analyser une vidéo">
                   <i data-feather="video" class="w-5 h-5 text-black stroke-2"></i>
                 </button>
                 
                 <button 
-                  class="w-10 h-10 bg-black border-none rounded-full flex items-center justify-center cursor-pointer flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-all" 
+                  class="search-btn-send-simple w-10 h-10 bg-black border-none rounded-full flex items-center justify-center cursor-pointer flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105" 
                   type="button"
                   (click)="sendSearchQuery()"
                   [disabled]="!searchQuery.trim() || isSearching">
                   @if (isSearching) {
-                    <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin m-0"></div>
+                    <div class="spinner-small w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin m-0"></div>
                   } @else {
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white block">
                       <line x1="12" y1="19" x2="12" y2="5"></line>
@@ -227,58 +236,59 @@
           }
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+
+
 
   <!-- Section principale : Posez vos questions -->
-  <section class="bg-green py-[120px] px-0 overflow-hidden md:py-20">
-    <div class="max-w-[1400px] mx-auto px-12 md:px-5">
-      <h1 class="font-['Playfair_Display',serif] text-[56px] font-bold leading-tight text-center mx-auto mb-20 max-w-[900px] md:text-4xl md:mb-15">Posez vos questions pour clarifier la vérité</h1>
+  <section class="hero-main bg-green py-[120px] px-0 relative overflow-hidden" id="comment">
+    <div class="container max-w-[1400px] mx-auto px-12">
+      <h1 class="hero-main-title font-['Playfair_Display',serif] text-[56px] font-bold leading-tight text-center text-black mx-auto mb-20 max-w-[900px]">Posez vos questions pour clarifier la vérité</h1>
       
-      <div class="flex items-center justify-center min-h-[500px] relative">
+      <div class="hero-main-content relative flex items-center justify-center min-h-[500px]">
         <!-- Mockups centraux -->
-        <div class="flex gap-10 items-center z-[2] md:flex-col md:gap-5">
-          <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="w-[280px] h-auto drop-shadow-xl md:w-[220px]">
-          <img src="/images/mockup-app.png" alt="Appel" class="w-[280px] h-auto drop-shadow-xl md:w-[220px]">
+        <div class="mockups-center flex gap-10 items-center z-[2]">
+          <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp w-[280px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+          <img src="/images/mockup-app.png" alt="Appel" class="mockup-call w-[280px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
         </div>
         
         <!-- Flèche + Label gauche : Sur whatsapp -->
-        <div class="absolute left-20 top-1/2 -translate-y-1/2 flex items-center gap-5 z-[1] flex-row-reverse md:static md:transform-none md:mt-10 md:justify-center">
-          <div class="w-[120px] h-[120px] border-[3px] border-dashed border-black border-r-0 border-t-0 rounded-bl-[100px] rotate-45 relative md:hidden"></div>
-          <p class="font-['Playfair_Display',serif] text-[28px] leading-tight text-center">Sur<br>whatsapp</p>
+        <div class="option-left absolute left-20 top-1/2 -translate-y-1/2 flex items-center gap-5 z-[1] flex-row-reverse">
+          <div class="arrow-curved arrow-left w-[120px] h-[120px] border-[3px] border-dashed border-black border-r-0 border-t-0 rounded-bl-[100px] rotate-45 relative"></div>
+          <p class="option-label font-['Playfair_Display',serif] text-[28px] font-normal leading-tight text-center text-black">Sur<br>whatsapp</p>
         </div>
         
         <!-- Flèche + Label droite : Par téléphone -->
-        <div class="absolute right-20 top-1/2 -translate-y-1/2 flex items-center gap-5 z-[1] md:static md:transform-none md:mt-10 md:justify-center">
-          <div class="w-[120px] h-[120px] border-[3px] border-dashed border-black border-r-0 border-t-0 rounded-br-[100px] -rotate-45 relative md:hidden"></div>
-          <p class="font-['Playfair_Display',serif] text-[28px] leading-tight text-center">Par<br>téléphone</p>
+        <div class="option-right absolute right-20 top-1/2 -translate-y-1/2 flex items-center gap-5 z-[1]">
+          <div class="arrow-curved arrow-right w-[120px] h-[120px] border-[3px] border-dashed border-black border-r-0 border-t-0 rounded-br-[100px] -rotate-45 relative"></div>
+          <p class="option-label font-['Playfair_Display',serif] text-[28px] font-normal leading-tight text-center text-black">Par<br>téléphone</p>
         </div>
       </div>
     </div>
   </section>
-
   <!-- Section questions -->
-  <section class="bg-beige py-[100px] px-0 md:py-15 md:px-5">
-    <div class="max-w-[1400px] mx-auto px-12 md:px-0">
-      <h2 class="font-['Playfair_Display',serif] text-[42px] font-bold mb-16 md:text-2xl md:mb-8">Quelles questions puis-je poser à Vera ?</h2>
+  <section class="questions-section bg-beige py-[100px] px-0">
+    <div class="container max-w-[1400px] mx-auto px-12">
+      <h2 class="questions-title font-['Playfair_Display',serif] text-[42px] font-bold leading-tight text-black mb-16">Quelles questions puis-je poser à Vera ?</h2>
       
-      <div class="grid grid-cols-3 gap-6 md:grid-cols-1 md:gap-4">
-        <div class="p-8 rounded-[20px] text-lg leading-normal bg-green md:p-5 md:text-[15px]">
+      <div class="questions-grid grid grid-cols-3 gap-6">
+        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-green">
           "Un collègue me dit que les inondations en Espagne proviennent de l'ensemencement des nuages ??"
         </div>
-        <div class="p-8 rounded-[20px] text-lg leading-normal bg-beige-dark md:p-5 md:text-[15px]">
+        <div class="question-card beige-card p-8 rounded-[20px] text-lg leading-normal text-black bg-beige-dark">
           "C'est vrai que les vaccins anticovid provoquent des turbocancers ?"
         </div>
-        <div class="p-8 rounded-[20px] text-lg leading-normal bg-green md:p-5 md:text-[15px]">
+        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-green">
           "Zelensky se serait offert la Mercedes d'Hitler : c'est vrai ?"
         </div>
-        <div class="p-8 rounded-[20px] text-lg leading-normal bg-beige-dark md:p-5 md:text-[15px]">
+        <div class="question-card beige-card p-8 rounded-[20px] text-lg leading-normal text-black bg-beige-dark">
           "J'ai lu qu'Elon Musk travaille sur un projet secret d'avion militaire hypersonique"
         </div>
-        <div class="p-8 rounded-[20px] text-lg leading-normal bg-green md:p-5 md:text-[15px]">
+        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-green">
           "C'est vrai que des milliers de scientifiques dénoncent le canular de la crise climatique ?"
         </div>
-        <div class="p-8 rounded-[20px] text-lg leading-normal bg-beige-dark md:p-5 md:text-[15px]">
+        <div class="question-card beige-card p-8 rounded-[20px] text-lg leading-normal text-black bg-beige-dark">
           "Mon père dit que le gilet fluo va être obligatoire pour se promener en forêt"
         </div>
       </div>
@@ -286,81 +296,81 @@
   </section>
 
   <!-- Section 400+ sites -->
-  <section class="bg-green py-[100px] px-0 md:py-15 md:px-5">
-    <div class="max-w-[1400px] mx-auto px-12 md:px-0">
-      <h2 class="font-['Playfair_Display',serif] text-5xl font-bold text-center mb-16 md:text-2xl md:mb-8">Vera est connectée en temps réel<br>à 400+ sites de fact-checking</h2>
+  <section class="fact-checking-section bg-green py-[100px] px-0">
+    <div class="container max-w-[1400px] mx-auto px-12">
+      <h2 class="section-title font-['Playfair_Display',serif] text-5xl font-bold leading-tight text-center text-black mb-16">Vera est connectée en temps réel<br>à 400+ sites de fact-checking</h2>
       
-      <!-- Logos partenaires -->
-      <div class="flex flex-wrap justify-center gap-8 mb-20 md:gap-4 md:mb-12">
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">AFP Factuel</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">Snopes</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">CheckNews</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">FactCheck.org</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">Les Surligneurs</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">Libération</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">Le Monde</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">Ultimate FactBook</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">Africa Check</div>
-        <div class="px-8 py-4 bg-white rounded-xl text-sm font-semibold md:px-4 md:py-2">PolitiFact</div>
+      <!-- Logos partenaires (placeholders texte pour l'instant) -->
+      <div class="partners-logos-grid flex flex-wrap justify-center gap-8 mb-20">
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">AFP Factuel</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Snopes</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">CheckNews</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">FactCheck.org</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Les Surligneurs</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Libération</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Le Monde</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Ultimate FactBook</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Africa Check</div>
+        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">PolitiFact</div>
       </div>
       
-      <div class="grid grid-cols-2 gap-8 max-w-[1100px] mx-auto md:grid-cols-1">
-        <div class="bg-beige p-12 rounded-3xl border border-black/10 md:p-6">
-          <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold mb-4 md:text-2xl">150+ sites de fact-checking</h3>
-          <p class="text-base mb-6 opacity-70">Pour la vérification de faits</p>
-          <ul class="list-none mb-8">
-            <li class="pl-7 relative mb-3 text-base leading-relaxed before:content-['✓'] before:absolute before:left-0 before:font-bold">Signataires des chartes européennes IFCN et EFCSN</li>
-            <li class="pl-7 relative mb-3 text-base leading-relaxed before:content-['✓'] before:absolute before:left-0 before:font-bold">Agences de presses spécialisées en fact-checking</li>
+      <div class="fact-cards-grid grid grid-cols-2 gap-8 max-w-[1100px] mx-auto">
+        <div class="fact-card bg-beige p-12 rounded-3xl border border-black/10">
+          <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold leading-tight text-black mb-4">150+ sites de fact-checking</h3>
+          <p class="fact-subtitle text-base text-black opacity-70 mb-6">Pour la vérification de faits</p>
+          <ul class="fact-list list-none mb-8">
+            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Signataires des chartes européennes IFCN et EFCSN</li>
+            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Agences de presses spécialisées en fact-checking</li>
           </ul>
-          <button class="bg-black text-white border-none px-7 py-3.5 rounded-full cursor-pointer w-full hover:scale-[1.02] transition-transform" routerLink="/chat">Essayer maintenant</button>
+          <button class="btn-dark bg-black text-white border-none px-7 py-3.5 rounded-full text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
         </div>
         
-        <div class="bg-beige p-12 rounded-3xl border border-black/10 md:p-6">
-          <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold mb-4 md:text-2xl">250+ médias fiables et reconnus</h3>
-          <p class="text-base mb-6 opacity-70">Pour connaître l'actualité</p>
-          <ul class="list-none mb-8">
-            <li class="pl-7 relative mb-3 text-base leading-relaxed before:content-['✓'] before:absolute before:left-0 before:font-bold">Tous les bords politiques</li>
-            <li class="pl-7 relative mb-3 text-base leading-relaxed before:content-['✓'] before:absolute before:left-0 before:font-bold">Réputés comme fiables et sérieux</li>
+        <div class="fact-card bg-beige p-12 rounded-3xl border border-black/10">
+          <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold leading-tight text-black mb-4">250+ médias fiables et reconnus</h3>
+          <p class="fact-subtitle text-base text-black opacity-70 mb-6">Pour connaître l'actualité</p>
+          <ul class="fact-list list-none mb-8">
+            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Tous les bords politiques</li>
+            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Réputés comme fiables et sérieux</li>
           </ul>
-          <button class="bg-black text-white border-none px-7 py-3.5 rounded-full cursor-pointer w-full hover:scale-[1.02] transition-transform" routerLink="/chat">Essayer maintenant</button>
+          <button class="btn-dark bg-black text-white border-none px-7 py-3.5 rounded-full text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-black text-white py-20 px-0 md:py-10 md:px-5">
-    <div class="max-w-[1400px] mx-auto mb-12 px-12 flex gap-[120px] md:flex-col md:gap-12 md:px-0">
-      <div class="flex-1 max-w-[400px]">
-        <img src="VeraLogo1.png" alt="Vera" class="w-[180px] h-auto mb-6 block md:w-[120px]" />
-        <p class="text-[15px] leading-relaxed opacity-80">Vera vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp — sans besoin d'application ni de site web.</p>
+  <footer class="footer bg-black text-white py-20 px-0">
+    <div class="footer-container max-w-[1400px] mx-auto mb-12 px-12 flex gap-[120px]">
+      <div class="footer-brand flex-1 max-w-[400px]">
+        <img src="VeraLogo1.png" alt="Vera" class="footer-logo w-[180px] h-auto mb-6 block" />
+        <p class="footer-description text-[15px] leading-relaxed text-white opacity-80">Vera vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp — sans besoin d'application ni de site web.</p>
       </div>
       
-      <div class="flex gap-20 flex-1 md:flex-col md:gap-12">
-        <div class="flex flex-col gap-4">
-          <h4 class="text-base font-bold mb-2">Product</h4>
-          <a href="#comment" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">Comment ça marche ?</a>
-          <a href="#" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">Démo</a>
+      <div class="footer-columns flex gap-20 flex-1">
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Product</h4>
+          <a href="#comment" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Comment ça marche ?</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Démo</a>
         </div>
         
-        <div class="flex flex-col gap-4">
-          <h4 class="text-base font-bold mb-2">Team</h4>
-          <a href="#equipe" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">Rencontrez l'équipe</a>
-          <a href="#" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">LaReponse.Tech</a>
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Team</h4>
+          <a href="#equipe" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Rencontrez l'équipe</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">LaReponse.Tech</a>
         </div>
         
-        <div class="flex flex-col gap-4">
-          <h4 class="text-base font-bold mb-2">Aide</h4>
-          <a href="#faq" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">FAQ</a>
-          <a href="#" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">Contactez-nous</a>
-          <a href="#" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">Privacy Policy</a>
-          <a href="#" class="text-white no-underline opacity-70 hover:opacity-100 transition-opacity">CGU</a>
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Aide</h4>
+          <a href="#faq" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">FAQ</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Contactez-nous</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Privacy Policy</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">CGU</a>
         </div>
       </div>
     </div>
     
-    <div class="max-w-[1400px] mx-auto pt-8 px-12 border-t border-white/10 text-center md:px-0">
-      <p class="text-sm opacity-60">© 2025 Vera. All rights reserved.</p>
+    <div class="footer-bottom max-w-[1400px] mx-auto pt-8 px-12 border-t border-white/10 text-center">
+      <p class="text-sm text-white opacity-60">© 2025 Vera. All rights reserved.</p>
     </div>
   </footer>
 </div>

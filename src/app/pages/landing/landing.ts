@@ -35,7 +35,7 @@ export class LandingPage implements OnInit {
   showResults: boolean = false;
   veraResponse: string = '';
   veraResult: any = null;
-  sidebarCollapsed: boolean = false;
+  sidebarCollapsed: boolean = true; // Cachée par défaut sur mobile
   conversationHistory: any[] = [];
   conversationContext: string = ''; // Contexte pour la mémoire
   currentConversationId: string | null = null; // ID de conversation Vera
