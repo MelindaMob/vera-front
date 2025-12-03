@@ -1,53 +1,62 @@
 <div class="landing">
-  <!-- Section Hero : Interface avec sidebar -->
-  <section class="hero-search">
-    <div class="hero-search-wrapper">
-      <!-- Overlay sombre quand sidebar ouverte -->
-      <div class="sidebar-overlay" [class.visible]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
-      
-      <!-- Sidebar gauche -->
-      <aside class="sidebar" [class.open]="!sidebarCollapsed">
-        <div class="sidebar-content">
-          <button class="btn-new-chat" (click)="newSearch()">
-            <i data-feather="plus"></i>
-            Nouvelle conversation
-          </button>
+  <!-- Sidebar gauche -->
+  <aside class="sidebar" [class.open]="!sidebarCollapsed">
+    <div class="sidebar-content">
+      <button class="btn-new-chat" (click)="newSearch()">
+        <i data-feather="plus"></i>
+        Nouvelle conversation
+      </button>
 
-          <!-- Historique des conversations -->
-          @if (conversationHistory.length > 0) {
-            <div class="sidebar-section">
-              <h3 class="sidebar-title">Historique</h3>
-              <div class="history-list">
-                @for (item of conversationHistory; track $index) {
-                  <button class="history-item" (click)="loadConversation(item)">
-                    <i data-feather="message-circle"></i>
-                    <div class="history-text">{{ item.query }}</div>
-                  </button>
-                }
-              </div>
-            </div>
-          }
-
-          <!-- Sources consultées -->
-          @if (veraResult && veraResult.sources && veraResult.sources.length > 0) {
-            <div class="sidebar-section">
-              <h3 class="sidebar-title">Sources</h3>
-              <div class="sources-sidebar">
-                @for (source of veraResult.sources; track source.url) {
-                  <a [href]="source.url" target="_blank" class="source-item">
-                    <i data-feather="external-link"></i>
-                    <span>{{ source.title }}</span>
-                  </a>
-                }
-              </div>
-            </div>
-          }
+      <!-- Historique des conversations -->
+      @if (conversationHistory.length > 0) {
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Historique</h3>
+          <div class="history-list">
+            @for (item of conversationHistory; track $index) {
+              <button class="history-item" (click)="loadConversation(item)">
+                <i data-feather="message-circle"></i>
+                <div class="history-text">{{ item.query }}</div>
+              </button>
+            }
+          </div>
         </div>
-      </aside>
+      }
 
-      <!-- Zone principale -->
-      <div class="main-content">
-        <!-- Header fixe en haut -->
+      <!-- Sources consultées -->
+      @if (veraResult && veraResult.sources && veraResult.sources.length > 0) {
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Sources</h3>
+          <div class="sources-sidebar">
+            @for (source of veraResult.sources; track source.url) {
+              <a [href]="source.url" target="_blank" class="source-item">
+                <i data-feather="external-link"></i>
+                <span>{{ source.title }}</span>
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <!-- Overlay sombre quand sidebar ouverte -->
+  <div class="sidebar-overlay" [class.visible]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
+
+  <!-- Zone principale -->
+  <div class="main-content">
+    <!-- Hero Section - Design épuré -->
+    <section class="hero-simple">
+      <div class="hero-container">
+        <!-- Header -->
+        <header class="header-simple">
+          <button class="menu-btn" (click)="toggleSidebar()">
+            <i data-feather="menu"></i>
+          </button>
+          <button class="auth-btn" >
+            S'inscrire
+          </button>
+        </header>
+
         <header class="top-header">
           <button class="btn-menu-fixed" (click)="toggleSidebar()">
             <i data-feather="menu"></i>
@@ -61,15 +70,12 @@
           </div>
         </header>
 
-        <!-- Contenu central -->
         <div class="content-area">
-          <!-- État initial : pas de résultats -->
           @if (!showResults) {
             <div class="hero-search-content">
-              <div class="hero-logo-big">vera</div>
+              <img src="VeraLogo2.png" alt="Vera" class="hero-logo-big" />
               <p class="hero-subtitle">L'IA qui démêle le vrai du faux</p>
-              
-              <!-- Grande barre de recherche verte -->
+             
               <div class="search-box-green">
                 <input 
                   type="text" 
@@ -131,7 +137,9 @@
                   <!-- Message Vera -->
                   <div class="message-vera">
                     <div class="message-content-wrapper">
-                      <div class="message-avatar vera-avatar">V</div>
+                      <div class="message-avatar vera-avatar">
+                        <img src="VeraLogo3.png" alt="Vera" />
+                      </div>
                       <div class="message-bubble vera-bubble">
                         <div class="vera-response-text">
                           <p>{{ message.content }}</p>
@@ -146,7 +154,9 @@
               @if (isSearching) {
                 <div class="message-vera">
                   <div class="message-content-wrapper">
-                    <div class="message-avatar vera-avatar">V</div>
+                    <div class="message-avatar vera-avatar">
+                      <img src="team/VeraLogo3.png" alt="Vera" />
+                    </div>
                     <div class="message-bubble vera-bubble">
                       <div class="loading-state">
                         <div class="typing-indicator">
@@ -167,9 +177,24 @@
                 <input #imageInputChat type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
                 <input #videoInputChat type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
                 
-                <button class="search-btn-action-icon" type="button" title="Joindre un fichier">
-                  <i data-feather="paperclip"></i>
-                </button>
+                <div class="attach-menu-wrapper">
+                  <button class="search-btn-action-icon" type="button" title="Joindre un fichier" (click)="toggleAttachMenu()">
+                    <i data-feather="paperclip"></i>
+                  </button>
+                  
+                  @if (showAttachMenu) {
+                    <div class="attach-menu">
+                      <button class="attach-menu-item" type="button" (click)="imageInputChat.click(); toggleAttachMenu()">
+                        <i data-feather="image"></i>
+                        <span>Image</span>
+                      </button>
+                      <button class="attach-menu-item" type="button" (click)="videoInputChat.click(); toggleAttachMenu()">
+                        <i data-feather="video"></i>
+                        <span>Vidéo</span>
+                      </button>
+                    </div>
+                  }
+                </div>
                 
                 <textarea 
                   class="search-input-simple" 
@@ -211,8 +236,7 @@
           }
         </div>
       </div>
-    </div>
-  </section>
+
 
   <!-- Section principale : Posez vos questions -->
   <section class="hero-main" id="comment">
@@ -316,7 +340,7 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <div class="footer-logo">vera</div>
+        <img src="VeraLogo1.png" alt="Vera" class="footer-logo" />
         <p class="footer-description">Vera vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp — sans besoin d'application ni de site web.</p>
       </div>
       
@@ -347,4 +371,3 @@
       <p>© 2025 Vera. All rights reserved.</p>
     </div>
   </footer>
-</div>

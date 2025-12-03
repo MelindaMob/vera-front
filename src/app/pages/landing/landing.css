@@ -391,13 +391,10 @@
 }
 
 .hero-logo-big {
-  font-family: 'Playfair Display', serif;
-  font-size: 110px;
-  font-weight: 700;
-  color: var(--black);
-  margin-bottom: 12px;
-  line-height: 1;
-  letter-spacing: -2px;
+  width: 400px;
+  height: auto;
+  margin: 0 auto 12px;
+  display: block;
 }
 
 .hero-subtitle {
@@ -572,6 +569,15 @@
 .vera-avatar {
   background: var(--black);
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vera-avatar img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
 }
 
 .user-avatar {
@@ -725,6 +731,58 @@
   height: 20px;
   color: var(--black);
   stroke-width: 2;
+}
+
+/* Paperclip attach menu */
+.attach-menu-wrapper {
+  position: relative;
+}
+
+.attach-menu {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-width: 140px;
+  animation: attachMenuFadeIn 0.2s ease-out;
+  z-index: 100;
+}
+
+.attach-menu button {
+  width: 100%;
+  padding: 12px 16px;
+  background: white;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--black);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: block;
+}
+
+.attach-menu button:hover {
+  background: var(--beige);
+}
+
+.attach-menu button:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@keyframes attachMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .search-btn-send-simple {
@@ -1243,11 +1301,10 @@
 }
 
 .footer-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--white);
+  width: 180px;
+  height: auto;
   margin-bottom: 24px;
+  display: block;
 }
 
 .footer-description {
@@ -1535,5 +1592,198 @@
   .sidebar:not(.collapsed)::before {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  /* Header mobile */
+  .header-container {
+    padding: 0 20px;
+  }
+
+  .top-header {
+    padding: 12px 20px;
+  }
+
+  /* Hero section mobile */
+  .hero-search-content {
+    padding: 20px;
+  }
+
+  .hero-logo-big {
+    width: 200px;
+    margin-bottom: 16px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  /* Search box mobile */
+  .search-box-green {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .search-input-main {
+    font-size: 15px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .search-actions-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-btn-action {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  .search-btn-icon {
+    display: none;
+  }
+
+  /* Chat results mobile */
+  .conversation-results {
+    padding: 20px 16px 100px;
+  }
+
+  .message-bubble {
+    max-width: 85%;
+  }
+
+  /* Chat input mobile */
+  .chat-input-container {
+    padding: 12px 16px 16px;
+  }
+
+  .chat-input-wrapper {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chat-input-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* CTA Section mobile */
+  .cta-section {
+    padding: 60px 20px;
+  }
+
+  .cta-grid {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .cta-block {
+    padding: 40px 24px;
+  }
+
+  .cta-title {
+    font-size: 28px;
+  }
+
+  /* Questions section mobile */
+  .questions-section {
+    padding: 60px 20px;
+  }
+
+  .questions-title {
+    font-size: 24px;
+    margin-bottom: 32px;
+  }
+
+  .questions-grid {
+    gap: 16px;
+  }
+
+  .question-card {
+    padding: 20px;
+    font-size: 15px;
+  }
+
+  /* Sources section mobile */
+  .sources-section {
+    padding: 60px 20px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 32px;
+  }
+
+  .sources-grid {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .source-card {
+    padding: 24px;
+  }
+
+  /* Footer mobile */
+  .footer {
+    padding: 40px 20px 24px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-logo {
+    width: 120px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Sidebar mobile */
+  .sidebar {
+    width: 280px;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .hero-logo-big {
+    width: 160px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .search-box-green {
+    padding: 12px;
+  }
+
+  .search-btn-action {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+
+  .message-bubble {
+    max-width: 90%;
+  }
+
+  .cta-title {
+    font-size: 24px;
+  }
+
+  .questions-title,
+  .section-title {
+    font-size: 20px;
   }
 }

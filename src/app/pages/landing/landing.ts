@@ -25,7 +25,7 @@ interface FAQ {
   selector: 'app-landing',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './landing.html',
+  templateUrl: 'landing.html',
   styleUrls: ['./landing.css']
 })
 export class LandingPage implements OnInit {
@@ -43,6 +43,7 @@ export class LandingPage implements OnInit {
   selectedImage: File | null = null;
   selectedVideo: File | null = null;
   mediaUrls: string[] = []; // URLs détectées dans le message
+  showAttachMenu: boolean = false; // Menu d'attachement
 
   constructor(
     private veraChatService: VeraChatService,
@@ -196,6 +197,10 @@ export class LandingPage implements OnInit {
   toggleSidebar() {
     this.sidebarCollapsed = !this.sidebarCollapsed;
     setTimeout(() => this.replaceFeatherIcons(), 0);
+  }
+
+  toggleAttachMenu() {
+    this.showAttachMenu = !this.showAttachMenu;
   }
 
   onImageSelected(event: any) {
