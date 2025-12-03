@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  logoPath = '/logo.png';
   loginForm: FormGroup;
   errorMessage = '';
   successMessage = '';
