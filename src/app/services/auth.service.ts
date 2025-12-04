@@ -17,7 +17,7 @@ export interface RegisterRequest {
 export interface LoginResponse {
   success: boolean;
   message: string;
-  // token supprimé - maintenant dans un cookie HttpOnly
+  token?: string; // TEMPORAIRE - pour debug/fallback
   user: {
     id: number;
     email: string;
@@ -71,6 +71,11 @@ export class AuthService {
       tap(response => {
         if (response.success) {
           // Le token est maintenant dans un cookie, pas besoin de localStorage
+          // TEMPORAIRE: Si le token est dans la réponse, le stocker aussi en localStorage comme fallback
+          if (response.token) {
+            console.warn('[AUTH] Token reçu dans la réponse - fallback activé');
+            localStorage.setItem('token', response.token);
+          }
           this.currentUser.set(response.user);
           this.isAuthenticated.set(true);
         }
@@ -103,12 +108,11 @@ export class AuthService {
 
   /**
    * Récupérer le token depuis le cookie (plus besoin, géré automatiquement)
-   * Cette méthode est gardée pour compatibilité mais retourne null
+   * TEMPORAIRE: Fallback vers localStorage si le cookie ne fonctionne pas
    */
   getToken(): string | null {
-    // Le token est dans un cookie HttpOnly, inaccessible depuis JavaScript
-    // Le navigateur l'envoie automatiquement avec les requêtes
-    return null;
+    // TEMPORAIRE: Fallback vers localStorage si le cookie ne fonctionne pas
+    return localStorage.getItem('token');
   }
 
   /**
