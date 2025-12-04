@@ -51,6 +51,11 @@ export class LandingPage implements OnInit {
   isAuthenticated: any;
   currentUser: any;
 
+  // Vérifier si l'utilisateur est admin
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   constructor(
     private veraChatService: VeraChatService,
     private cdr: ChangeDetectorRef,
