@@ -34,6 +34,12 @@ export const routes: Routes = [
     component: LandingPage
   },
   {
+    path: 'dashboard', 
+    component: DashboardPageComponent },
+  { 
+    path: 'forms',
+    component: FormsPageComponent },
+  {
     path: '',
     redirectTo: 'landing',
     pathMatch: 'full'
