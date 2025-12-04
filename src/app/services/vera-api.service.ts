@@ -31,7 +31,7 @@ export interface VerificationResult {
   providedIn: 'root'
 })
 export class VeraApiService {
-  private apiUrl = environment.apiUrl || 'http://localhost:3000/api'; // URL de votre API vera-back
+  private apiUrl = environment.apiUrl; // URL de votre API vera-back
 
   constructor(private http: HttpClient) {}
 
