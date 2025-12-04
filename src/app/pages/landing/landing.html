@@ -1,7 +1,7 @@
 <div class="landing font-sans text-black leading-normal relative overflow-x-hidden min-h-screen w-full max-w-full">
   <!-- Sidebar gauche -->
-  <aside class="sidebar fixed left-0 top-0 bottom-0 w-[260px] bg-[#1A1A1A] text-white transition-transform duration-300 z-[999] pt-20" [class.-translate-x-full]="sidebarCollapsed">
-    <div class="sidebar-content p-5 h-full overflow-y-auto">
+  <aside class="sidebar fixed left-0 top-0 bottom-0 w-[260px] bg-[#1A1A1A] text-white transition-transform duration-300 z-[999] pt-20 overflow-hidden touch-pan-y" [class.-translate-x-full]="sidebarCollapsed">
+    <div class="sidebar-content p-5 h-full overflow-y-auto overscroll-contain touch-pan-y">
       <button class="btn-new-chat w-full bg-white/10 border border-white/20 text-white px-4 py-3 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-white/15 transition-all" (click)="newSearch()">
         <i data-feather="plus" class="w-[18px] h-[18px] flex-shrink-0"></i>
         Nouvelle conversation
@@ -15,7 +15,7 @@
             @for (item of conversationHistory; track $index) {
               <button class="history-item flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-white cursor-pointer transition-colors w-full text-left hover:bg-white/10" (click)="loadConversation(item)">
                 <i data-feather="message-circle" class="w-4 h-4 flex-shrink-0 stroke-2"></i>
-                <div class="history-text flex-1 break-words text-sm leading-snug">{{ item.query }}</div>
+                <div class="history-text flex-1 break-words text-sm leading-snug line-clamp-2">{{ item.title || item.query }}</div>
               </button>
             }
           </div>
@@ -28,9 +28,9 @@
           <h3 class="sidebar-title text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Sources</h3>
           <div class="sources-sidebar flex flex-col gap-2">
             @for (source of veraResult.sources; track source.url) {
-              <a [href]="source.url" target="_blank" class="source-item flex items-center gap-2.5 px-3 py-2.5 bg-white/5 rounded-lg text-white no-underline text-sm transition-all hover:bg-white/10 hover:translate-x-0.5">
+              <a [href]="source.url" target="_blank" rel="noopener noreferrer" class="source-item flex items-center gap-2.5 px-3 py-2.5 bg-white/5 rounded-lg text-white no-underline text-sm transition-all hover:bg-white/10 hover:translate-x-0.5 cursor-pointer">
                 <i data-feather="external-link" class="w-4 h-4 flex-shrink-0 stroke-2 opacity-70"></i>
-                <span>{{ source.title }}</span>
+                <span class="line-clamp-1">{{ source.title }}</span>
               </a>
             }
           </div>
@@ -142,7 +142,7 @@
                       </div>
                       <div class="message-bubble vera-bubble flex-1">
                         <div class="vera-response-text mb-3 md:mb-5">
-                          <p class="text-sm md:text-base leading-[1.7] text-black m-0 whitespace-pre-wrap break-words">{{ message.content }}</p>
+                          <div class="text-sm md:text-base leading-[1.7] text-black m-0 whitespace-pre-wrap break-words" [innerHTML]="formatVeraResponse(message.content)"></div>
                         </div>
                       </div>
                     </div>
@@ -197,7 +197,8 @@
                 </div>
                 
                 <textarea 
-                  class="search-input-simple flex-1 border-none bg-white px-2.5 md:px-4 py-2 md:py-3 text-sm md:text-[15px] leading-normal min-h-[36px] md:min-h-[40px] max-h-[120px] resize-none overflow-y-auto font-sans rounded-lg md:rounded-xl outline-none" 
+                  #chatTextarea
+                  class="search-input-simple flex-1 border-none bg-white px-2.5 md:px-4 py-2 md:py-3 text-sm md:text-[15px] leading-[1.5] min-h-[36px] md:min-h-[40px] max-h-[200px] resize-none overflow-y-auto font-sans rounded-lg md:rounded-xl outline-none transition-all" 
                   placeholder="Posez une autre question..." 
                   [(ngModel)]="searchQuery"
                   (keydown)="onEnterPress($event)"

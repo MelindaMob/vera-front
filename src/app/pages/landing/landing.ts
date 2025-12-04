@@ -339,19 +339,47 @@ export class LandingPage implements OnInit {
 
   addToHistory(query: string, response: any) {
     const historyItem = {
+      title: this.generateConversationTitle(query),
       query,
       response: response.response,
       result: response.result,
       timestamp: new Date().toISOString(),
-      conversationId: this.currentConversationId, // Sauvegarder l'ID de conversation
-      messages: [...this.messages] // Sauvegarder TOUS les messages
+      conversationId: this.currentConversationId,
+      messages: [...this.messages]
     };
     
-    // Ajouter au début, limiter à 10
     this.conversationHistory = [historyItem, ...this.conversationHistory].slice(0, 10);
-    
-    // Sauvegarder dans localStorage
     localStorage.setItem('conversationHistory', JSON.stringify(this.conversationHistory));
+  }
+
+  generateConversationTitle(query: string): string {
+    // Générer un titre court à partir de la question
+    if (query.length <= 40) {
+      return query;
+    }
+    // Prendre les premiers mots jusqu'à 40 caractères
+    const words = query.split(' ');
+    let title = '';
+    for (const word of words) {
+      if ((title + word).length > 37) {
+        break;
+      }
+      title += (title ? ' ' : '') + word;
+    }
+    return title + '...';
+  }
+
+  formatVeraResponse(text: string): string {
+    if (!text) return '';
+    
+    // Convertir les URLs en liens cliquables
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    let formatted = text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">$1</a>');
+    
+    // Préserver les sauts de ligne
+    formatted = formatted.replace(/\n/g, '<br>');
+    
+    return formatted;
   }
 
   loadConversation(item: any) {
@@ -420,7 +448,10 @@ export class LandingPage implements OnInit {
   // Auto-resize du textarea
   autoResize(event: Event) {
     const textarea = event.target as HTMLTextAreaElement;
+    // Reset height to auto to get the correct scrollHeight
     textarea.style.height = 'auto';
-    textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+    // Set new height (max 200px, like ChatGPT)
+    const newHeight = Math.min(textarea.scrollHeight, 200);
+    textarea.style.height = newHeight + 'px';
   }
 }
