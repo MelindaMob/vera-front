@@ -50,6 +50,9 @@ export class RegisterComponent {
           console.log('✅ Réponse d\'inscription:', response);
           
           if (response.success) {
+            // Nettoyer l'historique temporaire guest
+            localStorage.removeItem('guest_conversations');
+            
             this.successMessage = `Inscription réussie ! Bienvenue ${response.user?.username || userData.email}`;
             console.log('✅ Inscription réussie pour:', response.user);
             
