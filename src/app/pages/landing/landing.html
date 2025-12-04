@@ -281,12 +281,12 @@
           <!-- Colonne WhatsApp -->
           <div class="flex flex-col items-center gap-4">
             <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
-            <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
+            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
           </div>
           
           <!-- Colonne Téléphone -->
           <div class="flex flex-col items-center gap-4">
-            <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Par téléphone</p>
+            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black">Par téléphone</p>
             <img src="/images/mockup-app.png" alt="Appel" class="mockup-call w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
           </div>
         </div>
@@ -296,7 +296,7 @@
   <!-- Section questions -->
   <section class="questions-section bg-[#FEF2E4] py-[60px] px-0">
     <div class="container max-w-[1400px] bg[#FEF2E4] mx-auto px-12">
-      <h2 class="questions-title font-['Playfair_Display',serif] text-[42px] font-bold leading-tight text-black mb-12">Quelles questions puis-je poser à Vera ?</h2>
+      <h2 class="questions-title font-['Playfair_Display',serif] text-[20px] md:text-[42px] font-bold leading-tight text-black mb-12">Quelles questions puis-je poser à Vera ?</h2>
       
       <div class="questions-grid grid grid-cols-3 gap-6">
         <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
@@ -324,20 +324,25 @@
   <!-- Section 400+ sites -->
   <section class="fact-checking-section bg-[#DBF9BE] py-[100px] px-0">
     <div class="container max-w-[1400px] mx-auto px-12">
-      <h2 class="section-title font-['Playfair_Display',serif] text-5xl font-bold leading-tight text-center text-black mb-16">Vera est connectée en temps réel<br>à 400+ sites de fact-checking</h2>
+      <h2 class="section-title font-['Playfair_Display',serif] text-[20px] md:text-5xl font-bold leading-tight text-center text-black mb-16">Vera est connectée en temps réel<br><span class="bg-[#FEF2E4] px-2 py-1 rounded-md">à 400+ sites de fact-checking</span></h2>
       
-      <!-- Logos partenaires (placeholders texte pour l'instant) -->
-      <div class="partners-logos-grid flex flex-wrap justify-center gap-8 mb-20">
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">AFP Factuel</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Snopes</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">CheckNews</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">FactCheck.org</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Les Surligneurs</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Libération</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Le Monde</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Ultimate FactBook</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Africa Check</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">PolitiFact</div>
+      <!-- Logos partenaires -->
+      <div class="partners-logos-grid grid grid-cols-3 md:flex md:flex-wrap md:justify-center gap-4 md:gap-6 mb-20">
+        <!-- 6 premiers logos (visibles sur mobile et desktop) -->
+        <img src="/01657aa7dfc0c8250a583f2b579ee7199c7ac8e8.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/075ebd6efe9a66020c0ce5e7a4454e93a7891147.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/13a0072f626a1190b5b24722f1ae239dfe908887.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/417a7bceadc60b13352c4c4c79c8094017a5bbd6.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/43564cc795591f7c810eefd9174396a4619c274a.jpg" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/7f0267071ca80aab3f06cac85f8ae95c05e48511.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <!-- 7 logos supplémentaires (visibles uniquement sur desktop) -->
+        <img src="/8321cea641f522d0231b8d215e63af18bab07fb0.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/a9476bf5f728b61dff9fc206a6e6d62d59e0f077.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/b59eb1e1478cf56558515e70fae1383d2a2c7654.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/d28879826690c8154bc34af533ac882ad68b244a.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/e91c1107b25659d2423a4aff9b571ca70a33065f.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/fbfe707bb36bd781b61712498abeb092dbddabbc.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/fcaf180f906f2961c45008eda6c58ce3bd73e0cd.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
       </div>
       
       <div class="fact-cards-grid grid grid-cols-2 gap-8 max-w-[1100px] mx-auto">
