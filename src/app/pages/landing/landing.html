@@ -43,9 +43,9 @@
   <div class="sidebar-overlay fixed inset-0 bg-black/50 transition-opacity duration-300 z-[998]" [class.opacity-0]="sidebarCollapsed" [class.pointer-events-none]="sidebarCollapsed" [class.opacity-100]="!sidebarCollapsed" [class.pointer-events-auto]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
 
   <!-- Zone principale -->
-  <div class="main-content flex-1 flex flex-col overflow-hidden w-full max-w-full">
+  <div class="main-content flex-1 flex flex-col w-full max-w-full">
     <!-- Hero Section - Design épuré -->
-    <section class="hero-simple bg-[#FEF2E4] min-h-screen flex w-full max-w-full overflow-x-hidden">
+    <section class="hero-simple bg-[#FEF2E4] flex w-full max-w-full overflow-x-hidden" [class.min-h-screen]="!showResults">
       <div class="hero-container w-full max-w-full">
        
         <header class="header-simple hidden">
@@ -247,46 +247,44 @@
 
 
   <!-- Section principale : Posez vos questions -->
-  <section class="hero-main bg-[#DBF9BE] py-[60px] md:py-[40px] px-0 relative overflow-hidden" id="comment">
+  <section class="hero-main bg-[#DBF9BE] py-[60px] px-0 relative overflow-hidden" id="comment">
     <div class="container max-w-[1400px] mx-auto px-12">
       <h1 class="hero-main-title font-['Playfair_Display',serif] text-[20px] md:text-[56px] font-bold leading-tight text-center text-black mx-auto mb-8 md:mb-12 max-w-[900px]">Posez vos questions pour clarifier la <span class="bg-[#FEF2E4] px-2 py-1 rounded-md">vérité</span></h1>
       
-      <div class="hero-main-content relative flex items-center justify-center min-h-[300px] md:min-h-[350px]">
-        <!-- Flèche pointant vers WhatsApp (coin haut gauche) -->
-        <div class="hidden md:block absolute top-0 left-0 z-[1]">
-          <svg width="250" height="200" viewBox="0 0 250 200" class="arrow-dashed">
-            <path d="M 20 20 Q 100 60 150 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-left)"/>
-            <defs>
-              <marker id="arrowhead-left" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
-                <polygon points="0 0, 12 4, 0 8" fill="black" />
-              </marker>
-            </defs>
-          </svg>
-        </div>
-        
-        <!-- Flèche pointant vers Téléphone (coin haut droit) -->
-        <div class="hidden md:block absolute top-0 right-0 z-[1]">
-          <svg width="250" height="200" viewBox="0 0 250 200" class="arrow-dashed">
-            <path d="M 230 20 Q 150 60 100 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-right)"/>
-            <defs>
-              <marker id="arrowhead-right" markerWidth="12" markerHeight="12" refX="1" refY="4" orient="auto">
-                <polygon points="12 0, 0 4, 12 8" fill="black" />
-              </marker>
-            </defs>
-          </svg>
-        </div>
-        
-        <!-- Mockups centraux avec labels -->
-        <div class="mockups-center flex flex-col md:flex-row gap-6 md:gap-20 items-center z-[2]">
+      <div class="hero-main-content relative flex items-center justify-center min-h-[300px] md:min-h-[400px]">
+        <!-- Mockups centraux -->
+        <div class="mockups-center flex flex-col md:flex-row gap-6 md:gap-20 items-center z-[2] relative">
           <!-- Colonne WhatsApp -->
-          <div class="flex flex-col items-center gap-4">
+          <div class="flex flex-col items-center gap-4 relative">
             <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
-            <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
+            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black relative">
+              <!-- Flèche partant de "Sur Whatsapp" vers le téléphone (desktop uniquement) -->
+              <svg class="hidden md:block absolute -top-32 left-1/2 -translate-x-1/2 w-[180px] h-[200px] pointer-events-none" viewBox="0 0 180 200">
+                <path d="M 90 200 Q 70 140 20 80" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-whatsapp)"/>
+                <defs>
+                  <marker id="arrowhead-whatsapp" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
+                    <polygon points="0 0, 12 4, 0 8" fill="black" />
+                  </marker>
+                </defs>
+              </svg>
+              Sur Whatsapp
+            </p>
           </div>
           
           <!-- Colonne Téléphone -->
-          <div class="flex flex-col items-center gap-4">
-            <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Par téléphone</p>
+          <div class="flex flex-col items-center gap-4 relative">
+            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black relative">
+              <!-- Flèche partant de "Par téléphone" vers le téléphone (desktop uniquement) -->
+              <svg class="hidden md:block absolute -bottom-32 left-1/2 -translate-x-1/2 w-[180px] h-[200px] pointer-events-none" viewBox="0 0 180 200">
+                <path d="M 90 0 Q 110 60 160 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-phone)"/>
+                <defs>
+                  <marker id="arrowhead-phone" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
+                    <polygon points="0 0, 12 4, 0 8" fill="black" />
+                  </marker>
+                </defs>
+              </svg>
+              Par téléphone
+            </p>
             <img src="/images/mockup-app.png" alt="Appel" class="mockup-call w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
           </div>
         </div>
@@ -296,7 +294,7 @@
   <!-- Section questions -->
   <section class="questions-section bg-[#FEF2E4] py-[60px] px-0">
     <div class="container max-w-[1400px] bg[#FEF2E4] mx-auto px-12">
-      <h2 class="questions-title font-['Playfair_Display',serif] text-[42px] font-bold leading-tight text-black mb-12">Quelles questions puis-je poser à Vera ?</h2>
+      <h2 class="questions-title font-['Playfair_Display',serif] text-[20px] md:text-[42px] font-bold leading-tight text-black mb-12">Quelles questions puis-je poser à Vera ?</h2>
       
       <div class="questions-grid grid grid-cols-3 gap-6">
         <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
@@ -324,20 +322,28 @@
   <!-- Section 400+ sites -->
   <section class="fact-checking-section bg-[#DBF9BE] py-[100px] px-0">
     <div class="container max-w-[1400px] mx-auto px-12">
-      <h2 class="section-title font-['Playfair_Display',serif] text-5xl font-bold leading-tight text-center text-black mb-16">Vera est connectée en temps réel<br>à 400+ sites de fact-checking</h2>
+      <h2 class="section-title font-['Playfair_Display',serif] text-[20px] md:text-[60px] font-bold leading-tight text-left text-black mb-16">
+        <div class="mb-2 md:mb-4">Vera est connectée en temps réel</div>
+        <div><span class="bg-[#FEF2E4] px-2 py-1 rounded-md">à 400+ sites de fact-checking</span></div>
+      </h2>
       
-      <!-- Logos partenaires (placeholders texte pour l'instant) -->
-      <div class="partners-logos-grid flex flex-wrap justify-center gap-8 mb-20">
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">AFP Factuel</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Snopes</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">CheckNews</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">FactCheck.org</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Les Surligneurs</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Libération</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Le Monde</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Ultimate FactBook</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">Africa Check</div>
-        <div class="logo-placeholder px-8 py-4 bg-white rounded-xl text-sm font-semibold text-black">PolitiFact</div>
+      <!-- Logos partenaires -->
+      <div class="partners-logos-grid grid grid-cols-3 md:flex md:flex-wrap md:justify-center gap-4 md:gap-6 mb-20">
+        <!-- 6 premiers logos (visibles sur mobile et desktop) -->
+        <img src="/01657aa7dfc0c8250a583f2b579ee7199c7ac8e8.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/075ebd6efe9a66020c0ce5e7a4454e93a7891147.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/13a0072f626a1190b5b24722f1ae239dfe908887.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/417a7bceadc60b13352c4c4c79c8094017a5bbd6.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/43564cc795591f7c810eefd9174396a4619c274a.jpg" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/7f0267071ca80aab3f06cac85f8ae95c05e48511.png" alt="Partner logo" class="partner-logo h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <!-- 7 logos supplémentaires (visibles uniquement sur desktop) -->
+        <img src="/8321cea641f522d0231b8d215e63af18bab07fb0.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/a9476bf5f728b61dff9fc206a6e6d62d59e0f077.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/b59eb1e1478cf56558515e70fae1383d2a2c7654.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/d28879826690c8154bc34af533ac882ad68b244a.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/e91c1107b25659d2423a4aff9b571ca70a33065f.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/fbfe707bb36bd781b61712498abeb092dbddabbc.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
+        <img src="/fcaf180f906f2961c45008eda6c58ce3bd73e0cd.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
       </div>
       
       <div class="fact-cards-grid grid grid-cols-2 gap-8 max-w-[1100px] mx-auto">
@@ -365,7 +371,43 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer bg-black text-white py-20 px-0">
+  <footer class="footer bg-black text-white py-20 px-0 relative z-10">
+    <div class="footer-container max-w-[1400px] mx-auto mb-12 px-12 flex gap-[120px]">
+      <div class="footer-brand flex-1 max-w-[400px]">
+        <img src="VeraLogo1.png" alt="Vera" class="footer-logo w-[180px] h-auto mb-6 block" />
+        <p class="footer-description text-[15px] leading-relaxed text-white opacity-80">Vera vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp — sans besoin d'application ni de site web.</p>
+      </div>
+      
+      <div class="footer-columns flex gap-20 flex-1">
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Product</h4>
+          <a href="#comment" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Comment ça marche ?</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Démo</a>
+        </div>
+        
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Team</h4>
+          <a href="#equipe" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Rencontrez l'équipe</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">LaReponse.Tech</a>
+        </div>
+        
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Aide</h4>
+          <a href="#faq" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">FAQ</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Contactez-nous</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Privacy Policy</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">CGU</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom max-w-[1400px] mx-auto pt-8 px-12 border-t border-white/10 text-center">
+      <p class="text-sm text-white opacity-60">© 2025 Vera. All rights reserved.</p>
+    </div>
+  </footer>
+  }
+  
+  <footer class="footer bg-black text-white py-20 px-0 relative z-10">
     <div class="footer-container max-w-[1400px] mx-auto mb-12 px-12 flex gap-[120px]">
       <div class="footer-brand flex-1 max-w-[400px]">
         <img src="VeraLogo1.png" alt="Vera" class="footer-logo w-[180px] h-auto mb-6 block" />
