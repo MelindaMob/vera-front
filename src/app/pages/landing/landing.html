@@ -247,28 +247,41 @@
 
 
   <!-- Section principale : Posez vos questions -->
-  <section class="hero-main bg-[#DBF9BE] py-[60px] px-0 relative overflow-hidden" id="comment">
+  <section class="hero-main bg-[#DBF9BE] py-[40px] md:py-[30px] px-0 relative overflow-hidden" id="comment">
     <div class="container max-w-[1400px] mx-auto px-12">
       <h1 class="hero-main-title font-['Playfair_Display',serif] text-[20px] md:text-[56px] font-bold leading-tight text-center text-black mx-auto mb-8 md:mb-12 max-w-[900px]">Posez vos questions pour clarifier la <span class="bg-[#FEF2E4] px-2 py-1 rounded-md">vérité</span></h1>
       
-      <div class="hero-main-content relative flex items-center justify-center min-h-[300px] md:min-h-[400px]">
-        <!-- Mockups centraux -->
-        <div class="mockups-center flex flex-col md:flex-row gap-6 md:gap-20 items-center z-[2] relative">
+      <div class="hero-main-content relative flex items-center justify-center min-h-[250px] md:min-h-[300px]">
+        <!-- Flèche pointant vers WhatsApp (coin haut gauche) -->
+        <div class="hidden md:block absolute top-0 left-0 z-[1]">
+          <svg width="250" height="200" viewBox="0 0 250 200" class="arrow-dashed">
+            <path d="M 20 20 Q 100 60 150 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-left)"/>
+            <defs>
+              <marker id="arrowhead-left" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
+                <polygon points="0 0, 12 4, 0 8" fill="black" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        
+        <!-- Flèche pointant vers Téléphone (coin haut droit) -->
+        <div class="hidden md:block absolute top-0 right-0 z-[1]">
+          <svg width="250" height="200" viewBox="0 0 250 200" class="arrow-dashed">
+            <path d="M 230 20 Q 150 60 100 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-right)"/>
+            <defs>
+              <marker id="arrowhead-right" markerWidth="12" markerHeight="12" refX="1" refY="4" orient="auto">
+                <polygon points="12 0, 0 4, 12 8" fill="black" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        
+        <!-- Mockups centraux avec labels -->
+        <div class="mockups-center flex flex-col md:flex-row gap-6 md:gap-20 items-center z-[2]">
           <!-- Colonne WhatsApp -->
-          <div class="flex flex-col items-center gap-4 relative">
+          <div class="flex flex-col items-center gap-4">
             <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
-            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black relative">
-              <!-- Flèche partant de "Sur Whatsapp" vers le téléphone (desktop uniquement) -->
-              <svg class="hidden md:block absolute -top-32 left-1/2 -translate-x-1/2 w-[180px] h-[200px] pointer-events-none" viewBox="0 0 180 200">
-                <path d="M 90 200 Q 70 140 20 80" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-whatsapp)"/>
-                <defs>
-                  <marker id="arrowhead-whatsapp" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
-                    <polygon points="0 0, 12 4, 0 8" fill="black" />
-                  </marker>
-                </defs>
-              </svg>
-              Sur Whatsapp
-            </p>
+            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
           </div>
           
           <!-- Colonne Téléphone -->
@@ -322,10 +335,7 @@
   <!-- Section 400+ sites -->
   <section class="fact-checking-section bg-[#DBF9BE] py-[100px] px-0">
     <div class="container max-w-[1400px] mx-auto px-12">
-      <h2 class="section-title font-['Playfair_Display',serif] text-[20px] md:text-[60px] font-bold leading-tight text-left text-black mb-16">
-        <div class="mb-2 md:mb-4">Vera est connectée en temps réel</div>
-        <div><span class="bg-[#FEF2E4] px-2 py-1 rounded-md">à 400+ sites de fact-checking</span></div>
-      </h2>
+      <h2 class="section-title font-['Playfair_Display',serif] text-[20px] md:text-5xl font-bold leading-tight text-center text-black mb-16">Vera est connectée en temps réel<br><span class="bg-[#FEF2E4] px-2 py-1 rounded-md">à 400+ sites de fact-checking</span></h2>
       
       <!-- Logos partenaires -->
       <div class="partners-logos-grid grid grid-cols-3 md:flex md:flex-wrap md:justify-center gap-4 md:gap-6 mb-20">
@@ -347,7 +357,7 @@
       </div>
       
       <div class="fact-cards-grid grid grid-cols-2 gap-8 max-w-[1100px] mx-auto">
-        <div class="fact-card bg-beige p-12 rounded-3xl border border-black/10">
+        <div class="fact-card p-12 rounded-3xl border border-black/10 bg-cover bg-center bg-no-repeat" style="background-image: url('/7a434ad89d232e9a9f4c4e7cd0bb248403328336.jpg');">
           <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold leading-tight text-black mb-4">150+ sites de fact-checking</h3>
           <p class="fact-subtitle text-base text-black opacity-70 mb-6">Pour la vérification de faits</p>
           <ul class="fact-list list-none mb-8">
@@ -357,7 +367,7 @@
           <button class="btn-dark bg-black text-white border-none px-7 py-3.5 rounded-full text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
         </div>
         
-        <div class="fact-card bg-beige p-12 rounded-3xl border border-black/10">
+        <div class="fact-card p-12 rounded-3xl border border-black/10 bg-cover bg-center bg-no-repeat" style="background-image: url('/7a434ad89d232e9a9f4c4e7cd0bb248403328336.jpg');">
           <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold leading-tight text-black mb-4">250+ médias fiables et reconnus</h3>
           <p class="fact-subtitle text-base text-black opacity-70 mb-6">Pour connaître l'actualité</p>
           <ul class="fact-list list-none mb-8">
