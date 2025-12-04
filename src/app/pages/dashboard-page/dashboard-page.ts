@@ -130,18 +130,25 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     // KPI 1 : Total
     this.kpiTotal = this.rawResponses.length;
 
-    // KPI 1 (Trend) : Calcul des réponses de la semaine
+    // KPI 1 (Trend) : Calcul des réponses de la semaine (lundi à vendredi)
     const now = new Date();
-    const startOfWeek = new Date(now);
     const day = now.getDay(); 
-    const diff = day === 0 ? 6 : day - 1; 
     
+    // Calcul du lundi de la semaine actuelle
+    // getDay() : 0=dimanche, 1=lundi, ..., 5=vendredi, 6=samedi
+    const startOfWeek = new Date(now);
+    const diff = day === 0 ? 6 : day - 1; // Si dimanche (0), on remonte de 6 jours
     startOfWeek.setDate(now.getDate() - diff);
     startOfWeek.setHours(0, 0, 0, 0);
 
+    // Calcul du vendredi 23:59:59 de la semaine actuelle
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 4); // Lundi + 4 jours = vendredi
+    endOfWeek.setHours(23, 59, 59, 999);
+
     const weeklyCount = this.rawResponses.filter(r => {
         if (!r.date) return false;
-        return r.date >= startOfWeek;
+        return r.date >= startOfWeek && r.date <= endOfWeek;
     }).length;
 
     this.kpiTrendLabel = `+${weeklyCount} cette semaine`;
