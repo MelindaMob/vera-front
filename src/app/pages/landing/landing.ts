@@ -276,14 +276,20 @@ export class LandingPage implements OnInit {
         // Forcer la détection des changements pour réafficher la flèche
         this.cdr.detectChanges();
         
+        // Vérifier si le backend retourne une erreur même dans le succès
+        let displayMessage = response.response;
+        if (response.result?.status === 'error') {
+          displayMessage = response.result.summary || response.response || "Désolé, impossible de vérifier cette information pour le moment. Réessayez plus tard.";
+        }
+        
         // Ajouter la réponse de Vera au chat
         this.messages.push({
           sender: 'vera',
-          content: response.response,
+          content: displayMessage,
           timestamp: new Date()
         });
         
-        this.veraResponse = response.response;
+        this.veraResponse = displayMessage;
         this.veraResult = response.result;
         
         // Réinitialiser les fichiers et URLs après envoi
@@ -314,8 +320,19 @@ export class LandingPage implements OnInit {
         // Forcer la détection des changements pour réafficher la flèche
         this.cdr.detectChanges();
         
-        this.veraResponse = "Désolé, une erreur s'est produite. Veuillez réessayer.";
-        this.veraResult = { status: 'error' };
+        // Ajouter un message d'erreur au chat
+        const errorMessage = error.error?.message || error.message || "Désolé, une erreur s'est produite lors de la connexion. Veuillez réessayer.";
+        this.messages.push({
+          sender: 'vera',
+          content: errorMessage,
+          timestamp: new Date()
+        });
+        
+        this.veraResponse = errorMessage;
+        this.veraResult = { status: 'error', summary: errorMessage };
+        
+        // Remplacer les icônes Feather après tous les changements DOM
+        setTimeout(() => this.replaceFeatherIcons(), 50);
       }
     });
   }
