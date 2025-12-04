@@ -66,7 +66,15 @@
           
           <div class="user-section flex items-center gap-4">
             @if (isAuthenticated()) {
-              <!-- Utilisateur connecté : Afficher le bouton de déconnexion -->
+              <!-- Utilisateur connecté : Afficher les boutons selon le rôle -->
+              @if (isAdmin()) {
+                <!-- Admin : Afficher le bouton Dashboard -->
+                <button 
+                  [routerLink]="['/dashboard']"
+                  class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+                  Dashboard
+                </button>
+              }
               <button 
                 (click)="onLogout()"
                 class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
