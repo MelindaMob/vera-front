@@ -1,4 +1,4 @@
-/**Animation typing pour Tailwind
+/* Animation typing pour Tailwind */
 @keyframes typing {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
@@ -39,4 +39,3 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
-**/
