@@ -1,19 +1,19 @@
 <div class="landing font-sans text-black leading-normal relative overflow-x-hidden min-h-screen w-full max-w-full">
   <!-- Sidebar gauche -->
-  <aside class="sidebar fixed left-0 top-0 bottom-0 w-[260px] bg-[#1A1A1A] text-white transition-transform duration-300 z-[999] pt-20 overflow-hidden touch-pan-y" [class.-translate-x-full]="sidebarCollapsed">
+  <aside class="sidebar fixed left-0 top-0 bottom-0 w-[260px] bg-white/50 backdrop-blur-[10px] border-r border-white text-[#1A1A1A] transition-transform duration-300 z-[999] pt-20 overflow-hidden touch-pan-y" [class.-translate-x-full]="sidebarCollapsed">
     <div class="sidebar-content p-5 h-full overflow-y-auto overscroll-contain touch-pan-y">
-      <button class="btn-new-chat w-full bg-white/10 border border-white/20 text-white px-4 py-3 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-white/15 transition-all" (click)="newSearch()">
+      <button class="btn-new-chat w-full bg-white/50 border border-white text-[#1A1A1A] px-4 py-3 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-white/70 transition-all backdrop-blur-[10px]" (click)="newSearch()">
         <i data-feather="plus" class="w-[18px] h-[18px] flex-shrink-0"></i>
         Nouvelle conversation
       </button>
 
           <!-- Historique des conversations -->
       @if (conversationHistory.length > 0) {
-        <div class="sidebar-section mt-6 pt-4 border-t border-white/10">
-          <h3 class="sidebar-title text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Historique</h3>
+        <div class="sidebar-section mt-6 pt-4 border-t border-white/30">
+          <h3 class="sidebar-title text-[11px] font-bold text-[#1A1A1A]/60 uppercase tracking-wider mb-2">Historique</h3>
           <div class="history-list flex flex-col gap-1">
             @for (item of conversationHistory; track $index) {
-              <button class="history-item flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-white cursor-pointer transition-colors w-full text-left hover:bg-white/10" (click)="loadConversation(item)">
+              <button class="history-item flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-[#1A1A1A] cursor-pointer transition-colors w-full text-left hover:bg-white/30" (click)="loadConversation(item)">
                 <i data-feather="message-circle" class="w-4 h-4 flex-shrink-0 stroke-2"></i>
                 <div class="history-text flex-1 break-words text-sm leading-snug line-clamp-2">{{ item.title || item.query }}</div>
               </button>
@@ -24,11 +24,11 @@
 
       <!-- Sources consultées -->
       @if (veraResult && veraResult.sources && veraResult.sources.length > 0) {
-        <div class="sidebar-section mt-6 pt-4 border-t border-white/10">
-          <h3 class="sidebar-title text-[11px] font-bold text-white/60 uppercase tracking-wider mb-2">Sources</h3>
+        <div class="sidebar-section mt-6 pt-4 border-t border-white/30">
+          <h3 class="sidebar-title text-[11px] font-bold text-[#1A1A1A]/60 uppercase tracking-wider mb-2">Sources</h3>
           <div class="sources-sidebar flex flex-col gap-2">
             @for (source of veraResult.sources; track source.url) {
-              <a [href]="source.url" target="_blank" rel="noopener noreferrer" class="source-item flex items-center gap-2.5 px-3 py-2.5 bg-white/5 rounded-lg text-white no-underline text-sm transition-all hover:bg-white/10 hover:translate-x-0.5 cursor-pointer">
+              <a [href]="source.url" target="_blank" rel="noopener noreferrer" class="source-item flex items-center gap-2.5 px-3 py-2.5 bg-white/30 rounded-lg text-[#1A1A1A] no-underline text-sm transition-all hover:bg-white/50 hover:translate-x-0.5 cursor-pointer">
                 <i data-feather="external-link" class="w-4 h-4 flex-shrink-0 stroke-2 opacity-70"></i>
                 <span class="line-clamp-1">{{ source.title }}</span>
               </a>
@@ -45,7 +45,7 @@
   <!-- Zone principale -->
   <div class="main-content flex-1 flex flex-col overflow-hidden w-full max-w-full">
     <!-- Hero Section - Design épuré -->
-    <section class="hero-simple bg-beige min-h-screen flex w-full max-w-full overflow-x-hidden">
+    <section class="hero-simple bg-[#FEF2E4] min-h-screen flex w-full max-w-full overflow-x-hidden">
       <div class="hero-container w-full max-w-full">
        
         <header class="header-simple hidden">
@@ -57,59 +57,63 @@
           </button>
         </header>
         
-        <header class="top-header fixed top-0 left-0 right-0 h-16 px-6 flex justify-between items-center bg-beige border-b border-black/5 z-[1000]">
-          <button class="btn-menu-fixed bg-transparent border-none p-2 cursor-pointer rounded-lg transition-colors hover:bg-black/5" (click)="toggleSidebar()">
-            <i data-feather="menu" class="w-5 h-5 text-black"></i>
+        <header class="top-header fixed top-0 left-0 right-0 h-16 px-6 flex justify-between items-center bg-[#FEF2E4] border-b border-black/5 z-[1000]">
+          <button class="btn-menu-fixed w-12 h-12 flex flex-col items-center justify-center gap-1.5 text-[#1A1A1A] bg-white/50 rounded-[14px] border border-white cursor-pointer transition-all duration-200 backdrop-blur-[10px] hover:bg-white/70" (click)="toggleSidebar()">
+            <span class="w-5 h-0.5 bg-[#1A1A1A] rounded-full"></span>
+            <span class="w-5 h-0.5 bg-[#1A1A1A] rounded-full"></span>
+            <span class="w-5 h-0.5 bg-[#1A1A1A] rounded-full"></span>
           </button>
           
           <div class="user-section flex items-center gap-4">
-            <span class="signup-text text-sm text-black font-medium cursor-pointer">S'inscrire</span>
-            <div class="user-avatar w-9 h-9 bg-black rounded-full flex items-center justify-center cursor-pointer">
-              <i data-feather="user" class="w-[18px] h-[18px] text-white"></i>
+            <button class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+              S'inscrire
+            </button>
+            <div class="w-12 h-12 flex items-center justify-center text-[#1A1A1A] bg-white/50 rounded-[14px] border border-white cursor-pointer transition-all duration-200 backdrop-blur-[10px] hover:bg-white/70">
+              <i data-feather="user" class="w-[18px] h-[18px] text-[#1A1A1A]"></i>
             </div>
           </div>
         </header>
 
-        <div class="content-area flex-1 overflow-y-auto flex items-center justify-center pt-20 md:pt-[104px] pb-5 md:pb-10 px-4 md:px-5 relative" [class.has-results]="showResults">
+        <div class="content-area flex-1 overflow-y-auto flex items-center justify-center pt-20 md:pt-[104px] pb-5 md:pb-10 px-4 md:px-16 lg:px-24 relative" [class.has-results]="showResults">
           @if (!showResults) {
-            <div class="hero-search-content text-center max-w-full">
-              <img src="VeraLogo2.png" alt="Vera" class="hero-logo-big w-[200px] md:w-[400px] h-auto mx-auto mb-2 md:mb-3 block" />
+            <div class="hero-search-content text-center w-full max-w-full">
+              <img src="VeraLogo2.png" alt="Vera" class="hero-logo-big w-[120px] md:w-[150px] h-auto mx-auto mb-2 md:mb-3 block" />
               <p class="hero-subtitle text-sm md:text-lg text-black mb-6 md:mb-14 font-normal opacity-90">L'IA qui démêle le vrai du faux</p>
              
-              <div class="search-box-green bg-green rounded-xl md:rounded-3xl p-3 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.08)] w-full max-w-full">
-                <input 
-                  type="text" 
-                  class="search-input-main w-full bg-white border-none rounded-xl md:rounded-2xl px-3 md:px-7 py-3 md:py-6 text-sm md:text-base text-black outline-none mb-2 md:mb-5 font-normal shadow-[0_2px_8px_rgba(0,0,0,0.06)]" 
-                  placeholder="Posez une question..." 
-                  [(ngModel)]="searchQuery"
-                  (keydown.enter)="sendSearchQuery()"
-                  [disabled]="isSearching">
-                
-                <div class="search-actions-row flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-3">
-                  <input #imageInput type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
-                  <input #videoInput type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
-                  
-                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-4 md:px-5 py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-sm md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="detectUrl()">
-                    <i data-feather="search" class="w-[18px] h-[18px] opacity-70"></i>
-                    Rechercher
-                  </button>
-                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-4 md:px-5 py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-sm md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="imageInput.click()">
-                    <i data-feather="image" class="w-[18px] h-[18px] opacity-70"></i>
-                    Analyser une image
-                  </button>
-                  <button class="search-btn-icon hidden md:flex bg-white/60 border border-black/[0.08] w-11 h-11 rounded-xl items-center justify-center cursor-pointer ml-auto transition-all hover:bg-white/90" type="button" (click)="videoInput.click()">
-                    <i data-feather="video" class="w-5 h-5 text-black opacity-70"></i>
-                  </button>
+              <div class="search-box-green bg-[#DBF9BE] border-[3px] border-[#FFFFFF] rounded-[2rem] p-4 px-4 mb-4 w-full md:max-w-[1200px] md:p-8 md:px-10 md:mb-4 lg:p-10 lg:px-12 mx-auto">
+                <div class="search-input-wrapper relative w-full mb-2 md:mb-5">
+                  <input 
+                    type="text" 
+                    class="search-input-main w-full bg-[#f1fde5]/85 border-2 border-white rounded-[40px] py-3 pl-4 pr-12 text-sm md:py-4 md:pl-5 md:pr-14 md:text-base text-[#1A1A1A] font-sans transition-all duration-200 backdrop-blur-[10px] min-h-[48px] md:min-h-[56px] focus:outline-none focus:border-white focus:bg-white/95 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.4)] focus:scale-[1.01] placeholder:text-[#666666] placeholder:opacity-60" 
+                    placeholder="Posez une question..." 
+                    [(ngModel)]="searchQuery"
+                    (keydown.enter)="sendSearchQuery()"
+                    [disabled]="isSearching">
                   <button 
-                    class="search-btn-send-main w-full md:w-11 h-10 md:h-11 bg-black border-none rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-md hover:-translate-y-px"
+                    class="search-btn-send-main absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-9 md:h-9 bg-white border-none rounded-[17px] flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105" 
                     type="button"
                     (click)="sendSearchQuery()"
                     [disabled]="!searchQuery.trim() || isSearching">
                     @if (isSearching) {
-                      <div class="spinner-small w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin m-0"></div>
+                      <div class="spinner-small w-4 h-4 border-2 border-[#1A1A1A]/30 border-t-[#1A1A1A] rounded-full animate-spin m-0"></div>
                     } @else {
-                      <i data-feather="arrow-up" class="w-5 h-5 text-white stroke-[2.5]"></i>
+                      <i data-feather="arrow-up" class="w-5 h-5 text-[#1A1A1A] stroke-[2.5]"></i>
                     }
+                  </button>
+                </div>
+                
+                <div class="search-actions-row flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-3">
+                  <input #imageInput type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
+                  <input #videoInput type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
+                  <input #fileInput type="file" style="display:none" (change)="onFileSelected($event)">
+                  
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-3 md:px-5 py-2 md:py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-xs md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="fileInput.click()">
+                    <i data-feather="paperclip" class="w-4 h-4 md:w-[18px] md:h-[18px] opacity-70"></i>
+                    Joindre un fichier
+                  </button>
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-3 md:px-5 py-2 md:py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-xs md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="imageInput.click()">
+                    <i data-feather="image" class="w-4 h-4 md:w-[18px] md:h-[18px] opacity-70"></i>
+                    Analyser une image
                   </button>
                 </div>
               </div>
@@ -118,14 +122,14 @@
 
           <!-- Résultats de la conversation -->
           @if (showResults) {
-            <div class="conversation-results relative max-w-[800px] w-full mx-auto h-full flex flex-col overflow-y-auto px-3 md:px-5 pb-[80px] md:pb-[140px]">
+            <div class="conversation-results relative max-w-[800px] w-full mx-auto h-full flex flex-col overflow-y-auto px-3 md:px-5 pb-8 md:pb-10">
               <!-- Tous les messages de la conversation -->
               @for (message of messages; track $index) {
                 @if (message.sender === 'user') {
                   <!-- Message utilisateur -->
                   <div class="message-user mb-4 md:mb-8 animate-[slideIn_0.3s_ease-out]">
                     <div class="message-content-wrapper flex items-start gap-2 md:gap-4">
-                      <div class="message-avatar user-avatar w-8 md:w-9 h-8 md:h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-green text-black font-bold font-['Playfair_Display',serif] text-sm md:text-base">
+                      <div class="message-avatar user-avatar w-8 md:w-9 h-8 md:h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-[#DBF9BE] text-black font-bold font-['Playfair_Display',serif] text-sm md:text-base">
                         <i data-feather="user"></i>
                       </div>
                       <div class="message-bubble user-bubble flex-1">
@@ -173,65 +177,43 @@
               }
 
               <!-- Barre de recherche en bas pour continuer -->
-              <div class="search-box-bottom-simple sticky bottom-0 left-0 right-0 max-w-[760px] w-full mx-auto bg-green rounded-xl md:rounded-2xl p-2 md:p-3 flex items-center gap-1.5 md:gap-3 shadow-[0_4px_24px_rgba(0,0,0,0.12)] z-10 mt-3 md:mt-5">
-                <input #imageInputChat type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
-                <input #videoInputChat type="file" accept="video/*" style="display:none" (change)="onVideoSelected($event)">
-                
-                <div class="attach-menu-wrapper relative hidden md:block">
-                  <button class="search-btn-action-icon w-10 h-10 bg-transparent border-none rounded-full flex items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" title="Joindre un fichier" (click)="toggleAttachMenu()">
-                    <i data-feather="paperclip" class="w-5 h-5 text-black stroke-2"></i>
+              <div class="search-box-bottom-simple relative max-w-[1200px] w-full mx-auto bg-[#DBF9BE] border-[3px] border-[#FFFFFF] rounded-[2rem] p-6 px-6 mb-8 md:p-8 md:px-10 md:mb-4 lg:p-10 lg:px-12 mt-8 md:mt-12">
+                <div class="search-input-wrapper relative w-full mb-2 md:mb-5">
+                  <textarea 
+                    #chatTextarea
+                    class="search-input-main w-full bg-[#f1fde5]/85 border-2 border-white rounded-[40px] py-4 pl-5 pr-14 text-base text-[#1A1A1A] font-sans transition-all duration-200 backdrop-blur-[10px] min-h-[56px] focus:outline-none focus:border-white focus:bg-white/95 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.4)] focus:scale-[1.01] placeholder:text-[#666666] placeholder:opacity-60 resize-none overflow-y-auto max-h-[200px]" 
+                    placeholder="Posez une autre question..." 
+                    [(ngModel)]="searchQuery"
+                    (keydown)="onEnterPress($event)"
+                    (input)="autoResize($event)"
+                    [disabled]="isSearching"
+                    rows="1"></textarea>
+                  <button 
+                    class="search-btn-send-main absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border-none rounded-[17px] flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105" 
+                    type="button"
+                    (click)="sendSearchQuery()"
+                    [disabled]="!searchQuery.trim() || isSearching">
+                    @if (isSearching) {
+                      <div class="spinner-small w-4 h-4 border-2 border-[#1A1A1A]/30 border-t-[#1A1A1A] rounded-full animate-spin m-0"></div>
+                    } @else {
+                      <i data-feather="arrow-up" class="w-5 h-5 text-[#1A1A1A] stroke-[2.5]"></i>
+                    }
                   </button>
-                  
-                  @if (showAttachMenu) {
-                    <div class="attach-menu absolute bottom-[50px] left-0 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-black/10 overflow-hidden min-w-[140px] z-[100] animate-[attachMenuFadeIn_0.2s_ease-out]">
-                      <button class="attach-menu-item w-full px-4 py-3 bg-white border-none text-left text-sm font-medium text-black cursor-pointer transition-all block hover:bg-beige" type="button" (click)="imageInputChat.click(); toggleAttachMenu()">
-                        <i data-feather="image"></i>
-                        <span>Image</span>
-                      </button>
-                      <button class="attach-menu-item w-full px-4 py-3 bg-white border-none text-left text-sm font-medium text-black cursor-pointer transition-all border-t border-black/5 block hover:bg-beige" type="button" (click)="videoInputChat.click(); toggleAttachMenu()">
-                        <i data-feather="video"></i>
-                        <span>Vidéo</span>
-                      </button>
-                    </div>
-                  }
                 </div>
                 
-                <textarea 
-                  #chatTextarea
-                  class="search-input-simple flex-1 border-none bg-white px-2.5 md:px-4 py-2 md:py-3 text-sm md:text-[15px] leading-[1.5] min-h-[36px] md:min-h-[40px] max-h-[200px] resize-none overflow-y-auto font-sans rounded-lg md:rounded-xl outline-none transition-all" 
-                  placeholder="Posez une autre question..." 
-                  [(ngModel)]="searchQuery"
-                  (keydown)="onEnterPress($event)"
-                  (input)="autoResize($event)"
-                  [disabled]="isSearching"
-                  rows="1"></textarea>
-                
-                <button class="search-btn-action-icon hidden md:flex w-10 h-10 bg-transparent border-none rounded-full items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="detectUrl()" title="Rechercher">
-                  <i data-feather="search" class="w-5 h-5 text-black stroke-2"></i>
-                </button>
-                
-                <button class="search-btn-action-icon hidden md:flex w-10 h-10 bg-transparent border-none rounded-full items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="imageInputChat.click()" title="Analyser une image">
-                  <i data-feather="image" class="w-5 h-5 text-black stroke-2"></i>
-                </button>
-                
-                <button class="search-btn-action-icon hidden md:flex w-10 h-10 bg-transparent border-none rounded-full items-center justify-center cursor-pointer transition-all flex-shrink-0 hover:bg-black/5" type="button" (click)="videoInputChat.click()" title="Analyser une vidéo">
-                  <i data-feather="video" class="w-5 h-5 text-black stroke-2"></i>
-                </button>
-                
-                <button 
-                  class="search-btn-send-simple w-9 md:w-10 h-9 md:h-10 bg-black border-none rounded-full flex items-center justify-center cursor-pointer flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105" 
-                  type="button"
-                  (click)="sendSearchQuery()"
-                  [disabled]="!searchQuery.trim() || isSearching">
-                  @if (isSearching) {
-                    <div class="spinner-small w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin m-0"></div>
-                  } @else {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white block">
-                      <line x1="12" y1="19" x2="12" y2="5"></line>
-                      <polyline points="5 12 12 5 19 12"></polyline>
-                    </svg>
-                  }
-                </button>
+                <div class="search-actions-row flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-3">
+                  <input #imageInputChat type="file" accept="image/*" style="display:none" (change)="onImageSelected($event)">
+                  <input #fileInputChat type="file" style="display:none" (change)="onFileSelected($event)">
+                  
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-4 md:px-5 py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-sm md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="fileInputChat.click()">
+                    <i data-feather="paperclip" class="w-[18px] h-[18px] opacity-70"></i>
+                    Joindre un fichier
+                  </button>
+                  <button class="search-btn-action bg-white/60 border border-black/[0.08] px-4 md:px-5 py-3 rounded-xl flex items-center justify-center md:justify-start gap-2 text-sm md:text-sm font-semibold text-black cursor-pointer transition-all hover:bg-white/90 hover:-translate-y-px" type="button" (click)="imageInputChat.click()">
+                    <i data-feather="image" class="w-[18px] h-[18px] opacity-70"></i>
+                    Analyser une image
+                  </button>
+                </div>
               </div>
             </div>
           }
@@ -243,7 +225,7 @@
 
 
   <!-- Section principale : Posez vos questions -->
-  <section class="hero-main bg-green py-[120px] px-0 relative overflow-hidden" id="comment">
+  <section class="hero-main bg-[#DBF9BE] py-[120px] px-0 relative overflow-hidden" id="comment">
     <div class="container max-w-[1400px] mx-auto px-12">
       <h1 class="hero-main-title font-['Playfair_Display',serif] text-[56px] font-bold leading-tight text-center text-black mx-auto mb-20 max-w-[900px]">Posez vos questions pour clarifier la vérité</h1>
       
@@ -274,19 +256,19 @@
       <h2 class="questions-title font-['Playfair_Display',serif] text-[42px] font-bold leading-tight text-black mb-16">Quelles questions puis-je poser à Vera ?</h2>
       
       <div class="questions-grid grid grid-cols-3 gap-6">
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-green">
+        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#DBF9BE]">
           "Un collègue me dit que les inondations en Espagne proviennent de l'ensemencement des nuages ??"
         </div>
         <div class="question-card beige-card p-8 rounded-[20px] text-lg leading-normal text-black bg-beige-dark">
           "C'est vrai que les vaccins anticovid provoquent des turbocancers ?"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-green">
+        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#DBF9BE]">
           "Zelensky se serait offert la Mercedes d'Hitler : c'est vrai ?"
         </div>
         <div class="question-card beige-card p-8 rounded-[20px] text-lg leading-normal text-black bg-beige-dark">
           "J'ai lu qu'Elon Musk travaille sur un projet secret d'avion militaire hypersonique"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-green">
+        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#DBF9BE]">
           "C'est vrai que des milliers de scientifiques dénoncent le canular de la crise climatique ?"
         </div>
         <div class="question-card beige-card p-8 rounded-[20px] text-lg leading-normal text-black bg-beige-dark">
@@ -297,7 +279,7 @@
   </section>
 
   <!-- Section 400+ sites -->
-  <section class="fact-checking-section bg-green py-[100px] px-0">
+  <section class="fact-checking-section bg-[#DBF9BE] py-[100px] px-0">
     <div class="container max-w-[1400px] mx-auto px-12">
       <h2 class="section-title font-['Playfair_Display',serif] text-5xl font-bold leading-tight text-center text-black mb-16">Vera est connectée en temps réel<br>à 400+ sites de fact-checking</h2>
       
