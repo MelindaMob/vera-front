@@ -221,6 +221,24 @@ export class LandingPage implements OnInit {
     }
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      // Vérifier le type de fichier
+      if (file.type.startsWith('image/')) {
+        this.selectedImage = file;
+        this.searchQuery = `[Image sélectionnée: ${file.name}] Analyse cette image et vérifie son authenticité.`;
+      } else if (file.type.startsWith('video/')) {
+        this.selectedVideo = file;
+        this.searchQuery = `[Vidéo sélectionnée: ${file.name}] Analyse cette vidéo et vérifie son authenticité.`;
+      } else {
+        // Pour les autres types de fichiers
+        this.searchQuery = `[Fichier sélectionné: ${file.name}] Analyse ce fichier et vérifie son contenu.`;
+      }
+      this.cdr.detectChanges();
+    }
+  }
+
   detectUrl() {
     // Détecter les URLs dans le message
     const urlRegex = /(https?:\/\/[^\s]+)/g;
