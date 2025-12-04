@@ -43,9 +43,9 @@
   <div class="sidebar-overlay fixed inset-0 bg-black/50 transition-opacity duration-300 z-[998]" [class.opacity-0]="sidebarCollapsed" [class.pointer-events-none]="sidebarCollapsed" [class.opacity-100]="!sidebarCollapsed" [class.pointer-events-auto]="!sidebarCollapsed" (click)="toggleSidebar()"></div>
 
   <!-- Zone principale -->
-  <div class="main-content flex-1 flex flex-col overflow-hidden w-full max-w-full">
+  <div class="main-content flex-1 flex flex-col w-full max-w-full">
     <!-- Hero Section - Design épuré -->
-    <section class="hero-simple bg-[#FEF2E4] min-h-screen flex w-full max-w-full overflow-x-hidden">
+    <section class="hero-simple bg-[#FEF2E4] flex w-full max-w-full overflow-x-hidden" [class.min-h-screen]="!showResults">
       <div class="hero-container w-full max-w-full">
        
         <header class="header-simple hidden">
@@ -365,7 +365,43 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer bg-black text-white py-20 px-0">
+  <footer class="footer bg-black text-white py-20 px-0 relative z-10">
+    <div class="footer-container max-w-[1400px] mx-auto mb-12 px-12 flex gap-[120px]">
+      <div class="footer-brand flex-1 max-w-[400px]">
+        <img src="VeraLogo1.png" alt="Vera" class="footer-logo w-[180px] h-auto mb-6 block" />
+        <p class="footer-description text-[15px] leading-relaxed text-white opacity-80">Vera vérifie toute information, fournissant des sources fiables à travers des conversations par téléphone ou WhatsApp — sans besoin d'application ni de site web.</p>
+      </div>
+      
+      <div class="footer-columns flex gap-20 flex-1">
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Product</h4>
+          <a href="#comment" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Comment ça marche ?</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Démo</a>
+        </div>
+        
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Team</h4>
+          <a href="#equipe" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Rencontrez l'équipe</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">LaReponse.Tech</a>
+        </div>
+        
+        <div class="footer-col flex flex-col gap-4">
+          <h4 class="text-base font-bold text-white mb-2">Aide</h4>
+          <a href="#faq" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">FAQ</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Contactez-nous</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">Privacy Policy</a>
+          <a href="#" class="text-white no-underline opacity-70 transition-opacity hover:opacity-100">CGU</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom max-w-[1400px] mx-auto pt-8 px-12 border-t border-white/10 text-center">
+      <p class="text-sm text-white opacity-60">© 2025 Vera. All rights reserved.</p>
+    </div>
+  </footer>
+  }
+  
+  <footer class="footer bg-black text-white py-20 px-0 relative z-10">
     <div class="footer-container max-w-[1400px] mx-auto mb-12 px-12 flex gap-[120px]">
       <div class="footer-brand flex-1 max-w-[400px]">
         <img src="VeraLogo1.png" alt="Vera" class="footer-logo w-[180px] h-auto mb-6 block" />

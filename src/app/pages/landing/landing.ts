@@ -309,6 +309,9 @@ export class LandingPage implements OnInit {
     
     // Forcer la détection des changements pour afficher le spinner
     this.cdr.detectChanges();
+    
+    // Scroll automatique après ajout du message utilisateur
+    this.scrollToBottom();
 
     this.veraChatService.sendMessage(
       query, 
@@ -347,6 +350,9 @@ export class LandingPage implements OnInit {
         // Forcer Angular à détecter les changements
         this.cdr.detectChanges();
         
+        // Scroll automatique après la réponse de Vera
+        this.scrollToBottom();
+        
         // Sauvegarder l'ID de conversation pour garder la mémoire
         if (response.conversationId) {
           this.currentConversationId = response.conversationId;
@@ -378,24 +384,62 @@ export class LandingPage implements OnInit {
         this.veraResponse = errorMessage;
         this.veraResult = { status: 'error', summary: errorMessage };
         
+        // Scroll automatique après le message d'erreur
+        this.scrollToBottom();
+        
         // Remplacer les icônes Feather après tous les changements DOM
         setTimeout(() => this.replaceFeatherIcons(), 50);
       }
     });
   }
 
+  /**
+   * Scroll automatique vers le bas de la conversation (comme ChatGPT)
+   */
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      const conversationContainer = document.querySelector('.conversation-results');
+      if (conversationContainer) {
+        conversationContainer.scrollTo({
+          top: conversationContainer.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  }
+
   addToHistory(query: string, response: any) {
-    const historyItem = {
-      title: this.generateConversationTitle(query),
-      query,
-      response: response.response,
-      result: response.result,
-      timestamp: new Date().toISOString(),
-      conversationId: this.currentConversationId,
-      messages: [...this.messages]
-    };
+    // Chercher si une conversation avec le même conversationId existe déjà
+    const existingIndex = this.conversationHistory.findIndex(
+      item => item.conversationId === this.currentConversationId && this.currentConversationId !== null
+    );
     
-    this.conversationHistory = [historyItem, ...this.conversationHistory].slice(0, 10);
+    if (existingIndex !== -1) {
+      // Mettre à jour la conversation existante
+      this.conversationHistory[existingIndex] = {
+        ...this.conversationHistory[existingIndex],
+        timestamp: new Date().toISOString(),
+        messages: [...this.messages]
+      };
+      
+      // Remonter la conversation mise à jour en haut de la liste
+      const updatedItem = this.conversationHistory.splice(existingIndex, 1)[0];
+      this.conversationHistory = [updatedItem, ...this.conversationHistory];
+    } else {
+      // Créer une nouvelle conversation (premier message uniquement)
+      const historyItem = {
+        title: this.generateConversationTitle(query),
+        query,
+        response: response.response,
+        result: response.result,
+        timestamp: new Date().toISOString(),
+        conversationId: this.currentConversationId,
+        messages: [...this.messages]
+      };
+      
+      this.conversationHistory = [historyItem, ...this.conversationHistory].slice(0, 10);
+    }
+    
     this.saveUserHistory();
   }
 
