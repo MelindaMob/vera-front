@@ -87,12 +87,12 @@
               <!-- Utilisateur non connecté : Afficher les boutons d'inscription et de connexion -->
               <button 
                 [routerLink]="['/login']"
-                class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+                class="bg-white/50 border border-white rounded-[40px] py-2 px-3 text-xs md:text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] w-[110px] md:w-auto md:min-w-[100px] md:px-6 hover:bg-white/70">
                 Se connecter
               </button>
               <button 
                 [routerLink]="['/register']"
-                class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+                class="bg-white/50 border border-white rounded-[40px] py-2 px-3 text-xs md:text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] w-[110px] md:w-auto md:min-w-[100px] md:px-6 hover:bg-white/70">
                 S'inscrire
               </button>
               <div 
@@ -174,9 +174,9 @@
                       <div class="message-avatar vera-avatar w-8 md:w-9 h-8 md:h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-black text-white font-bold font-['Playfair_Display',serif] text-sm md:text-base">
                         <img src="VeraLogo3.png" alt="Vera" class="w-6 h-6 brightness-0 invert" />
                       </div>
-                      <div class="message-bubble vera-bubble flex-1">
+                      <div class="message-bubble vera-bubble flex-1 min-w-0">
                         <div class="vera-response-text mb-3 md:mb-5">
-                          <div class="text-sm md:text-base leading-[1.7] text-black m-0 whitespace-pre-wrap break-words" [innerHTML]="formatVeraResponse(message.content)"></div>
+                          <div class="text-sm md:text-base leading-[1.7] text-black m-0 whitespace-pre-wrap break-words overflow-wrap-anywhere" [innerHTML]="formatVeraResponse(message.content)"></div>
                         </div>
                       </div>
                     </div>
@@ -252,88 +252,69 @@
     </section>
   </div>
 
-
-
   <!-- Section principale : Posez vos questions -->
-  <section class="hero-main bg-[#DBF9BE] py-[40px] md:py-[30px] px-0 relative overflow-hidden" id="comment">
-    <div class="container max-w-[1400px] mx-auto px-12">
-      <h1 class="hero-main-title font-['Playfair_Display',serif] text-[20px] md:text-[56px] font-bold leading-tight text-center text-black mx-auto mb-8 md:mb-12 max-w-[900px]">Posez vos questions pour clarifier la <span class="bg-[#FEF2E4] px-2 py-1 rounded-md">vérité</span></h1>
+  <section class="hero-main bg-[#DBF9BE] py-[60px] md:py-[80px] px-0 relative overflow-hidden" id="comment">
+    <div class="container max-w-[1400px] mx-auto px-6 md:px-12">
+      <h1 class="hero-main-title font-['Playfair_Display',serif] text-[28px] md:text-[56px] font-bold leading-tight text-center text-black mx-auto mb-12 md:mb-16 max-w-[900px]">
+        Posez vos questions pour clarifier la <span class="bg-[#FEF2E4] px-2 py-1 rounded-md">vérité</span>
+      </h1>
       
-      <div class="hero-main-content relative flex items-center justify-center min-h-[250px] md:min-h-[300px]">
-        <!-- Flèche pointant vers WhatsApp (coin haut gauche) -->
-        <div class="hidden md:block absolute top-0 left-0 z-[1]">
-          <svg width="250" height="200" viewBox="0 0 250 200" class="arrow-dashed">
-            <path d="M 20 20 Q 100 60 150 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-left)"/>
-            <defs>
-              <marker id="arrowhead-left" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
-                <polygon points="0 0, 12 4, 0 8" fill="black" />
-              </marker>
-            </defs>
-          </svg>
-        </div>
-        
-        <!-- Flèche pointant vers Téléphone (coin haut droit) -->
-        <div class="hidden md:block absolute top-0 right-0 z-[1]">
-          <svg width="250" height="200" viewBox="0 0 250 200" class="arrow-dashed">
-            <path d="M 230 20 Q 150 60 100 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-right)"/>
-            <defs>
-              <marker id="arrowhead-right" markerWidth="12" markerHeight="12" refX="1" refY="4" orient="auto">
-                <polygon points="12 0, 0 4, 12 8" fill="black" />
-              </marker>
-            </defs>
-          </svg>
-        </div>
-        
-        <!-- Mockups centraux avec labels -->
-        <div class="mockups-center flex flex-col md:flex-row gap-6 md:gap-20 items-center z-[2]">
-          <!-- Colonne WhatsApp -->
-          <div class="flex flex-col items-center gap-4">
-            <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
-            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
+      <div class="hero-main-content relative flex items-center justify-center">
+        <!-- Container avec mockup en version mobile et desktop -->
+        <div class="mockups-center flex flex-col md:flex-row gap-8 md:gap-16 items-center justify-center w-full max-w-[900px]">
+          
+          <!-- Version mobile : texte au-dessus + image + texte en-dessous -->
+          <div class="flex md:hidden flex-col items-center gap-6">
+            <p class="text-[20px] font-['Playfair_Display',serif] font-normal text-center text-black leading-tight">Sur Whatsapp</p>
+            <img src="images/mockup-app.png" alt="Appel" class="w-[280px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+            <p class="text-[20px] font-['Playfair_Display',serif] font-normal text-center text-black leading-tight">Par Téléphone</p>
           </div>
           
-          <!-- Colonne Téléphone -->
-          <div class="flex flex-col items-center gap-4 relative">
-            <p class="option-label font-['Playfair_Display',serif] text-[30px] md:text-[48px] font-normal leading-tight text-center text-black relative">
-              <!-- Flèche partant de "Par téléphone" vers le téléphone (desktop uniquement) -->
-              <svg class="hidden md:block absolute -bottom-32 left-1/2 -translate-x-1/2 w-[180px] h-[200px] pointer-events-none" viewBox="0 0 180 200">
-                <path d="M 90 0 Q 110 60 160 120" stroke="black" stroke-width="2.5" stroke-dasharray="6,6" fill="none" marker-end="url(#arrowhead-phone)"/>
-                <defs>
-                  <marker id="arrowhead-phone" markerWidth="12" markerHeight="12" refX="11" refY="4" orient="auto">
-                    <polygon points="0 0, 12 4, 0 8" fill="black" />
-                  </marker>
-                </defs>
-              </svg>
-              Par téléphone
-            </p>
-            <img src="/images/mockup-app.png" alt="Appel" class="mockup-call w-[280px] md:w-[550px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+          <!-- Version desktop : flèche gauche + image + flèche droite -->
+          <div class="hidden md:flex flex-row gap-16 items-center justify-center">
+            <!-- Flèche gauche + texte "Sur Whatsapp" -->
+            <div class="flex flex-col items-center gap-4">
+              <img src="images/arrowup.png" alt="Arrow up" class="w-[100px] h-auto">
+              <p class="text-[24px] font-['Playfair_Display',serif] font-normal text-center text-black leading-tight">Sur<br>Whatsapp</p>
+            </div>
+            
+            <!-- Image mockup téléphone (centre) -->
+            <div class="flex items-center justify-center">
+              <img src="images/mockup-app.png" alt="Appel" class="w-[320px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+            </div>
+            
+            <!-- Flèche droite + texte "Par Téléphone" -->
+            <div class="flex flex-col items-center gap-4">
+              <img src="images/arrowdown.png" alt="Arrow down" class="w-[100px] h-auto">
+              <p class="text-[24px] font-['Playfair_Display',serif] font-normal text-center text-black leading-tight">Par<br>Téléphone</p>
+            </div>
           </div>
+          
         </div>
       </div>
     </div>
   </section>
   <!-- Section questions -->
   <section class="questions-section bg-[#FEF2E4] py-[60px] px-0">
-    <div class="container max-w-[1400px] bg[#FEF2E4] mx-auto px-12">
+    <div class="container max-w-[1400px] bg[#FEF2E4] mx-auto px-4 md:px-12">
       <h2 class="questions-title font-['Playfair_Display',serif] text-[20px] md:text-[42px] font-bold leading-tight text-black mb-12">Quelles questions puis-je poser à Vera ?</h2>
-      
-      <div class="questions-grid grid grid-cols-3 gap-6">
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
+      <div class="questions-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div class="question-card green-card p-4 md:p-8 rounded-[20px] text-base md:text-lg leading-normal text-black bg-[#C2E4A1] break-words whitespace-pre-line">
           "Un collègue me dit que les inondations en Espagne proviennent de l'ensemencement des nuages ??"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
+        <div class="question-card green-card p-4 md:p-8 rounded-[20px] text-base md:text-lg leading-normal text-black bg-[#F5ECDE] break-words whitespace-pre-line">
           "C'est vrai que les vaccins anticovid provoquent des turbocancers ?"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
+        <div class="question-card green-card p-4 md:p-8 rounded-[20px] text-base md:text-lg leading-normal text-black bg-[#C2E4A1] break-words whitespace-pre-line">
           "Zelensky se serait offert la Mercedes d'Hitler : c'est vrai ?"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
+        <div class="question-card green-card p-4 md:p-8 rounded-[20px] text-base md:text-lg leading-normal text-black bg-[#F5ECDE] break-words whitespace-pre-line">
           "J'ai lu qu'Elon Musk travaille sur un projet secret d'avion militaire hypersonique"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#C2E4A1]">
+        <div class="question-card green-card p-4 md:p-8 rounded-[20px] text-base md:text-lg leading-normal text-black bg-[#C2E4A1] break-words whitespace-pre-line">
           "C'est vrai que des milliers de scientifiques dénoncent le canular de la crise climatique ?"
         </div>
-        <div class="question-card green-card p-8 rounded-[20px] text-lg leading-normal text-black bg-[#DBF9BE]">
+        <div class="question-card green-card p-4 md:p-8 rounded-[20px] text-base md:text-lg leading-normal text-black bg-[#F5ECDE] break-words whitespace-pre-line">
           "Mon père dit que le gilet fluo va être obligatoire pour se promener en forêt"
         </div>
       </div>
@@ -343,7 +324,7 @@
   <!-- Section 400+ sites -->
   <section class="fact-checking-section bg-[#DBF9BE] py-[100px] px-0">
     <div class="container max-w-[1400px] mx-auto px-12">
-      <h2 class="section-title font-['Playfair_Display',serif] text-[20px] md:text-[60px] font-bold leading-tight text-center text-black mb-16">
+      <h2 class="font-['Playfair_Display',serif] text-[32px] md:text-[56px] font-bold leading-tight text-left md:text-center text-black mb-16">
         <div class="mb-2 md:mb-4">Vera est connectée en temps réel</div>
         <div><span class="bg-[#FEF2E4] px-2 py-1 rounded-md">à 400+ sites de fact-checking</span></div>
       </h2>
@@ -367,25 +348,25 @@
         <img src="/fcaf180f906f2961c45008eda6c58ce3bd73e0cd.png" alt="Partner logo" class="partner-logo hidden md:block h-10 md:h-14 w-auto object-contain md:flex-shrink-0">
       </div>
       
-      <div class="fact-cards-grid grid grid-cols-2 gap-8 max-w-[1100px] mx-auto">
-        <div class="fact-card p-12 rounded-3xl border border-black/10 bg-cover bg-center bg-no-repeat" style="background-image: url('/7a434ad89d232e9a9f4c4e7cd0bb248403328336.jpg');">
-          <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold leading-tight text-black mb-4">150+ sites de fact-checking</h3>
-          <p class="fact-subtitle text-base text-black opacity-70 mb-6">Pour la vérification de faits</p>
-          <ul class="fact-list list-none mb-8">
-            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Signataires des chartes européennes IFCN et EFCSN</li>
-            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Agences de presses spécialisées en fact-checking</li>
+      <div class="fact-cards-grid grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-[1100px] mx-auto">
+        <div class="fact-card p-6 md:p-12 rounded-3xl border border-black/10 bg-cover bg-center bg-no-repeat" style="background-image: url('/7a434ad89d232e9a9f4c4e7cd0bb248403328336.jpg');">
+          <h3 class="font-['Playfair_Display',serif] text-[24px] md:text-[32px] font-bold leading-tight text-black mb-3 md:mb-4">150+ sites de fact-checking</h3>
+          <p class="text-sm md:text-base text-black opacity-70 mb-4 md:mb-6">Pour la vérification de faits</p>
+          <ul class="list-none mb-6 md:mb-8">
+            <li class="pl-6 md:pl-7 relative mb-2 md:mb-3 text-sm md:text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Signataires des chartes européennes IFCN et EFCSN</li>
+            <li class="pl-6 md:pl-7 relative mb-2 md:mb-3 text-sm md:text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Agences de presses spécialisées en fact-checking</li>
           </ul>
-          <button class="btn-dark bg-black text-white border-none px-7 py-3.5 rounded-full text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
+          <button class="bg-black text-white border-none px-6 md:px-7 py-3 md:py-3.5 rounded-full text-sm md:text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
         </div>
         
-        <div class="fact-card p-12 rounded-3xl border border-black/10 bg-cover bg-center bg-no-repeat" style="background-image: url('/7a434ad89d232e9a9f4c4e7cd0bb248403328336.jpg');">
-          <h3 class="font-['Playfair_Display',serif] text-[32px] font-bold leading-tight text-black mb-4">250+ médias fiables et reconnus</h3>
-          <p class="fact-subtitle text-base text-black opacity-70 mb-6">Pour connaître l'actualité</p>
-          <ul class="fact-list list-none mb-8">
-            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Tous les bords politiques</li>
-            <li class="pl-7 relative mb-3 text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Réputés comme fiables et sérieux</li>
+        <div class="fact-card p-6 md:p-12 rounded-3xl border border-black/10 bg-cover bg-center bg-no-repeat" style="background-image: url('/7a434ad89d232e9a9f4c4e7cd0bb248403328336.jpg');">
+          <h3 class="font-['Playfair_Display',serif] text-[24px] md:text-[32px] font-bold leading-tight text-black mb-3 md:mb-4">250+ médias fiables et reconnus</h3>
+          <p class="text-sm md:text-base text-black opacity-70 mb-4 md:mb-6">Pour connaître l'actualité</p>
+          <ul class="list-none mb-6 md:mb-8">
+            <li class="pl-6 md:pl-7 relative mb-2 md:mb-3 text-sm md:text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Tous les bords politiques</li>
+            <li class="pl-6 md:pl-7 relative mb-2 md:mb-3 text-sm md:text-base leading-relaxed text-black before:content-['✓'] before:absolute before:left-0 before:font-bold">Réputés comme fiables et sérieux</li>
           </ul>
-          <button class="btn-dark bg-black text-white border-none px-7 py-3.5 rounded-full text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
+          <button class="bg-black text-white border-none px-6 md:px-7 py-3 md:py-3.5 rounded-full text-sm md:text-[15px] font-semibold cursor-pointer w-full transition-transform hover:scale-[1.02]" routerLink="/chat">Essayer maintenant</button>
         </div>
       </div>
     </div>
