@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface VerificationResult {
   id?: number;
@@ -30,7 +31,7 @@ export interface VerificationResult {
   providedIn: 'root'
 })
 export class VeraApiService {
-  private apiUrl = 'http://localhost:3000/api'; // URL de votre API vera-back
+  private apiUrl = environment.apiUrl; // URL de votre API vera-back
 
   constructor(private http: HttpClient) {}
 
