@@ -1,21 +1,8 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.getToken();
-
-  // Si un token existe, l'ajouter aux en-têtes
-  if (token) {
-    const clonedReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return next(clonedReq);
-  }
-
+  // Les cookies sont envoyés automatiquement par le navigateur avec withCredentials: true
+  // Plus besoin d'ajouter le token dans les headers
   return next(req);
 };
 

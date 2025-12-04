@@ -65,12 +65,29 @@
           </button>
           
           <div class="user-section flex items-center gap-4">
-            <button class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
-              S'inscrire
-            </button>
-            <div class="w-12 h-12 flex items-center justify-center text-[#1A1A1A] bg-white/50 rounded-[14px] border border-white cursor-pointer transition-all duration-200 backdrop-blur-[10px] hover:bg-white/70">
-              <i data-feather="user" class="w-[18px] h-[18px] text-[#1A1A1A]"></i>
-            </div>
+            @if (isAuthenticated()) {
+              <!-- Utilisateur connecté : Afficher le bouton de déconnexion -->
+              <button 
+                (click)="onLogout()"
+                class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+                Déconnexion
+              </button>
+              <div class="w-12 h-12 flex items-center justify-center text-[#1A1A1A] bg-white/50 rounded-[14px] border border-white cursor-pointer transition-all duration-200 backdrop-blur-[10px] hover:bg-white/70">
+                <i data-feather="user" class="w-[18px] h-[18px] text-[#1A1A1A]"></i>
+              </div>
+            } @else {
+              <!-- Utilisateur non connecté : Afficher le bouton d'inscription -->
+              <button 
+                [routerLink]="['/register']"
+                class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+                S'inscrire
+              </button>
+              <div 
+                [routerLink]="['/login']"
+                class="w-12 h-12 flex items-center justify-center text-[#1A1A1A] bg-white/50 rounded-[14px] border border-white cursor-pointer transition-all duration-200 backdrop-blur-[10px] hover:bg-white/70">
+                <i data-feather="user" class="w-[18px] h-[18px] text-[#1A1A1A]"></i>
+              </div>
+            }
           </div>
         </header>
 

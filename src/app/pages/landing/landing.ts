@@ -1,7 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { VeraChatService, Message } from '../../services/vera-chat.service';
+import { AuthService } from '../../services/auth.service';
 
 interface TeamMember {
   name: string;
@@ -24,7 +26,7 @@ interface FAQ {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: 'landing.html',
   styleUrls: ['./landing.css']
 })
@@ -44,11 +46,20 @@ export class LandingPage implements OnInit {
   selectedVideo: File | null = null;
   mediaUrls: string[] = []; // URLs détectées dans le message
   showAttachMenu: boolean = false; // Menu d'attachement
+  
+  // Authentification
+  isAuthenticated: any;
+  currentUser: any;
 
   constructor(
     private veraChatService: VeraChatService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+    private router: Router
   ) {
+    // Initialiser les signaux d'authentification
+    this.isAuthenticated = this.authService.isAuthenticated;
+    this.currentUser = this.authService.currentUser;
     // Charger l'historique depuis localStorage
     const saved = localStorage.getItem('conversationHistory');
     if (saved) {
@@ -471,5 +482,21 @@ export class LandingPage implements OnInit {
     // Set new height (max 200px, like ChatGPT)
     const newHeight = Math.min(textarea.scrollHeight, 200);
     textarea.style.height = newHeight + 'px';
+  }
+
+  // Déconnexion
+  onLogout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        console.log('✅ Déconnexion réussie');
+        // Rediriger vers la page de connexion
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('❌ Erreur lors de la déconnexion:', error);
+        // Même en cas d'erreur, rediriger vers la page de connexion
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }
