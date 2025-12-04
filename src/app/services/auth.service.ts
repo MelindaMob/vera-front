@@ -45,6 +45,14 @@ export class AuthService {
   // Signal pour vérifier si l'utilisateur est connecté
   isAuthenticated = signal<boolean>(false);
 
+  isAdmin(): boolean {
+    return this.currentUser()?.is_admin === true;
+  }
+
+  isLoggedIn(): boolean {
+    return this.isAuthenticated();
+  }
+
   constructor(private http: HttpClient) {
     // Vérifier si un token existe au démarrage
     this.checkStoredToken();

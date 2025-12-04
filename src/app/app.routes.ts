@@ -7,6 +7,7 @@ import { FormsPageComponent } from './pages/forms-data-page/forms-data-page';
 import { LandingPage } from './pages/landing/landing';
 import { VerifyPage } from './pages/verify/verify';
 import { ChatComponent } from './components/chat/chat.component';
+import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
   {
@@ -34,11 +35,15 @@ export const routes: Routes = [
     component: LandingPage
   },
   {
-    path: 'dashboard', 
-    component: DashboardPageComponent },
-  { 
-    path: 'forms',
-    component: FormsPageComponent },
+    path: 'dashboard', 
+    component: DashboardPageComponent,
+    canActivate: [adminGuard] // 👈 Protégé
+  },
+  { 
+    path: 'forms',
+    component: FormsPageComponent,
+    canActivate: [adminGuard] // 👈 Protégé
+  },
   {
     path: '',
     redirectTo: 'landing',
