@@ -93,6 +93,15 @@
         </div>
       }
 
+      <div class="text-center mt-2 mb-1">
+        <p class="text-sm text-[#1A1A1A] m-0 md:text-base">
+          Vous avez déjà un compte ? 
+          <a [routerLink]="['/login']" class="text-[#1A1A1A] underline underline-offset-2 hover:opacity-70 font-medium">
+            Connectez-vous ici
+          </a>
+        </p>
+      </div>
+
       <button
         type="submit"
         [disabled]="isLoading"
