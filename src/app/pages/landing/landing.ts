@@ -71,18 +71,17 @@ export class LandingPage implements OnInit {
         next: (response) => {
           if (response.success && response.user) {
             this.authService.currentUser.set(response.user);
+            // Charger l'historique de l'utilisateur connecté
+            this.loadUserHistory();
           }
         },
         error: () => {
           // En cas d'erreur, ne pas déconnecter si on a un token (peut être erreur réseau)
         }
       });
-    }
-    
-    // Charger l'historique depuis localStorage
-    const saved = localStorage.getItem('conversationHistory');
-    if (saved) {
-      this.conversationHistory = JSON.parse(saved);
+    } else {
+      // Charger l'historique depuis localStorage (guest ou user)
+      this.loadUserHistory();
     }
   }
 
@@ -397,7 +396,53 @@ export class LandingPage implements OnInit {
     };
     
     this.conversationHistory = [historyItem, ...this.conversationHistory].slice(0, 10);
-    localStorage.setItem('conversationHistory', JSON.stringify(this.conversationHistory));
+    this.saveUserHistory();
+  }
+
+  /**
+   * Génère la clé de stockage en fonction de l'utilisateur
+   * - Utilisateur connecté : 'user_{id}_conversations'
+   * - Utilisateur non connecté : 'guest_conversations' (temporaire)
+   */
+  private getStorageKey(): string {
+    const user = this.authService.currentUser();
+    if (user && user.id) {
+      return `user_${user.id}_conversations`;
+    }
+    return 'guest_conversations';
+  }
+
+  /**
+   * Charge l'historique de l'utilisateur depuis localStorage
+   */
+  private loadUserHistory(): void {
+    const key = this.getStorageKey();
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      try {
+        this.conversationHistory = JSON.parse(saved);
+      } catch (e) {
+        console.error('Erreur lors du chargement de l\'historique:', e);
+        this.conversationHistory = [];
+      }
+    } else {
+      this.conversationHistory = [];
+    }
+  }
+
+  /**
+   * Sauvegarde l'historique de l'utilisateur dans localStorage
+   */
+  private saveUserHistory(): void {
+    const key = this.getStorageKey();
+    localStorage.setItem(key, JSON.stringify(this.conversationHistory));
+  }
+
+  /**
+   * Nettoie l'historique temporaire (guest) lors de la connexion
+   */
+  private clearGuestHistory(): void {
+    localStorage.removeItem('guest_conversations');
   }
 
   generateConversationTitle(query: string): string {
@@ -507,13 +552,23 @@ export class LandingPage implements OnInit {
   onLogout(): void {
     this.authService.logout().subscribe({
       next: () => {
-        console.log('✅ Déconnexion réussie');
+        // Vider l'historique actuel
+        this.conversationHistory = [];
+        this.messages = [];
+        this.currentConversationId = null;
+        this.showResults = false;
+        
+        // Charger l'historique guest (vide au départ)
+        this.loadUserHistory();
+        
         // Rediriger vers la page de connexion
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('❌ Erreur lors de la déconnexion:', error);
-        // Même en cas d'erreur, rediriger vers la page de connexion
+        // Même en cas d'erreur, vider l'historique et rediriger
+        this.conversationHistory = [];
+        this.messages = [];
         this.router.navigate(['/login']);
       }
     });
