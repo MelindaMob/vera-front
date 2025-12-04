@@ -51,6 +51,9 @@ export class LoginComponent {
             const isAdmin = Boolean(response.user.is_admin);
             const userName = response.user.username || response.user.email;
             
+            // Nettoyer l'historique temporaire guest
+            localStorage.removeItem('guest_conversations');
+            
             if (isAdmin) {
               this.successMessage = `🔐 Connexion ADMIN réussie ! Bienvenue ${userName} (Administrateur)`;
               console.log('✅ Connexion ADMIN réussie, cookie défini');
