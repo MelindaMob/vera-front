@@ -224,7 +224,6 @@ export class LandingPage implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      // Vérifier le type de fichier
       if (file.type.startsWith('image/')) {
         this.selectedImage = file;
         this.searchQuery = `[Image sélectionnée: ${file.name}] Analyse cette image et vérifie son authenticité.`;
@@ -232,8 +231,7 @@ export class LandingPage implements OnInit {
         this.selectedVideo = file;
         this.searchQuery = `[Vidéo sélectionnée: ${file.name}] Analyse cette vidéo et vérifie son authenticité.`;
       } else {
-        // Pour les autres types de fichiers
-        this.searchQuery = `[Fichier sélectionné: ${file.name}] Analyse ce fichier et vérifie son contenu.`;
+        this.searchQuery = `[Fichier sélectionné: ${file.name}] Analyse ce fichier.`;
       }
       this.cdr.detectChanges();
     }
