@@ -55,6 +55,32 @@
         }
       </div>
 
+      <!-- Username -->
+      <div class="flex flex-col gap-2">
+        <label for="username" class="text-base text-[#1A1A1A] font-medium m-0 pl-2 md:text-base">
+          Nom d'utilisateur
+        </label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          required
+          formControlName="username"
+          class="bg-[#f1fde5]/85 border-2 border-white rounded-[40px] py-4 px-5 text-base text-[#1A1A1A] font-sans transition-all duration-200 backdrop-blur-[10px] w-full min-h-[56px] focus:outline-none focus:border-white focus:bg-white/95 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.4)] focus:scale-[1.01] placeholder:text-[#666666] placeholder:opacity-60"
+          placeholder=""
+        />
+        @if (username?.invalid && username?.touched) {
+          <p class="text-xs text-[#DC3545] m-0">
+            @if (username?.errors?.['required']) {
+              Le nom d'utilisateur est requis
+            } @else if (username?.errors?.['minlength']) {
+              Le nom d'utilisateur doit contenir au moins 3 caractères
+            }
+          </p>
+        }
+      </div>
+
       <!-- Password -->
       <div class="flex flex-col gap-2">
         <label for="password" class="text-base text-[#1A1A1A] font-medium m-0 pl-2 md:text-base">
