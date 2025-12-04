@@ -76,7 +76,12 @@
                 <i data-feather="user" class="w-[18px] h-[18px] text-[#1A1A1A]"></i>
               </div>
             } @else {
-              <!-- Utilisateur non connecté : Afficher le bouton d'inscription -->
+              <!-- Utilisateur non connecté : Afficher les boutons d'inscription et de connexion -->
+              <button 
+                [routerLink]="['/login']"
+                class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
+                Se connecter
+              </button>
               <button 
                 [routerLink]="['/register']"
                 class="bg-white/50 border border-white rounded-[40px] py-2 px-6 text-base text-[#1A1A1A] cursor-pointer font-medium transition-all duration-200 backdrop-blur-[10px] min-w-[100px] hover:bg-white/70">
@@ -242,16 +247,48 @@
 
 
   <!-- Section principale : Posez vos questions -->
-  <section class="hero-main bg-[#DBF9BE] py-[120px] px-0 relative overflow-hidden" id="comment">
+  <section class="hero-main bg-[#DBF9BE] py-[60px] md:py-[80px] px-0 relative overflow-hidden" id="comment">
     <div class="container max-w-[1400px] mx-auto px-12">
-      <h1 class="hero-main-title font-['Fustat',sans-serif] text-[20px] md:text-[56px] font-bold leading-tight text-center text-black mx-auto mb-20 max-w-[900px]">Posez vos questions pour clarifier la <span class="bg-[#FEF2E4] px-2 py-1 rounded-md">vérité</span></h1>
+      <h1 class="hero-main-title font-['Playfair_Display',serif] text-[20px] md:text-[56px] font-bold leading-tight text-center text-black mx-auto mb-12 md:mb-16 max-w-[900px]">Posez vos questions pour clarifier la <span class="bg-[#FEF2E4] px-2 py-1 rounded-md">vérité</span></h1>
       
-      <div class="hero-main-content relative flex items-center justify-center min-h-[500px]">
-        <!-- Mockup central avec labels -->
-        <div class="mockups-center flex flex-col items-center gap-4 z-[2]">
-          <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Par téléphone</p>
-          <img src="/images/mockup-app.png" alt="Appel" class="mockup-call w-[280px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
-          <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
+      <div class="hero-main-content relative flex items-center justify-center min-h-[300px] md:min-h-[400px]">
+        <!-- Flèche pointant vers WhatsApp (coin haut gauche) -->
+        <div class="hidden md:block absolute top-10 left-10 z-[1]">
+          <svg width="200" height="150" viewBox="0 0 200 150" class="arrow-dashed">
+            <path d="M 10 10 Q 80 40 120 80" stroke="black" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead)"/>
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="black" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        
+        <!-- Flèche pointant vers Téléphone (coin haut droit) -->
+        <div class="hidden md:block absolute top-10 right-10 z-[1]">
+          <svg width="200" height="150" viewBox="0 0 200 150" class="arrow-dashed">
+            <path d="M 190 10 Q 120 40 80 80" stroke="black" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead-right)"/>
+            <defs>
+              <marker id="arrowhead-right" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+                <polygon points="10 0, 0 3, 10 6" fill="black" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        
+        <!-- Mockups centraux avec labels -->
+        <div class="mockups-center flex flex-col md:flex-row gap-6 md:gap-16 items-center z-[2]">
+          <!-- Colonne WhatsApp -->
+          <div class="flex flex-col items-center gap-4">
+            <img src="/images/mockup-whatsapp.png" alt="WhatsApp" class="mockup-whatsapp w-[280px] md:w-[400px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+            <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Sur Whatsapp</p>
+          </div>
+          
+          <!-- Colonne Téléphone -->
+          <div class="flex flex-col items-center gap-4">
+            <p class="option-label font-['Playfair_Display',serif] text-[48px] font-normal leading-tight text-center text-black">Par téléphone</p>
+            <img src="/images/mockup-app.png" alt="Appel" class="mockup-call w-[280px] md:w-[400px] h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+          </div>
         </div>
       </div>
     </div>
