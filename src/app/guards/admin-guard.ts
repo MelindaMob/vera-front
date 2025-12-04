@@ -13,6 +13,14 @@ export const adminGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
+  // Vérifier si on a un token en localStorage (fallback)
+  const token = authService.getToken();
+  if (token) {
+    // Si on a un token, considérer comme authentifié temporairement
+    // et vérifier le profil en arrière-plan
+    authService.isAuthenticated.set(true);
+  }
+
   // Sinon, vérifier le profil via une requête HTTP pour être sûr
   // Cette requête mettra à jour les signaux d'authentification
   return authService.getProfile().pipe(
@@ -32,8 +40,21 @@ export const adminGuard: CanActivateFn = (route, state) => {
       }
     }),
     catchError((error) => {
-      console.warn('Erreur lors de la vérification du profil. Redirection vers login.', error);
-      router.navigate(['/login'], { skipLocationChange: false });
+      // Si erreur 401/403, vraiment pas authentifié
+      if (error.status === 401 || error.status === 403) {
+        console.warn('Session expirée. Redirection vers login.', error);
+        authService.isAuthenticated.set(false);
+        authService.currentUser.set(null);
+        localStorage.removeItem('token');
+        router.navigate(['/login'], { skipLocationChange: false });
+      } else {
+        // Erreur réseau, permettre l'accès si on a un token (fallback)
+        const token = authService.getToken();
+        if (token && authService.isAdmin()) {
+          return true; // Autoriser avec le token en cache
+        }
+        router.navigate(['/login'], { skipLocationChange: false });
+      }
       return of(false);
     })
   );

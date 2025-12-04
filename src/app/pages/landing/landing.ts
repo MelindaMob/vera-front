@@ -60,6 +60,25 @@ export class LandingPage implements OnInit {
     // Initialiser les signaux d'authentification
     this.isAuthenticated = this.authService.isAuthenticated;
     this.currentUser = this.authService.currentUser;
+    
+    // Vérifier l'authentification au chargement de la page
+    // Si on a un token, considérer comme authentifié
+    const token = this.authService.getToken();
+    if (token && !this.authService.isAuthenticated()) {
+      this.authService.isAuthenticated.set(true);
+      // Vérifier le profil en arrière-plan pour mettre à jour les infos
+      this.authService.getProfile().subscribe({
+        next: (response) => {
+          if (response.success && response.user) {
+            this.authService.currentUser.set(response.user);
+          }
+        },
+        error: () => {
+          // En cas d'erreur, ne pas déconnecter si on a un token (peut être erreur réseau)
+        }
+      });
+    }
+    
     // Charger l'historique depuis localStorage
     const saved = localStorage.getItem('conversationHistory');
     if (saved) {

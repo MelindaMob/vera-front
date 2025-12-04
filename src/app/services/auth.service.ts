@@ -102,6 +102,8 @@ export class AuthService {
       tap(() => {
         this.currentUser.set(null);
         this.isAuthenticated.set(false);
+        // Nettoyer le token du localStorage
+        localStorage.removeItem('token');
       })
     );
   }
@@ -119,6 +121,14 @@ export class AuthService {
    * Vérifier l'authentification en appelant le profil
    */
   private checkAuthentication(): void {
+    // Si on a déjà un token en localStorage, considérer comme authentifié
+    // et vérifier le profil en arrière-plan
+    const token = this.getToken();
+    if (token) {
+      this.isAuthenticated.set(true);
+    }
+    
+    // Vérifier le profil pour mettre à jour les infos utilisateur
     this.getProfile().subscribe({
       next: (response) => {
         if (response.success && response.user) {
@@ -126,10 +136,15 @@ export class AuthService {
           this.isAuthenticated.set(true);
         }
       },
-      error: () => {
-        // Non authentifié ou erreur
-        this.isAuthenticated.set(false);
-        this.currentUser.set(null);
+      error: (error) => {
+        // Si erreur 401/403, c'est que la session est vraiment expirée
+        if (error.status === 401 || error.status === 403) {
+          console.log('[AUTH] Session expirée, déconnexion');
+          this.isAuthenticated.set(false);
+          this.currentUser.set(null);
+          localStorage.removeItem('token');
+        }
+        // Sinon, garder l'état actuel (ne pas déconnecter sur erreur réseau)
       }
     });
   }
