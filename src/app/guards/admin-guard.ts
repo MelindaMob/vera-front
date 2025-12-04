@@ -47,15 +47,16 @@ export const adminGuard: CanActivateFn = (route, state) => {
         authService.currentUser.set(null);
         localStorage.removeItem('token');
         router.navigate(['/login'], { skipLocationChange: false });
+        return of(false);
       } else {
         // Erreur réseau, permettre l'accès si on a un token (fallback)
         const token = authService.getToken();
         if (token && authService.isAdmin()) {
-          return true; // Autoriser avec le token en cache
+          return of(true); // Autoriser avec le token en cache
         }
         router.navigate(['/login'], { skipLocationChange: false });
+        return of(false);
       }
-      return of(false);
     })
   );
 };
