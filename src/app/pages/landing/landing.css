@@ -1,4 +1,4 @@
-/* Animation typing pour Tailwind */
+/**Animation typing pour Tailwind
 @keyframes typing {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
@@ -16,7 +16,7 @@
   animation-delay: 0.4s;
 }
 
-/* Line clamp pour limiter le texte */
+
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -31,7 +31,6 @@
   overflow: hidden;
 }
 
-/* Scroll isolation pour la sidebar */
 .sidebar {
   overscroll-behavior-y: contain;
 }
@@ -40,3 +39,4 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
+**/
