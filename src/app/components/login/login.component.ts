@@ -53,10 +53,10 @@ export class LoginComponent {
             
             if (isAdmin) {
               this.successMessage = `🔐 Connexion ADMIN réussie ! Bienvenue ${userName} (Administrateur)`;
-              console.log('✅ Connexion ADMIN réussie, token stocké:', !!this.authService.getToken());
+              console.log('✅ Connexion ADMIN réussie, cookie défini');
             } else {
               this.successMessage = `✅ Connexion réussie ! Bienvenue ${userName} (Utilisateur)`;
-              console.log('✅ Connexion UTILISATEUR réussie, token stocké:', !!this.authService.getToken());
+              console.log('✅ Connexion UTILISATEUR réussie, cookie défini');
             }
             
             // Rediriger vers la page d'accueil après 3 secondes pour voir le message

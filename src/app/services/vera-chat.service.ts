@@ -119,7 +119,9 @@ export class VeraChatService {
 
     // Envoyer au backend
     return new Observable(observer => {
-      this.http.post<{response: string, result: any}>(`${this.apiUrl}/chat`, requestBody, httpOptions)
+      // Ajouter withCredentials pour envoyer les cookies
+      const finalOptions = { ...httpOptions, withCredentials: true };
+      this.http.post<{response: string, result: any}>(`${this.apiUrl}/chat`, requestBody, finalOptions)
         .subscribe({
           next: (response: any) => {
             // Retirer le typing indicator

@@ -17,7 +17,7 @@ export interface RegisterRequest {
 export interface LoginResponse {
   success: boolean;
   message: string;
-  token: string;
+  // token supprimé - maintenant dans un cookie HttpOnly
   user: {
     id: number;
     email: string;
@@ -54,20 +54,23 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient) {
-    // Vérifier si un token existe au démarrage
-    this.checkStoredToken();
+    // Vérifier l'authentification au démarrage
+    this.checkAuthentication();
   }
 
   /**
    * Connexion de l'utilisateur
    */
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+    // withCredentials permet d'envoyer/recevoir les cookies
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/login`, 
+      credentials,
+      { withCredentials: true }
+    ).pipe(
       tap(response => {
-        if (response.success && response.token) {
-          // Stocker le token
-          localStorage.setItem('token', response.token);
-          // Mettre à jour l'utilisateur courant
+        if (response.success) {
+          // Le token est maintenant dans un cookie, pas besoin de localStorage
           this.currentUser.set(response.user);
           this.isAuthenticated.set(true);
         }
@@ -79,43 +82,66 @@ export class AuthService {
    * Inscription d'un nouvel utilisateur
    */
   register(userData: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+    return this.http.post(`${this.apiUrl}/register`, userData, { withCredentials: true });
   }
 
   /**
    * Déconnexion
    */
-  logout(): void {
-    localStorage.removeItem('token');
-    this.currentUser.set(null);
-    this.isAuthenticated.set(false);
+  logout(): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/logout`, 
+      {},
+      { withCredentials: true }
+    ).pipe(
+      tap(() => {
+        this.currentUser.set(null);
+        this.isAuthenticated.set(false);
+      })
+    );
   }
 
   /**
-   * Récupérer le token depuis le localStorage
+   * Récupérer le token depuis le cookie (plus besoin, géré automatiquement)
+   * Cette méthode est gardée pour compatibilité mais retourne null
    */
   getToken(): string | null {
-    return localStorage.getItem('token');
+    // Le token est dans un cookie HttpOnly, inaccessible depuis JavaScript
+    // Le navigateur l'envoie automatiquement avec les requêtes
+    return null;
   }
 
   /**
-   * Vérifier si un token est stocké
+   * Vérifier l'authentification en appelant le profil
    */
-  private checkStoredToken(): void {
-    const token = this.getToken();
-    if (token) {
-      this.isAuthenticated.set(true);
-    }
+  private checkAuthentication(): void {
+    this.getProfile().subscribe({
+      next: (response) => {
+        if (response.success && response.user) {
+          this.currentUser.set(response.user);
+          this.isAuthenticated.set(true);
+        }
+      },
+      error: () => {
+        // Non authentifié ou erreur
+        this.isAuthenticated.set(false);
+        this.currentUser.set(null);
+      }
+    });
   }
 
   /**
    * Récupérer le profil de l'utilisateur
    */
   getProfile(): Observable<{ success: boolean; user: User }> {
-    return this.http.get<{ success: boolean; user: User }>(`${this.apiUrl}/profile`).pipe(
+    return this.http.get<{ success: boolean; user: User }>(
+      `${this.apiUrl}/profile`,
+      { withCredentials: true } // Important pour envoyer le cookie
+    ).pipe(
       tap(response => {
         if (response.success && response.user) {
           this.currentUser.set(response.user);
+          this.isAuthenticated.set(true);
         }
       })
     );
@@ -123,12 +149,12 @@ export class AuthService {
 
   /**
    * Obtenir les headers avec le token d'authentification
+   * Plus besoin d'ajouter le token manuellement, le cookie est envoyé automatiquement
    */
   getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
     return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
+      'Content-Type': 'application/json'
+      // Le cookie est envoyé automatiquement par le navigateur
     });
   }
 }

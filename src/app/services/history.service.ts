@@ -46,7 +46,7 @@ export class HistoryService {
    */
   getHistory(limit: number = 20): Observable<HistoryResponse> {
     const headers = this.authService.getAuthHeaders();
-    return this.http.get<HistoryResponse>(`${this.apiUrl}?limit=${limit}`, { headers });
+    return this.http.get<HistoryResponse>(`${this.apiUrl}?limit=${limit}`, { headers, withCredentials: true });
   }
 
   /**
@@ -54,7 +54,7 @@ export class HistoryService {
    */
   getConversation(conversationId: number): Observable<HistoryResponse> {
     const headers = this.authService.getAuthHeaders();
-    return this.http.get<HistoryResponse>(`${this.apiUrl}/conversations/${conversationId}`, { headers });
+    return this.http.get<HistoryResponse>(`${this.apiUrl}/conversations/${conversationId}`, { headers, withCredentials: true });
   }
 
   /**
@@ -65,7 +65,7 @@ export class HistoryService {
     return this.http.post<HistoryResponse>(`${this.apiUrl}/conversations`, {
       title,
       firstMessage
-    }, { headers });
+    }, { headers, withCredentials: true });
   }
 
   /**
@@ -76,7 +76,7 @@ export class HistoryService {
     return this.http.post<HistoryResponse>(`${this.apiUrl}/conversations/save`, {
       title,
       messages
-    }, { headers });
+    }, { headers, withCredentials: true });
   }
 
   /**
@@ -92,7 +92,7 @@ export class HistoryService {
     return this.http.post<HistoryResponse>(
       `${this.apiUrl}/conversations/${conversationId}/messages`,
       { sender, content, mediaUrls },
-      { headers }
+      { headers, withCredentials: true }
     );
   }
 
@@ -103,7 +103,7 @@ export class HistoryService {
     const headers = this.authService.getAuthHeaders();
     return this.http.delete<HistoryResponse>(
       `${this.apiUrl}/conversations/${conversationId}`,
-      { headers }
+      { headers, withCredentials: true }
     );
   }
 
@@ -112,7 +112,7 @@ export class HistoryService {
    */
   clearHistory(): Observable<HistoryResponse> {
     const headers = this.authService.getAuthHeaders();
-    return this.http.delete<HistoryResponse>(`${this.apiUrl}/clear`, { headers });
+    return this.http.delete<HistoryResponse>(`${this.apiUrl}/clear`, { headers, withCredentials: true });
   }
 
   /**
