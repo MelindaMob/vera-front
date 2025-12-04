@@ -1,0 +1,112 @@
+<div class="flex flex-col h-screen bg-[#F5F1E8]">
+  <div class="bg-white border-b border-black/10 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-[#1A1A1A] rounded-full flex items-center justify-center text-white font-bold font-['Playfair_Display',serif] text-lg">
+        <span>V</span>
+      </div>
+      <div>
+        <h2 class="font-['Playfair_Display',serif] text-xl font-bold m-0 text-[#1A1A1A]">Vera</h2>
+        <p class="text-[13px] text-[#666] m-0">IA de fact-checking</p>
+      </div>
+    </div>
+    <button class="bg-transparent border-none cursor-pointer p-2 rounded-lg hover:bg-black/5 transition-colors" (click)="clearChat()" title="Nouvelle conversation">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto px-4 py-6" #messagesContainer>
+    <div class="max-w-3xl mx-auto">
+      @for (message of messages; track message.id) {
+        <div [class]="'flex gap-3 mb-6 ' + (message.sender === 'user' ? 'flex-row-reverse' : 'flex-row')">
+          <div *ngIf="message.sender === 'vera'" class="w-9 h-9 bg-[#1A1A1A] rounded-full flex items-center justify-center text-white font-bold flex-shrink-0 font-['Playfair_Display',serif] text-base">
+            <span>V</span>
+          </div>
+          
+          <div class="flex flex-col gap-1 max-w-[70%]">
+            <div [class]="'px-4 py-3 rounded-2xl ' + (message.sender === 'user' ? 'bg-[#D4EDD3]' : 'bg-white shadow-sm')">
+              @if (message.isTyping) {
+                <div class="flex gap-1.5 py-2">
+                  <span class="w-2 h-2 bg-gray-500 rounded-full typing-span"></span>
+                  <span class="w-2 h-2 bg-gray-500 rounded-full typing-span"></span>
+                  <span class="w-2 h-2 bg-gray-500 rounded-full typing-span"></span>
+                </div>
+              } @else {
+                <p class="m-0 text-[15px] leading-relaxed">{{ message.content }}</p>
+                
+                @if (message.result && message.result.status !== 'error') {
+                  <div [class]="'mt-4 p-4 rounded-xl border-l-4 ' + getStatusClass(message.result.status)">
+                    <div class="flex justify-between items-center font-bold text-sm mb-3">
+                      <span>{{ getStatusLabel(message.result.status) }}</span>
+                      @if (message.result.confidence) {
+                        <span class="text-[13px] text-[#666] font-semibold">{{ message.result.confidence }}%</span>
+                      }
+                    </div>
+                    
+                    @if (message.result.sources && message.result.sources.length > 0) {
+                      <div class="mt-4 pt-4 border-t border-black/10">
+                        <p class="text-sm font-bold mb-2.5 text-[#333]">Sources :</p>
+                        <ul class="list-none m-0 p-0">
+                          @for (source of message.result.sources; track source.url) {
+                            <li class="mb-2">
+                              <a [href]="source.url" target="_blank" rel="noopener" class="text-[#1976d2] no-underline text-sm leading-normal hover:text-[#1565c0] hover:underline transition-colors">
+                                {{ source.title }}
+                                @if (source.outlet) {
+                                  <span class="text-[#888]">— {{ source.outlet }}</span>
+                                }
+                              </a>
+                            </li>
+                          }
+                        </ul>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </div>
+            <span class="text-xs text-[#999] px-2">{{ message.timestamp | date:'short' }}</span>
+          </div>
+          
+          <div *ngIf="message.sender === 'user'" class="w-9 h-9 bg-[#D4EDD3] rounded-full flex items-center justify-center flex-shrink-0">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/>
+            </svg>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="border-t border-black/10 bg-white px-4 py-4">
+    <div class="max-w-3xl mx-auto flex items-center gap-3">
+      <textarea
+        [(ngModel)]="messageInput"
+        (keydown)="handleKeyPress($event)"
+        placeholder="Posez une question à Vera..."
+        rows="1"
+        [disabled]="isLoading"
+        class="flex-1 border border-black/10 rounded-2xl px-4 py-3 text-[15px] resize-none outline-none focus:border-[#667eea] transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+      ></textarea>
+      
+      <button 
+        class="bg-[#1A1A1A] text-white border-none w-11 h-11 rounded-full flex items-center justify-center cursor-pointer hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed" 
+        (click)="sendMessage()"
+        [disabled]="!messageInput.trim() || isLoading"
+      >
+        @if (isLoading) {
+          <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        } @else {
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+          </svg>
+        }
+      </button>
+    </div>
+    
+    <p class="chat-disclaimer">
+      Vera peut faire des erreurs. Vérifiez les informations importantes.
+    </p>
+  </div>
+</div>
