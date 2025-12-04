@@ -53,13 +53,25 @@ export class SidebarComponent implements OnInit {
     this.authService.logout().subscribe({
       next: () => {
         console.log('✅ Déconnexion réussie');
+        // S'assurer que l'état local est réinitialisé (le service le fait aussi, mais on double-check côté UI)
+        try {
+          this.authService.currentUser.set(null);
+          this.authService.isAuthenticated.set(false);
+        } catch (e) {
+          // ignore si les signals ne sont pas disponibles
+        }
+        localStorage.removeItem('token');
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('❌ Erreur lors de la déconnexion:', error);
         // Même en cas d'erreur, rediriger vers la page de connexion
-        this.authService.currentUser.set(null);
-        this.authService.isAuthenticated.set(false);
+        try {
+          this.authService.currentUser.set(null);
+          this.authService.isAuthenticated.set(false);
+        } catch (e) {
+          // ignore
+        }
         localStorage.removeItem('token');
         this.router.navigate(['/login']);
       }
