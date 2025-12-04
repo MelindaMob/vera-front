@@ -5,11 +5,11 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 export const adminGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
   // Si l'utilisateur est déjà vérifié et est admin, autoriser l'accès immédiatement
-  if (authService.isLoggedIn() && authService.isAdmin()) {
+  if (authService.isLoggedIn() && authService.isAdmin()) {
     return true;
   }
 
@@ -32,12 +32,12 @@ export const adminGuard: CanActivateFn = (route, state) => {
     }),
     map(response => {
       if (response.success && response.user?.is_admin) {
-        return true; // ✅ Accès autorisé
-      } else {
-        console.warn('Tentative d\'accès à une page admin sans droits.');
+    return true; // ✅ Accès autorisé
+  } else {
+    console.warn('Tentative d\'accès à une page admin sans droits.');
         router.navigate(['/login'], { skipLocationChange: false });
-        return false; // 🚫 Accès bloqué
-      }
+    return false; // 🚫 Accès bloqué
+  }
     }),
     catchError((error) => {
       // Si erreur 401/403, vraiment pas authentifié
