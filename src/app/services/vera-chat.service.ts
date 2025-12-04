@@ -30,7 +30,7 @@ export interface Source {
   providedIn: 'root'
 })
 export class VeraChatService {
-  private apiUrl = `${environment.apiUrl}/api`;
+  private apiUrl = environment.apiUrl;
   private messagesSubject = new BehaviorSubject<Message[]>([]);
   public messages$ = this.messagesSubject.asObservable();
 
